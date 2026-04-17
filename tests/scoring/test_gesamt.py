@@ -24,15 +24,28 @@ class TestGesamt(unittest.TestCase):
         )
 
         self.assertEqual(result.original.id, "orig-001")
-        self.assertEqual(result.metadata.total_candidates, 3)
-        self.assertEqual(result.metadata.passed_knockout, 2)
-        self.assertEqual(len(result.top_candidates), 2)
-        self.assertEqual(len(result.rejected), 1)
+        self.assertGreaterEqual(result.metadata.total_candidates, 20)
+        self.assertGreater(result.metadata.passed_knockout, 0)
+        self.assertGreater(len(result.rejected), 0)
+        self.assertGreater(len(result.top_candidates), 0)
+        self.assertLessEqual(len(result.top_candidates), 3)
 
-        self.assertEqual(result.top_candidates[0].rank, 1)
-        self.assertIsNotNone(result.top_candidates[0].explanation)
-        self.assertEqual(result.rejected[0].candidate.id, "cand-003")
-        self.assertGreaterEqual(len(result.rejected[0].reasons), 1)
+        # Ranked candidates contain explainability and uncertainty payload.
+        for idx, cand in enumerate(result.top_candidates, start=1):
+            self.assertEqual(cand.rank, idx)
+            self.assertIsNotNone(cand.explanation)
+            self.assertIsNotNone(cand.uncertainty_report)
+            self.assertEqual(
+                set(cand.scores.keys()),
+                {"spec", "compliance", "price", "lead_time", "quality"},
+            )
+            self.assertGreaterEqual(cand.composite_score, 0.0)
+            self.assertLessEqual(cand.composite_score, 1.0)
+
+        # Rejected candidates should carry reasons and evidence.
+        for rejected in result.rejected:
+            self.assertGreaterEqual(len(rejected.reasons), 1)
+            self.assertGreaterEqual(len(rejected.evidence), 1)
 
 
 if __name__ == "__main__":

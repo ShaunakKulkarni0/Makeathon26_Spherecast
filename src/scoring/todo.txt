@@ -1,0 +1,5 @@
+TODOS
+
+1. evaluation noch zu den Top dingern hinzufügen 
+2. gedanken über mehr KI integration machen?
+3. die shared ranges mit ki anpassen mit den anderen besprechen

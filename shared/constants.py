@@ -62,6 +62,13 @@ PROPERTY_RANGES = {
     "haerte":               {"min": 1,     "max": 100,    "unit": "HRC"},
     "waermeleitfaehigkeit": {"min": 0.01,  "max": 500,    "unit": "W/mK"},
     "bruchdehnung":         {"min": 0,     "max": 100,    "unit": "%"},
+    # Food / sweetener scenario properties (tests/scoring/data/gesamt_materials.csv)
+    "sweetness_index":      {"min": 0.1,   "max": 2.5,    "unit": "rel_sucrose"},
+    "glycemic_index":       {"min": 0,     "max": 120,    "unit": "GI"},
+    "moisture":             {"min": 0.0,   "max": 12.0,   "unit": "%"},
+    "bulk_density":         {"min": 0.3,   "max": 1.1,    "unit": "g/mL"},
+    "particle_size":        {"min": 20,    "max": 2000,   "unit": "um"},
+    "purity":               {"min": 80.0,  "max": 100.0,  "unit": "%"},
 }
 
 CERTIFICATION_VERIFICATION = {
