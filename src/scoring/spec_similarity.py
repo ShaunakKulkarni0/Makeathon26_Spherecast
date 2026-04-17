@@ -79,7 +79,7 @@ def spec_similarity(
         trail = build_evidence_trail("spec_similarity", [], total_expected_fields=len(orig_keys))
         return SpecSimilarityResult(
             score=0.0,
-            confidence=0.0,
+            confidence=0.0, # Keine gemeinsamen Properties, daher keine Ähnlichkeit
             evidence_trail=trail,
             common_props=[],
             missing_in_kandidat=list(orig_keys),
@@ -90,7 +90,7 @@ def spec_similarity(
     orig_vals = [original.properties[p].value for p in common]
     kand_vals = [kandidat.properties[p].value for p in common]
 
-    vec_orig_norm: list[float] = []
+    vec_orig_norm: list[float] = [] # Normalisierte Werte für Original mit den shared/globalen Ranges
     vec_kand_norm: list[float] = []
     details: dict[str, PropertyComparison] = {}
     evidences: list[Evidence] = []
