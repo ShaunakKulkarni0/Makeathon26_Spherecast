@@ -198,3 +198,7 @@ Note:
   calculate_uncertainty_adjusted_score(...) exists in uncertainty.py,
   but is currently not called by find_substitutes(...).
 ```
+
+
+python3 -m unittest tests.scoring.test_gesamt -v
+python3 tests/scoring/run_gesamt_csv.py      
