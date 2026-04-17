@@ -1,0 +1,47 @@
+                                                                                                                                      
+  - shared/ — Schemas, Constants, CLAUDE.md                                                                                           
+  - src/crawling/ — agnes_connector, data_normalizer, unit_converter, property_mapper, enrichment, validators + CLAUDE.md               
+  - src/scoring/ — knockout, spec_similarity, compliance, price_delta, lead_time, quality_signals, composite, pipeline + CLAUDE.md      
+  - src/ui/ — vollständige API-Struktur (routes, models, services) + Frontend-Komponenten (7 JS-Dateien) + demo + CLAUDE.md             
+  - tests/ — gespiegelte Teststruktur                                                                                                   
+  - examples/, requirements.txt, pyproject.toml                                                                                         
+                                                       
+
+
+Makeathon26_Spherecast/
+├── shared/                    # 📦 DER VERTRAG (alle Module nutzen das)
+│   ├── schemas.py            # Datenstrukturen: CrawledMaterial, ScoringResult
+│   ├── constants.py          # Feste Werte: Gewichte, Schwellwerte, Einheiten
+│   └── CLAUDE.md             # Dokumentation der Schnittstellen
+│
+├── src/
+│   ├── crawling/             # 🕷️ MODUL 1: Daten beschaffen
+│   │   ├── agnes_connector.py   # Holt Rohdaten von Agnes API
+│   │   ├── data_normalizer.py   # Wandelt → CrawledMaterial
+│   │   ├── unit_converter.py    # kg→g, mm→m, etc.
+│   │   ├── property_mapper.py   # "density" → "dichte"
+│   │   ├── enrichment.py        # Fehlende Daten ergänzen
+│   │   └── validators.py        # Plausibilitätsprüfungen
+│   │
+│   ├── scoring/              # 📊 MODUL 2: Bewertung
+│   │   ├── knockout.py           # Stufe 0: Harte Ausschlüsse (MOQ, Zertifikate)
+│   │   ├── spec_similarity.py    # Dim 1 (40%): Ähnlichkeit der Properties
+│   │   ├── compliance.py         # Dim 2 (25%): Zertifikate
+│   │   ├── price_delta.py        # Dim 3 (15%): Preisunterschied
+│   │   ├── lead_time.py          # Dim 4 (10%): Lieferzeit
+│   │   ├── quality_signals.py    # Dim 5 (10%): Qualitätssignale
+│   │   ├── composite.py          # Gewichtete Summe aller Dimensionen
+│   │   └── pipeline.py           # Orchestriert alles (KO → 5D → Ranking)
+│   │
+│   └── ui/                   # 🖥️ MODUL 3: Anzeige
+│       ├── api/                  # FastAPI-Endpunkte
+│       ├── frontend/             # HTML/JS (7 Dateien)
+│       └── demo/                 # Makeathon-Demo
+│
+├── tests/                    # 🧪 Tests (gleiche Struktur wie src/)
+│   ├── mock_data.py          # Beispiel-Materialien zum Testen
+│   └── conftest.py           # Pytest-Fixtures
+│
+└── examples/                 # 📓 Beispiel-Code
+    ├── demo.py               # Demo starten
+    └── sample_materials.json # Testdaten.
