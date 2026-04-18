@@ -99,7 +99,9 @@
                 // Initialize results containers
                 this.resultsList = new ResultsList(
                     document.getElementById('top-candidates-container'),
-                    this.handleCandidateSelect.bind(this)
+                    this.handleCandidateSelect.bind(this),
+                    this.api,
+                    () => this.currentRequirementsOverride || {},
                 );
 
                 this.rejectedList = new RejectedList(

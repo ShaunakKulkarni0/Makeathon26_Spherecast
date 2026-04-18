@@ -38,6 +38,16 @@ export class API {
         });
     }
 
+    async createEmailDraft(payload) {
+        return this.request('/sales/email-draft', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload || {}),
+        });
+    }
+
     /**
      * Get search results by ID
      * @param {string} resultId - Result ID
