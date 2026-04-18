@@ -138,7 +138,7 @@ export class ComparisonView {
                 candidate: candidateMaterial.price.value,
                 unit: original.price.unit,
                 higherIsBetter: false,
-                score: scores.price_delta
+                score: scores.price
             },
             {
                 label: 'Lead Time',
@@ -162,7 +162,7 @@ export class ComparisonView {
                 candidate: 'N/A',
                 unit: '',
                 higherIsBetter: true,
-                score: scores.spec_similarity,
+                score: scores.spec,
                 isPercentage: true
             },
             {

@@ -8,19 +8,19 @@ export class WeightSliders {
         this.container = container;
         this.onWeightsChange = onWeightsChange;
         this.weights = {
-            spec_similarity: 0.40,
+            spec: 0.40,
             compliance: 0.25,
-            price_delta: 0.15,
+            price: 0.15,
             lead_time: 0.10,
-            quality_signals: 0.10
+            quality: 0.10
         };
 
         this.dimensionLabels = {
-            spec_similarity: 'Spec Similarity',
+            spec: 'Spec Similarity',
             compliance: 'Compliance',
-            price_delta: 'Price Delta',
+            price: 'Price Delta',
             lead_time: 'Lead Time',
-            quality_signals: 'Quality Signals'
+            quality: 'Quality Signals'
         };
 
         this.render();
@@ -195,25 +195,25 @@ export class WeightSliders {
     setPreset(preset) {
         const presets = {
             default: {
-                spec_similarity: 0.40,
+                spec: 0.40,
                 compliance: 0.25,
-                price_delta: 0.15,
+                price: 0.15,
                 lead_time: 0.10,
-                quality_signals: 0.10
+                quality: 0.10
             },
             cost: {
-                spec_similarity: 0.25,
+                spec: 0.25,
                 compliance: 0.20,
-                price_delta: 0.30,
+                price: 0.30,
                 lead_time: 0.15,
-                quality_signals: 0.10
+                quality: 0.10
             },
             availability: {
-                spec_similarity: 0.20,
+                spec: 0.20,
                 compliance: 0.20,
-                price_delta: 0.15,
+                price: 0.15,
                 lead_time: 0.30,
-                quality_signals: 0.15
+                quality: 0.15
             }
         };
 
