@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spherecast - Industrial Clarity Console</title>
+    <title>Spherecast - Material Substitute Finder</title>
     <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
@@ -11,14 +11,14 @@
         <header class="header">
             <p class="header-kicker">Spherecast</p>
             <h1>Material Substitution Console</h1>
-            <p>From raw supplier input to precise, auditable substitution decisions.</p>
+            <p>From unstructured supplier data to precise, auditable recommendations.</p>
         </header>
 
         <main class="main-content">
             <div id="search-section" class="search-section search-with-panel">
                 <div class="search-panel">
                     <h2>Find Material Substitutes</h2>
-                    <p class="section-intro">Set hard exclusion criteria first, then run weighted scoring on viable candidates.</p>
+                    <p class="section-intro">Select a source material and set hard constraints before running scoring.</p>
                     <div id="search-form-container"></div>
                 </div>
                 <aside class="weight-panel-wrapper">
@@ -29,7 +29,7 @@
             <div id="results-section" class="results-section hidden">
                 <div class="results-header">
                     <h2>Substitution Results</h2>
-                    <button id="back-to-menu-btn" class="btn btn-secondary">Back to Query Setup</button>
+                    <button id="back-to-menu-btn" class="btn btn-secondary">Back to Main Menu</button>
                 </div>
 
                 <div class="results-content">
@@ -100,6 +100,8 @@
                 this.resultsList = new ResultsList(
                     document.getElementById('top-candidates-container'),
                     this.handleCandidateSelect.bind(this),
+                    this.api,
+                    () => this.currentRequirementsOverride || {},
                 );
 
                 this.rejectedList = new RejectedList(
