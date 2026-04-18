@@ -1,39 +1,42 @@
-UI/UX Guidelines: Industrial Clarity & AI Trust
+Theme: Industrial Clarity & AI Trust
 Leitmotiv: Aus Chaos (unstrukturierte Daten) wird chirurgische Präzision.
 
-Diese Guidelines definieren das Interface als hochpräzises Werkzeug für Analysten und Einkäufer. Das Design ist ruhig, extrem aufgeräumt und strahlt durch Reduktion Autorität und Verlässlichkeit aus.
+Das Design muss sich anfühlen wie ein hochpräzises Werkzeug für Analysten und Einkäufer, nicht wie eine verspielte Consumer-App. Der Vibe ist ruhig, extrem aufgeräumt und strahlt durch reduziertes Design Autorität und Verlässlichkeit aus.
 
 1 | Look & Feel (Die Atmosphäre)
+
 Minimalismus als Feature: Da die Datenkomplexität im Hintergrund enorm ist, muss das Frontend maximal "leise" sein. Keine ablenkenden Muster, keine überflüssigen Icons. Der Text und die Zahlen sind das Interface.
 
-Labor-Ästhetik: Die UI spiegelt die Sauberkeit eines Labors oder eines Pharmacopeia-Datenblatts wider – steril, modern, funktional.
+Labor-Ästhetik: Das Tool analysiert chemische und botanische Zusammensetzungen. Die UI sollte die Sauberkeit eines Labors oder eines Pharmacopeia-Datenblatts widerspiegeln – steril, aber modern.
 
-"Show, don't tell": Die KI drängt sich nicht auf. Verzicht auf "AI-Magie"-Animationen oder blinkende Sterne. Die Qualität beweist sich rein durch die Präzision der extrahierten Canonical Strings und logischen Schlüsse.
+"Show, don't tell": Die KI drängt sich nicht auf. Es gibt keine blinkenden Sterne oder "AI-Magie"-Animationen. Die KI beweist ihren Wert rein durch die messerscharfe Qualität der extrahierten Canonical Strings und die logischen Schlüsse.
 
 2 | Farbwelt (Palette)
-Basis (Hintergrund & Flächen): Technisches Off-White oder kühles Hellgrau zur Reduktion der Augenermüdung. Karten und Container sind reinweiß, um durch minimalen Kontrast Tiefe zu erzeugen.
 
-Primärfarbe / Typografie: Ein tiefes Schiefergrau (Slate/Charcoal) für Texte. Wirkt weicher und professioneller als reines Schwarz.
+Basis (Hintergrund & Flächen): Kein reines Weiß. Eher ein technisches Off-White (Paper) oder kühles Hellgrau. Das reduziert die Ermüdung der Augen bei langer Nutzung. Karten und Container sind reinweiß, um durch leichten Kontrast Tiefe zu erzeugen.
 
-Der "AI-Akzent": Subtiles, gedecktes Indigo oder tiefes Violett für KI-generierte Inhalte (Reasoning, Compliance Flags). Dies trennt visuell harte Datenbank-Fakten von KI-Schlussfolgerungen.
+Primärfarbe / Typografie: Ein extrem tiefes, fast schwarzes Schiefergrau (Slate/Charcoal) für den Text. Es wirkt weicher und moderner als #000000.
 
-Signalfarben (gedämpft): Professionelle, matte Nuancen (Waldgrün, Ockergelb, Ziegelrot) für Match-Scores und Warnungen. Keine Neon-Töne.
+Der "AI-Akzent": Wenn das LLM spricht (z. B. beim Reasoning oder den Compliance Flags), wird eine subtile, spezifische Akzentfarbe genutzt – etwa ein gedecktes Indigo oder ein tiefes Violett. Das trennt visuell harte Datenbank-Fakten von KI-generierten Schlussfolgerungen.
+
+Signalfarben (gedämpft): Grün, Gelb und Rot für Match-Scores und Warnungen, aber nicht in Neon-Tönen. Eher matte, professionelle Nuancen (z. B. Waldgrün, Ockergelb, Ziegelrot).
 
 3 | Typografie (Der Charakter)
-Schriftart: Moderne, geometrische Sans-Serif (z.B. Inter, Geist oder SF Pro). Neutral und hochgradig lesbar für komplexe chemische Bezeichnungen.
 
-Zahlen im Fokus: Verwendung von Tabular Figures (Dicktengleiche Ziffern) in Tabellen, damit Preise, CAS-Nummern und Prozente beim Scrollen exakt untereinanderstehen.
+Schriftart: Eine moderne, geometrische Sans-Serif (wie Inter, Geist oder SF Pro). Sie muss neutral und hochgradig lesbar sein, besonders bei langen chemischen Bezeichnungen.
 
-Monospaced für Raw Data: Rohdaten (Original-SKUs) werden in einer Monospace-Schrift gesetzt, um sie visuell vom bereinigten "System-Output" abzugrenzen.
+Zahlen im Fokus: Alle Tabellen und Impact-Scores verwenden "Tabular Figures" (Ziffern mit gleicher Breite), damit Preise, CAS-Nummern und Prozente beim Scrollen perfekt untereinanderstehen.
+
+Mono-Spaces für Raw Data: Wenn die dreckigen Original-SKUs aus der Datenbank neben den bereinigten Canonical Strings gezeigt werden, können die Rohdaten in einer Monospace-Schriftart (wie Code) gesetzt werden. Das unterstreicht visuell den Unterschied zwischen "System-Output" und "KI-Verständnis".
 
 4 | Formen & Linienführung
-Scharf und präzise: Verzicht auf den "Bubble-Look". Minimale Radien (2–4px) bewahren den technischen B2B-Charakter.
 
-Hairlines statt Schatten: Trennung von Bereichen durch hauchdünne 1px-Bordüren in hellem Grau anstatt dicker Drop-Shadows. Das Resultat ist ein flaches, datengetriebenes Design (Spreadsheet-Ästhetik).
+Scharf und präzise: Keine stark abgerundeten Ecken (kein "Bubble"-Look). Ein minimaler Radius (2–4 Pixel) reicht, um es nicht aggressiv wirken zu lassen, bewahrt aber den technischen B2B-Charakter.
+
+Hairlines statt Schatten: Anstatt Elemente mit dicken Drop-Shadows schweben zu lassen, werden Bereiche durch hauchdünne, subtile Linien (1px Borders in hellem Grau) voneinander getrennt. Das wirkt flacher, moderner und datengetriebener (wie ein gutes Spreadsheet).
 
 5 | Motion & Interaktion
-Direkt und knackig: Animationen (z.B. Panel-Transitions) dienen nur der Orientierung. Sie sind extrem kurz (< 200ms) und verzichten auf "Bouncing".
 
-Fokus-States: Hover-Effekte auf Recommendations erfolgen durch sanfte Hintergrund-Farbwechsel – vergleichbar mit einem dezenten Textmarker in einem physischen Dokument.
+Direkt und knackig: Animationen existieren nur, um Statusänderungen zu erklären (z. B. das Aufklappen eines Panels). Sie sind extrem kurz (unter 200ms) und verzichten auf spielerisches "Bouncing".
 
-Design-Check: Wenn ein Element nicht direkt zur Dateninterpretation beiträgt, ist es zu entfernen. Jedes Pixel muss die fachliche Autorität des Tools unterstützen.
+Fokus-States: Wenn man über eine Recommendation fährt, gibt es nur einen sehr sanften Farbwechsel im Hintergrund – wie das Überstreichen mit einem Textmarker in einem Dokument.
