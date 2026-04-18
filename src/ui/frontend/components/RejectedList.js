@@ -88,12 +88,22 @@ export class RejectedList {
                     ${evidence.map(ev => `
                         <div class="evidence-item">
                             <span class="evidence-type">${ev.type || 'Info'}</span>
-                            <span class="evidence-description">${ev.description || ev}</span>
+                            <span class="evidence-description">${this.formatEvidence(ev)}</span>
                         </div>
                     `).join('')}
                 </div>
             </div>
         `;
+    }
+
+    formatEvidence(ev) {
+        if (typeof ev === 'string') return ev;
+        if (!ev || typeof ev !== 'object') return String(ev);
+        const field = ev.field || 'field';
+        const value = ev.value !== undefined ? ev.value : 'n/a';
+        const source = ev.source || 'unknown source';
+        const notes = ev.notes ? ` (${ev.notes})` : '';
+        return `${field}: ${value} from ${source}${notes}`;
     }
 
     /**

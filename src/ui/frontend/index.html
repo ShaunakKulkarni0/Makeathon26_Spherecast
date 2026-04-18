@@ -27,6 +27,7 @@
             <div id="results-section" class="results-section hidden">
                 <div class="results-header">
                     <h2>Substitution Results</h2>
+                    <button id="back-to-menu-btn" class="btn btn-secondary">Zurück zum Hauptmenü</button>
                 </div>
 
                 <div class="results-content">
@@ -69,17 +70,20 @@
             constructor() {
                 this.api = new API();
                 this.currentResult = null;
+                this.currentSelectionId = null;
+                this.currentTopN = 3;
+                this.currentRequirementsOverride = null;
                 this.currentWeights = {
-                    spec_similarity: 0.40,
+                    spec: 0.40,
                     compliance: 0.25,
-                    price_delta: 0.15,
+                    price: 0.15,
                     lead_time: 0.10,
-                    quality_signals: 0.10
+                    quality: 0.10
                 };
                 this.initializeComponents();
             }
 
-            initializeComponents() {
+            async initializeComponents() {
                 // Initialize search form
                 const searchContainer = document.getElementById('search-form-container');
                 this.searchForm = new SearchForm(searchContainer, this.handleSearch.bind(this));
@@ -101,14 +105,39 @@
                 this.comparisonView = new ComparisonView(
                     document.getElementById('comparison-view-container')
                 );
+                this.bindViewActions();
+
+                try {
+                    const payload = await this.api.getCsvMaterials();
+                    this.searchForm.setMaterialOptions(payload.materials || []);
+                    this.searchForm.setRequirementsDefaults(payload.requirements_defaults || {});
+                } catch (error) {
+                    this.showError(`Failed to load CSV materials: ${error.message}`);
+                }
+            }
+
+            bindViewActions() {
+                const backBtn = document.getElementById('back-to-menu-btn');
+                if (backBtn) {
+                    backBtn.addEventListener('click', () => this.resetToMainMenuView());
+                }
             }
 
             async handleSearch(query) {
                 try {
                     this.showLoading();
-                    const result = await this.api.searchMaterials(query);
+                    this.currentSelectionId = query.selected_material_id;
+                    this.currentTopN = query.top_n || 3;
+                    this.currentRequirementsOverride = query.requirements_override || null;
+                    const result = await this.api.scoreCsvSelection(
+                        query.selected_material_id,
+                        this.currentWeights,
+                        query.top_n || 3,
+                        query.requirements_override || null,
+                    );
                     this.currentResult = result;
                     this.currentWeights = result.metadata?.weights ?? this.currentWeights;
+                    this.currentRequirementsOverride = result.metadata?.requirements ?? this.currentRequirementsOverride;
                     this.displayResults(result);
                 } catch (error) {
                     this.showError(error.message);
@@ -118,12 +147,17 @@
             }
 
             async handleWeightsChange(weights) {
-                if (!this.currentResult) return;
+                if (!this.currentResult || !this.currentSelectionId) return;
 
                 this.currentWeights = { ...weights };
                 try {
                     this.showLoading();
-                    const rescoredResult = this.rescoreCurrentResults(weights);
+                    const rescoredResult = await this.api.scoreCsvSelection(
+                        this.currentSelectionId,
+                        weights,
+                        this.currentTopN || this.currentResult?.top_candidates?.length || 3,
+                        this.currentRequirementsOverride,
+                    );
                     this.currentResult = rescoredResult;
                     this.displayResults(rescoredResult);
                 } catch (error) {
@@ -156,37 +190,6 @@
                 this.showResultsSection();
             }
 
-            rescoreCurrentResults(weights) {
-                const topCandidates = (this.currentResult?.top_candidates || []).map(candidate => {
-                    const scores = candidate.scores || {};
-                    const compositeScore = Object.entries(weights).reduce((sum, [key, weight]) => {
-                        return sum + (scores[key] || 0) * weight;
-                    }, 0);
-
-                    return {
-                        ...candidate,
-                        composite_score: compositeScore,
-                        rank: 0
-                    };
-                });
-
-                topCandidates.sort((a, b) => b.composite_score - a.composite_score);
-                topCandidates.forEach((candidate, index) => {
-                    candidate.rank = index + 1;
-                });
-
-                const updatedMetadata = {
-                    ...this.currentResult.metadata,
-                    weights: { ...weights }
-                };
-
-                return {
-                    ...this.currentResult,
-                    top_candidates: topCandidates,
-                    metadata: updatedMetadata
-                };
-            }
-
             displayOriginalMaterial(material) {
                 const container = document.getElementById('original-material-container');
                 container.innerHTML = `
@@ -214,6 +217,12 @@
 
             showComparisonSection() {
                 document.getElementById('comparison-section').classList.remove('hidden');
+            }
+
+            resetToMainMenuView() {
+                document.getElementById('results-section').classList.add('hidden');
+                document.getElementById('comparison-section').classList.add('hidden');
+                document.getElementById('search-section').classList.remove('hidden');
             }
 
             showLoading() {
