@@ -1,0 +1,2673 @@
+
+==========================================================================================
+0) Input-Struktur (ohne konkrete Werte)
+==========================================================================================
+find_substitutes(
+  original: CrawledMaterial,
+  candidates: list[CrawledMaterial],
+  user_requirements: UserRequirements,
+  weights: dict[str, float] | None = None,
+  top_n: int = ...
+)
+
+A) original (CrawledMaterial)
+  - id: str
+  - name: str
+  - properties: dict[str, MaterialProperty]
+      - MaterialProperty.value: float
+      - MaterialProperty.unit: str
+  - certifications: list[str]
+  - price: PriceInfo
+      - value: float
+      - unit: str
+      - tiers: list[dict] | None
+  - lead_time: LeadTimeInfo
+      - days: int
+      - reliability: float
+      - type: str
+  - quality: QualityInfo
+      - supplier_rating: dict | None
+      - defect_rate: dict | None
+      - on_time_delivery: dict | None
+      - years_in_business: int | None
+      - audit_score: dict | None
+  - moq: int
+  - country_of_origin: str
+  - incoterm: str
+  - source_url: str | None
+
+B) candidates (list[CrawledMaterial])
+  - gleicher Feldaufbau wie original
+  - mehrere Kandidatenobjekte in einer Liste
+
+C) user_requirements (UserRequirements)
+  - max_quantity: int | None
+  - destination_country: str
+  - critical_certs: list[str] | None
+  - max_lead_time_days: int | None
+  - max_price_multiplier: float
+
+==========================================================================================
+0.1) Input-Mengen aus CSV
+==========================================================================================
+original: 1 Objekt (CrawledMaterial)
+candidates: 25 Objekte (list[CrawledMaterial])
+user_requirements: 1 Objekt (UserRequirements)
+
+==========================================================================================
+CSV -> find_substitutes(...) Vollausgabe
+==========================================================================================
+Erklaerung:
+- Diese Ausgabe zeigt die komplette Struktur von ScoringResult.
+- So siehst du alle moeglichen Felder fuer Top-Kandidaten und Rejected-Kandidaten.
+
+==========================================================================================
+1) Original Material
+==========================================================================================
+id: orig-001
+name: Sucrose Pharma Grade
+properties:
+  sweetness_index:
+    value: 1.0
+    unit: rel_sucrose
+  glycemic_index:
+    value: 65.0
+    unit: GI
+  moisture:
+    value: 0.05
+    unit: %
+  bulk_density:
+    value: 0.85
+    unit: g/mL
+  particle_size:
+    value: 450.0
+    unit: um
+  purity:
+    value: 99.8
+    unit: %
+certifications:
+  - ISO9001
+  - HACCP
+  - GMP
+price:
+  value: 3.2
+  unit: EUR/kg
+  tiers: None
+lead_time:
+  days: 10
+  reliability: 0.95
+  type: stock
+quality:
+  supplier_rating:
+    value: 4.6
+    review_count: 310
+  defect_rate:
+    value: 0.6
+    sample_size: 2200
+  on_time_delivery:
+    value: 97.0
+    sample_size: 140
+  years_in_business: 16
+  audit_score:
+    value: 95.0
+    age_months: 5
+    passed: True
+moq: 120
+country_of_origin: DE
+incoterm: DDP
+source_url: https://example.com/orig-001
+
+==========================================================================================
+2) Metadata
+==========================================================================================
+weights:
+  spec: 0.4
+  compliance: 0.25
+  price: 0.15
+  lead_time: 0.1
+  quality: 0.1
+total_candidates: 25
+passed_knockout: 15
+average_confidence: 0.757
+
+==========================================================================================
+3) Top Candidates
+==========================================================================================
+
+------------------------------------------------------------------------------------------
+rank=1 | kandidat.id=cand-003 | kandidat.name=Fructose Crystalline | composite=0.9043 | overall_confidence=0.753
+------------------------------------------------------------------------------------------
+  kandidat (voll):
+    id: cand-003
+    name: Fructose Crystalline
+    properties:
+    sweetness_index:
+      value: 1.3
+      unit: rel_sucrose
+    glycemic_index:
+      value: 20.0
+      unit: GI
+    moisture:
+      value: 0.2
+      unit: %
+    bulk_density:
+      value: 0.78
+      unit: g/mL
+    particle_size:
+      value: 410.0
+      unit: um
+    purity:
+      value: 99.0
+      unit: %
+    certifications:
+    - ISO9001
+    - HACCP
+    - GMP
+    - REACH
+    price:
+    value: 2.9
+    unit: EUR/kg
+    tiers: None
+    lead_time:
+    days: 9
+    reliability: 0.94
+    type: stock
+    quality:
+    supplier_rating:
+      value: 4.5
+      review_count: 265
+    defect_rate:
+      value: 0.7
+      sample_size: 1600
+    on_time_delivery:
+      value: 96.0
+      sample_size: 125
+    years_in_business: 11
+    audit_score:
+      value: 94.0
+      age_months: 6
+      passed: True
+    moq: 110
+    country_of_origin: DE
+    incoterm: DDP
+    source_url: https://example.com/cand-003
+  scores:
+    spec: 0.8024
+    compliance: 1.0
+    price: 1.0
+    lead_time: 0.94
+    quality: 0.923
+  confidences:
+    spec: 0.76
+    compliance: 0.591
+    price: 0.85
+    lead_time: 0.833
+    quality: 0.9
+  explanation:
+    summary: Exzellente Alternative (hohe Sicherheit)
+    recommendation: Empfohlen
+    confidence_statement: Gute Datenbasis: Die meisten Daten sind verifiziert.
+    strengths:
+    - [1]
+        text: Technische Eigenschaften stimmen sehr gut überein
+        evidence: semantic_embedding aus openai://embeddings (Confidence: 60%)
+        confidence: 0.6
+    - [2]
+        text: Alle relevanten Zertifikate vorhanden
+        evidence: certification aus https://example.com/cand-003 (Confidence: 70%)
+        confidence: 0.762
+    - [3]
+        text: Preis deutlich günstiger als das Original
+        evidence: price aus https://example.com/orig-001 (Confidence: 85%)
+        confidence: 0.85
+    - [4]
+        text: Lieferzeit vergleichbar oder besser
+        evidence: lead_time aus https://example.com/cand-003 (Confidence: 85%)
+        confidence: 0.833
+    - [5]
+        text: Hohe Lieferantenqualität nachgewiesen
+        evidence: supplier_rating aus https://example.com/cand-003 (Confidence: 70%)
+        confidence: 0.739
+    weaknesses:
+    - keine
+    risks:
+    - keine
+    score_breakdown:
+    spec: 80%
+    compliance: 100%
+    price: 100%
+    lead_time: 94%
+    quality: 92%
+    evidence_summary:
+    - spec: semantic_embedding aus openai://embeddings
+    - spec: semantic_embedding aus openai://embeddings
+    - compliance: certification aus https://example.com/cand-003
+    - compliance: certification aus https://example.com/cand-003
+    - price: price aus https://example.com/orig-001
+    - price: price aus https://example.com/cand-003
+    - lead_time: lead_time aus https://example.com/cand-003
+    - lead_time: reliability aus historical
+    - quality: supplier_rating aus https://example.com/cand-003
+    - quality: defect_rate aus historical
+    uncertainty_warning: None
+    verification_needed:
+    - keine
+  uncertainty_report:
+    overall_level: medium
+    overall_confidence: 0.715
+    dimension_confidence:
+    spec: 0.6
+    compliance: 0.762
+    price: 0.85
+    lead_time: 0.833
+    quality: 0.739
+    dimension_uncertainty:
+    spec: medium
+    compliance: low
+    price: low
+    lead_time: low
+    quality: medium
+    uncertainty_reasons:
+    - keine
+    data_gaps:
+    - keine
+    verification_suggestions:
+    - keine
+    should_warn_user: False
+    warning_message: None
+  evidence_trails:
+    spec:
+          dimension: spec_similarity
+          evidences:
+        - [1]
+            type: external_api
+            source: openai://embeddings
+            field: semantic_embedding
+            value:
+              text_hash: 4e1bdcd690f75984e1b3189a709542316f9fd4d215cd6cb348285120d66978ee
+              model: text-embedding-3-small
+            timestamp: 2026-04-18 11:35:56.036604
+            confidence: 0.6
+            url: openai://embeddings
+            notes: Semantic embedding for original material
+        - [2]
+            type: external_api
+            source: openai://embeddings
+            field: semantic_embedding
+            value:
+              text_hash: 83dd5b56440e51b763a96ae2367721af7aff8a4ecd3883c5540b64eae807e4e1
+              model: text-embedding-3-small
+            timestamp: 2026-04-18 11:35:56.036654
+            confidence: 0.6
+            url: openai://embeddings
+            notes: Semantic embedding for candidate material
+          overall_confidence: 0.6
+          data_completeness: 1.0
+          data_freshness: current
+    compliance:
+          dimension: compliance
+          evidences:
+        - [1]
+            type: supplier_website
+            source: https://example.com/cand-003
+            field: certification
+            value: GMP
+            timestamp: 2026-04-18 11:35:56.036830
+            confidence: 0.7
+            url: https://example.com/cand-003
+            notes: GMP: Selbstdeklaration des Lieferanten
+        - [2]
+            type: supplier_website
+            source: https://example.com/cand-003
+            field: certification
+            value: HACCP
+            timestamp: 2026-04-18 11:35:56.036843
+            confidence: 0.7
+            url: https://example.com/cand-003
+            notes: HACCP: Selbstdeklaration des Lieferanten
+        - [3]
+            type: certification_db
+            source: iso.org/certcheck
+            field: certification
+            value: ISO9001
+            timestamp: 2026-04-18 11:35:56.036865
+            confidence: 0.95
+            url: iso.org/certcheck
+            notes: ISO9001 aus offizieller Datenbank
+        - [4]
+            type: supplier_website
+            source: https://example.com/cand-003
+            field: certification
+            value: REACH
+            timestamp: 2026-04-18 11:35:56.036876
+            confidence: 0.7
+            url: https://example.com/cand-003
+            notes: REACH: Selbstdeklaration des Lieferanten
+          overall_confidence: 0.762
+          data_completeness: 1.0
+          data_freshness: current
+    price:
+          dimension: price_delta
+          evidences:
+        - [1]
+            type: supplier_database
+            source: https://example.com/orig-001
+            field: price
+            value: 3.2
+            timestamp: 2026-04-18 11:35:56.036930
+            confidence: 0.85
+            url: https://example.com/orig-001
+            notes: Original-Material Basispreis
+        - [2]
+            type: supplier_database
+            source: https://example.com/cand-003
+            field: price
+            value: 2.9
+            timestamp: 2026-04-18 11:35:56.036940
+            confidence: 0.85
+            url: https://example.com/cand-003
+            notes: None
+          overall_confidence: 0.85
+          data_completeness: 0.667
+          data_freshness: current
+    lead_time:
+          dimension: lead_time
+          evidences:
+        - [1]
+            type: supplier_database
+            source: https://example.com/cand-003
+            field: lead_time
+            value: 9
+            timestamp: 2026-04-18 11:35:56.037000
+            confidence: 0.85
+            url: https://example.com/cand-003
+            notes: Lieferzeit stock
+        - [2]
+            type: historical
+            source: historical
+            field: reliability
+            value: 0.94
+            timestamp: 2026-04-18 11:35:56.037016
+            confidence: 0.8
+            url: None
+            notes: Pünktlichkeitsrate aus historischen Daten
+        - [3]
+            type: supplier_database
+            source: https://example.com/cand-003
+            field: stock
+            value: True
+            timestamp: 2026-04-18 11:35:56.037035
+            confidence: 0.85
+            url: https://example.com/cand-003
+            notes: Material auf Lager verfügbar
+          overall_confidence: 0.833
+          data_completeness: 1.0
+          data_freshness: current
+    quality:
+          dimension: quality_signals
+          evidences:
+        - [1]
+            type: supplier_website
+            source: https://example.com/cand-003
+            field: supplier_rating
+            value: 4.5
+            timestamp: 2026-04-18 11:35:56.037092
+            confidence: 0.7
+            url: https://example.com/cand-003
+            notes: 265 Bewertungen
+        - [2]
+            type: historical
+            source: historical
+            field: defect_rate
+            value: 0.7
+            timestamp: 2026-04-18 11:35:56.037130
+            confidence: 0.8
+            url: None
+            notes: Defektrate 0.7% bei n=1600
+        - [3]
+            type: historical
+            source: historical
+            field: on_time_delivery
+            value: 96.0
+            timestamp: 2026-04-18 11:35:56.037150
+            confidence: 0.8
+            url: None
+            notes: Pünktlichkeit 96.0%
+        - [4]
+            type: certification_db
+            source: certification_db
+            field: audit_score
+            value: 94.0
+            timestamp: 2026-04-18 11:35:56.037171
+            confidence: 0.482
+            url: None
+            notes: Audit-Score 94.0/100 (6M alt)
+        - [5]
+            type: supplier_database
+            source: https://example.com/cand-003
+            field: years_in_business
+            value: 11
+            timestamp: 2026-04-18 11:35:56.037187
+            confidence: 0.85
+            url: https://example.com/cand-003
+            notes: None
+        - [6]
+            type: historical
+            source: historical
+            field: sample_test
+            value: True
+            timestamp: 2026-04-18 11:35:56.037201
+            confidence: 0.8
+            url: None
+            notes: None
+          overall_confidence: 0.739
+          data_completeness: 1.0
+          data_freshness: current
+  details (dimension-specific result objects):
+    spec:
+          score: 0.8024
+          confidence: 0.76
+          evidence_trail:
+        dimension: spec_similarity
+        evidences:
+          - [1]
+              type: external_api
+              source: openai://embeddings
+              field: semantic_embedding
+              value:
+                text_hash: 4e1bdcd690f75984e1b3189a709542316f9fd4d215cd6cb348285120d66978ee
+                model: text-embedding-3-small
+              timestamp: 2026-04-18 11:35:56.036604
+              confidence: 0.6
+              url: openai://embeddings
+              notes: Semantic embedding for original material
+          - [2]
+              type: external_api
+              source: openai://embeddings
+              field: semantic_embedding
+              value:
+                text_hash: 83dd5b56440e51b763a96ae2367721af7aff8a4ecd3883c5540b64eae807e4e1
+                model: text-embedding-3-small
+              timestamp: 2026-04-18 11:35:56.036654
+              confidence: 0.6
+              url: openai://embeddings
+              notes: Semantic embedding for candidate material
+        overall_confidence: 0.6
+        data_completeness: 1.0
+        data_freshness: current
+          common_props:
+        - bulk_density
+        - glycemic_index
+        - moisture
+        - particle_size
+        - purity
+        - sweetness_index
+          missing_in_kandidat:
+        - keine
+          extra_in_kandidat:
+        - keine
+          details:
+        semantic:
+          original_text_hash: 4e1bdcd690f75984e1b3189a709542316f9fd4d215cd6cb348285120d66978ee
+          kandidat_text_hash: 83dd5b56440e51b763a96ae2367721af7aff8a4ecd3883c5540b64eae807e4e1
+          original_text_length: 556
+          kandidat_text_length: 533
+          original_text_preview: name: Sucrose Pharma Grade
+category: sweetener / sugar ingredient
+synonyms: haushaltszucker, saccharose, table sugar
+function: metabolic response relevance, processing and solubility behavior, quality and standardization
+          kandidat_text_preview: name: Fructose Crystalline
+category: sweetener / sugar ingredient
+synonyms: fruchtzucker
+function: metabolic response relevance, processing and solubility behavior, quality and standardization, sweetening intensity
+prope
+          original_embedding_cached: True
+          kandidat_embedding_cached: False
+          original_evidence:
+            type: external_api
+            source: openai://embeddings
+            field: semantic_embedding
+            value:
+              text_hash: 4e1bdcd690f75984e1b3189a709542316f9fd4d215cd6cb348285120d66978ee
+              model: text-embedding-3-small
+            timestamp: 2026-04-18 11:35:56.036604
+            confidence: 0.6
+            url: openai://embeddings
+            notes: Semantic embedding for original material
+          kandidat_evidence:
+            type: external_api
+            source: openai://embeddings
+            field: semantic_embedding
+            value:
+              text_hash: 83dd5b56440e51b763a96ae2367721af7aff8a4ecd3883c5540b64eae807e4e1
+              model: text-embedding-3-small
+            timestamp: 2026-04-18 11:35:56.036654
+            confidence: 0.6
+            url: openai://embeddings
+            notes: Semantic embedding for candidate material
+    compliance:
+          score: 1.0
+          confidence: 0.591
+          evidence_trail:
+        dimension: compliance
+        evidences:
+          - [1]
+              type: supplier_website
+              source: https://example.com/cand-003
+              field: certification
+              value: GMP
+              timestamp: 2026-04-18 11:35:56.036830
+              confidence: 0.7
+              url: https://example.com/cand-003
+              notes: GMP: Selbstdeklaration des Lieferanten
+          - [2]
+              type: supplier_website
+              source: https://example.com/cand-003
+              field: certification
+              value: HACCP
+              timestamp: 2026-04-18 11:35:56.036843
+              confidence: 0.7
+              url: https://example.com/cand-003
+              notes: HACCP: Selbstdeklaration des Lieferanten
+          - [3]
+              type: certification_db
+              source: iso.org/certcheck
+              field: certification
+              value: ISO9001
+              timestamp: 2026-04-18 11:35:56.036865
+              confidence: 0.95
+              url: iso.org/certcheck
+              notes: ISO9001 aus offizieller Datenbank
+          - [4]
+              type: supplier_website
+              source: https://example.com/cand-003
+              field: certification
+              value: REACH
+              timestamp: 2026-04-18 11:35:56.036876
+              confidence: 0.7
+              url: https://example.com/cand-003
+              notes: REACH: Selbstdeklaration des Lieferanten
+        overall_confidence: 0.762
+        data_completeness: 1.0
+        data_freshness: current
+          matched:
+        - GMP
+        - HACCP
+        - ISO9001
+          missing:
+        - keine
+          extra:
+        - REACH
+          coverage: full
+          certification_evidence:
+        GMP:
+          type: supplier_website
+          source: https://example.com/cand-003
+          field: certification
+          value: GMP
+          timestamp: 2026-04-18 11:35:56.036830
+          confidence: 0.7
+          url: https://example.com/cand-003
+          notes: GMP: Selbstdeklaration des Lieferanten
+        HACCP:
+          type: supplier_website
+          source: https://example.com/cand-003
+          field: certification
+          value: HACCP
+          timestamp: 2026-04-18 11:35:56.036843
+          confidence: 0.7
+          url: https://example.com/cand-003
+          notes: HACCP: Selbstdeklaration des Lieferanten
+        ISO9001:
+          type: certification_db
+          source: iso.org/certcheck
+          field: certification
+          value: ISO9001
+          timestamp: 2026-04-18 11:35:56.036865
+          confidence: 0.95
+          url: iso.org/certcheck
+          notes: ISO9001 aus offizieller Datenbank
+        REACH:
+          type: supplier_website
+          source: https://example.com/cand-003
+          field: certification
+          value: REACH
+          timestamp: 2026-04-18 11:35:56.036876
+          confidence: 0.7
+          url: https://example.com/cand-003
+          notes: REACH: Selbstdeklaration des Lieferanten
+          verified_certs:
+        - ISO9001
+          claimed_only_certs:
+        - GMP
+        - HACCP
+        - REACH
+    price:
+          score: 1.0
+          confidence: 0.85
+          evidence_trail:
+        dimension: price_delta
+        evidences:
+          - [1]
+              type: supplier_database
+              source: https://example.com/orig-001
+              field: price
+              value: 3.2
+              timestamp: 2026-04-18 11:35:56.036930
+              confidence: 0.85
+              url: https://example.com/orig-001
+              notes: Original-Material Basispreis
+          - [2]
+              type: supplier_database
+              source: https://example.com/cand-003
+              field: price
+              value: 2.9
+              timestamp: 2026-04-18 11:35:56.036940
+              confidence: 0.85
+              url: https://example.com/cand-003
+              notes: None
+        overall_confidence: 0.85
+        data_completeness: 0.667
+        data_freshness: current
+          delta_percent: -9.38
+          delta_absolute: -0.3
+          direction: cheaper
+          original_price: 3.2
+          kandidat_price: 2.9
+          unit: EUR/kg
+          adjustments:
+        - keine
+    lead_time:
+          score: 0.94
+          confidence: 0.833
+          evidence_trail:
+        dimension: lead_time
+        evidences:
+          - [1]
+              type: supplier_database
+              source: https://example.com/cand-003
+              field: lead_time
+              value: 9
+              timestamp: 2026-04-18 11:35:56.037000
+              confidence: 0.85
+              url: https://example.com/cand-003
+              notes: Lieferzeit stock
+          - [2]
+              type: historical
+              source: historical
+              field: reliability
+              value: 0.94
+              timestamp: 2026-04-18 11:35:56.037016
+              confidence: 0.8
+              url: None
+              notes: Pünktlichkeitsrate aus historischen Daten
+          - [3]
+              type: supplier_database
+              source: https://example.com/cand-003
+              field: stock
+              value: True
+              timestamp: 2026-04-18 11:35:56.037035
+              confidence: 0.85
+              url: https://example.com/cand-003
+              notes: Material auf Lager verfügbar
+        overall_confidence: 0.833
+        data_completeness: 1.0
+        data_freshness: current
+          base_score: 1.0
+          days_original: 10
+          days_kandidat: 3
+          days_difference: -7
+          direction: faster
+          percent_change: -70.0
+          reliability_original: 0.95
+          reliability_kandidat: 0.94
+          risk_level: low
+          tolerance_applied: False
+          lead_time_evidence:
+        type: supplier_database
+        source: https://example.com/cand-003
+        field: lead_time
+        value: 9
+        timestamp: 2026-04-18 11:35:56.037000
+        confidence: 0.85
+        url: https://example.com/cand-003
+        notes: Lieferzeit stock
+          reliability_evidence:
+        type: historical
+        source: historical
+        field: reliability
+        value: 0.94
+        timestamp: 2026-04-18 11:35:56.037016
+        confidence: 0.8
+        url: None
+        notes: Pünktlichkeitsrate aus historischen Daten
+          stock_evidence:
+        type: supplier_database
+        source: https://example.com/cand-003
+        field: stock
+        value: True
+        timestamp: 2026-04-18 11:35:56.037035
+        confidence: 0.85
+        url: https://example.com/cand-003
+        notes: Material auf Lager verfügbar
+    quality:
+          score: 0.923
+          confidence: 0.9
+          evidence_trail:
+        dimension: quality_signals
+        evidences:
+          - [1]
+              type: supplier_website
+              source: https://example.com/cand-003
+              field: supplier_rating
+              value: 4.5
+              timestamp: 2026-04-18 11:35:56.037092
+              confidence: 0.7
+              url: https://example.com/cand-003
+              notes: 265 Bewertungen
+          - [2]
+              type: historical
+              source: historical
+              field: defect_rate
+              value: 0.7
+              timestamp: 2026-04-18 11:35:56.037130
+              confidence: 0.8
+              url: None
+              notes: Defektrate 0.7% bei n=1600
+          - [3]
+              type: historical
+              source: historical
+              field: on_time_delivery
+              value: 96.0
+              timestamp: 2026-04-18 11:35:56.037150
+              confidence: 0.8
+              url: None
+              notes: Pünktlichkeit 96.0%
+          - [4]
+              type: certification_db
+              source: certification_db
+              field: audit_score
+              value: 94.0
+              timestamp: 2026-04-18 11:35:56.037171
+              confidence: 0.482
+              url: None
+              notes: Audit-Score 94.0/100 (6M alt)
+          - [5]
+              type: supplier_database
+              source: https://example.com/cand-003
+              field: years_in_business
+              value: 11
+              timestamp: 2026-04-18 11:35:56.037187
+              confidence: 0.85
+              url: https://example.com/cand-003
+              notes: None
+          - [6]
+              type: historical
+              source: historical
+              field: sample_test
+              value: True
+              timestamp: 2026-04-18 11:35:56.037201
+              confidence: 0.8
+              url: None
+              notes: None
+        overall_confidence: 0.739
+        data_completeness: 1.0
+        data_freshness: current
+          signals:
+        supplier_rating:
+          score: 0.9
+          weight_used: 0.25
+          confidence: 0.85
+          notes: Rating 4.5/5 (265 Reviews)
+          evidence:
+            type: supplier_website
+            source: https://example.com/cand-003
+            field: supplier_rating
+            value: 4.5
+            timestamp: 2026-04-18 11:35:56.037092
+            confidence: 0.7
+            url: https://example.com/cand-003
+            notes: 265 Bewertungen
+        defect_rate:
+          score: 0.86
+          weight_used: 0.25
+          confidence: 0.9
+          notes: Defektrate 0.7% (n=1600)
+          evidence:
+            type: historical
+            source: historical
+            field: defect_rate
+            value: 0.7
+            timestamp: 2026-04-18 11:35:56.037130
+            confidence: 0.8
+            url: None
+            notes: Defektrate 0.7% bei n=1600
+        on_time_delivery:
+          score: 0.96
+          weight_used: 0.2
+          confidence: 0.85
+          notes: Pünktlich: 96.0%
+          evidence:
+            type: historical
+            source: historical
+            field: on_time_delivery
+            value: 96.0
+            timestamp: 2026-04-18 11:35:56.037150
+            confidence: 0.8
+            url: None
+            notes: Pünktlichkeit 96.0%
+        audit_score:
+          score: 0.94
+          weight_used: 0.15
+          confidence: 0.95
+          notes: Audit 94.0/100 (6M)
+          evidence:
+            type: certification_db
+            source: certification_db
+            field: audit_score
+            value: 94.0
+            timestamp: 2026-04-18 11:35:56.037171
+            confidence: 0.482
+            url: None
+            notes: Audit-Score 94.0/100 (6M alt)
+        years_in_business:
+          score: 1.0
+          weight_used: 0.1
+          confidence: 1.0
+          notes: 11 Jahre im Geschäft
+          evidence:
+            type: supplier_database
+            source: https://example.com/cand-003
+            field: years_in_business
+            value: 11
+            timestamp: 2026-04-18 11:35:56.037187
+            confidence: 0.85
+            url: https://example.com/cand-003
+            notes: None
+        sample_test:
+          score: 1.0
+          weight_used: 0.05
+          confidence: 1.0
+          notes: Sample-Test bestanden
+          evidence:
+            type: historical
+            source: historical
+            field: sample_test
+            value: True
+            timestamp: 2026-04-18 11:35:56.037201
+            confidence: 0.8
+            url: None
+            notes: None
+          overall_confidence: 0.9
+          missing_signals:
+        - keine
+          risk_factors:
+        - keine
+
+------------------------------------------------------------------------------------------
+rank=2 | kandidat.id=cand-004 | kandidat.name=Cane Sugar Fine | composite=0.9023 | overall_confidence=0.757
+------------------------------------------------------------------------------------------
+  kandidat (voll):
+    id: cand-004
+    name: Cane Sugar Fine
+    properties:
+    sweetness_index:
+      value: 1.0
+      unit: rel_sucrose
+    glycemic_index:
+      value: 64.0
+      unit: GI
+    moisture:
+      value: 0.06
+      unit: %
+    bulk_density:
+      value: 0.86
+      unit: g/mL
+    particle_size:
+      value: 500.0
+      unit: um
+    purity:
+      value: 99.7
+      unit: %
+    certifications:
+    - ISO9001
+    - HACCP
+    - GMP
+    price:
+    value: 3.05
+    unit: EUR/kg
+    tiers: None
+    lead_time:
+    days: 10
+    reliability: 0.95
+    type: stock
+    quality:
+    supplier_rating:
+      value: 4.7
+      review_count: 320
+    defect_rate:
+      value: 0.5
+      sample_size: 2400
+    on_time_delivery:
+      value: 97.0
+      sample_size: 150
+    years_in_business: 18
+    audit_score:
+      value: 96.0
+      age_months: 4
+      passed: True
+    moq: 130
+    country_of_origin: DE
+    incoterm: DDP
+    source_url: https://example.com/cand-004
+  scores:
+    spec: 0.7829
+    compliance: 1.0
+    price: 1.0
+    lead_time: 0.95
+    quality: 0.948
+  confidences:
+    spec: 0.75
+    compliance: 0.626
+    price: 0.85
+    lead_time: 0.833
+    quality: 0.9
+  explanation:
+    summary: Exzellente Alternative (hohe Sicherheit)
+    recommendation: Empfohlen
+    confidence_statement: Gute Datenbasis: Die meisten Daten sind verifiziert.
+    strengths:
+    - [1]
+        text: Alle relevanten Zertifikate vorhanden
+        evidence: certification aus https://example.com/cand-004 (Confidence: 70%)
+        confidence: 0.783
+    - [2]
+        text: Preis deutlich günstiger als das Original
+        evidence: price aus https://example.com/orig-001 (Confidence: 85%)
+        confidence: 0.85
+    - [3]
+        text: Lieferzeit vergleichbar oder besser
+        evidence: lead_time aus https://example.com/cand-004 (Confidence: 85%)
+        confidence: 0.833
+    - [4]
+        text: Hohe Lieferantenqualität nachgewiesen
+        evidence: supplier_rating aus https://example.com/cand-004 (Confidence: 70%)
+        confidence: 0.765
+    weaknesses:
+    - keine
+    risks:
+    - keine
+    score_breakdown:
+    spec: 78%
+    compliance: 100%
+    price: 100%
+    lead_time: 95%
+    quality: 95%
+    evidence_summary:
+    - spec: semantic_embedding aus openai://embeddings
+    - spec: semantic_embedding aus openai://embeddings
+    - compliance: certification aus https://example.com/cand-004
+    - compliance: certification aus https://example.com/cand-004
+    - price: price aus https://example.com/orig-001
+    - price: price aus https://example.com/cand-004
+    - lead_time: lead_time aus https://example.com/cand-004
+    - lead_time: reliability aus historical
+    - quality: supplier_rating aus https://example.com/cand-004
+    - quality: defect_rate aus historical
+    uncertainty_warning: None
+    verification_needed:
+    - keine
+  uncertainty_report:
+    overall_level: medium
+    overall_confidence: 0.723
+    dimension_confidence:
+    spec: 0.6
+    compliance: 0.783
+    price: 0.85
+    lead_time: 0.833
+    quality: 0.765
+    dimension_uncertainty:
+    spec: medium
+    compliance: low
+    price: low
+    lead_time: low
+    quality: low
+    uncertainty_reasons:
+    - keine
+    data_gaps:
+    - keine
+    verification_suggestions:
+    - keine
+    should_warn_user: False
+    warning_message: None
+  evidence_trails:
+    spec:
+          dimension: spec_similarity
+          evidences:
+        - [1]
+            type: external_api
+            source: openai://embeddings
+            field: semantic_embedding
+            value:
+              text_hash: 4e1bdcd690f75984e1b3189a709542316f9fd4d215cd6cb348285120d66978ee
+              model: text-embedding-3-small
+            timestamp: 2026-04-18 11:35:56.382192
+            confidence: 0.6
+            url: openai://embeddings
+            notes: Semantic embedding for original material
+        - [2]
+            type: external_api
+            source: openai://embeddings
+            field: semantic_embedding
+            value:
+              text_hash: dcf13a83c3f285b0ad22691744beda8a0fe6d7a6b36ae25a67b72bc090b717e3
+              model: text-embedding-3-small
+            timestamp: 2026-04-18 11:35:56.382244
+            confidence: 0.6
+            url: openai://embeddings
+            notes: Semantic embedding for candidate material
+          overall_confidence: 0.6
+          data_completeness: 1.0
+          data_freshness: current
+    compliance:
+          dimension: compliance
+          evidences:
+        - [1]
+            type: supplier_website
+            source: https://example.com/cand-004
+            field: certification
+            value: GMP
+            timestamp: 2026-04-18 11:35:56.382427
+            confidence: 0.7
+            url: https://example.com/cand-004
+            notes: GMP: Selbstdeklaration des Lieferanten
+        - [2]
+            type: supplier_website
+            source: https://example.com/cand-004
+            field: certification
+            value: HACCP
+            timestamp: 2026-04-18 11:35:56.382441
+            confidence: 0.7
+            url: https://example.com/cand-004
+            notes: HACCP: Selbstdeklaration des Lieferanten
+        - [3]
+            type: certification_db
+            source: iso.org/certcheck
+            field: certification
+            value: ISO9001
+            timestamp: 2026-04-18 11:35:56.382455
+            confidence: 0.95
+            url: iso.org/certcheck
+            notes: ISO9001 aus offizieller Datenbank
+          overall_confidence: 0.783
+          data_completeness: 1.0
+          data_freshness: current
+    price:
+          dimension: price_delta
+          evidences:
+        - [1]
+            type: supplier_database
+            source: https://example.com/orig-001
+            field: price
+            value: 3.2
+            timestamp: 2026-04-18 11:35:56.382517
+            confidence: 0.85
+            url: https://example.com/orig-001
+            notes: Original-Material Basispreis
+        - [2]
+            type: supplier_database
+            source: https://example.com/cand-004
+            field: price
+            value: 3.05
+            timestamp: 2026-04-18 11:35:56.382527
+            confidence: 0.85
+            url: https://example.com/cand-004
+            notes: None
+          overall_confidence: 0.85
+          data_completeness: 0.667
+          data_freshness: current
+    lead_time:
+          dimension: lead_time
+          evidences:
+        - [1]
+            type: supplier_database
+            source: https://example.com/cand-004
+            field: lead_time
+            value: 10
+            timestamp: 2026-04-18 11:35:56.382587
+            confidence: 0.85
+            url: https://example.com/cand-004
+            notes: Lieferzeit stock
+        - [2]
+            type: historical
+            source: historical
+            field: reliability
+            value: 0.95
+            timestamp: 2026-04-18 11:35:56.382604
+            confidence: 0.8
+            url: None
+            notes: Pünktlichkeitsrate aus historischen Daten
+        - [3]
+            type: supplier_database
+            source: https://example.com/cand-004
+            field: stock
+            value: True
+            timestamp: 2026-04-18 11:35:56.382616
+            confidence: 0.85
+            url: https://example.com/cand-004
+            notes: Material auf Lager verfügbar
+          overall_confidence: 0.833
+          data_completeness: 1.0
+          data_freshness: current
+    quality:
+          dimension: quality_signals
+          evidences:
+        - [1]
+            type: supplier_website
+            source: https://example.com/cand-004
+            field: supplier_rating
+            value: 4.7
+            timestamp: 2026-04-18 11:35:56.382671
+            confidence: 0.7
+            url: https://example.com/cand-004
+            notes: 320 Bewertungen
+        - [2]
+            type: historical
+            source: historical
+            field: defect_rate
+            value: 0.5
+            timestamp: 2026-04-18 11:35:56.382703
+            confidence: 0.8
+            url: None
+            notes: Defektrate 0.5% bei n=2400
+        - [3]
+            type: historical
+            source: historical
+            field: on_time_delivery
+            value: 97.0
+            timestamp: 2026-04-18 11:35:56.382724
+            confidence: 0.8
+            url: None
+            notes: Pünktlichkeit 97.0%
+        - [4]
+            type: certification_db
+            source: certification_db
+            field: audit_score
+            value: 96.0
+            timestamp: 2026-04-18 11:35:56.382743
+            confidence: 0.638
+            url: None
+            notes: Audit-Score 96.0/100 (4M alt)
+        - [5]
+            type: supplier_database
+            source: https://example.com/cand-004
+            field: years_in_business
+            value: 18
+            timestamp: 2026-04-18 11:35:56.382829
+            confidence: 0.85
+            url: https://example.com/cand-004
+            notes: None
+        - [6]
+            type: historical
+            source: historical
+            field: sample_test
+            value: True
+            timestamp: 2026-04-18 11:35:56.382891
+            confidence: 0.8
+            url: None
+            notes: None
+          overall_confidence: 0.765
+          data_completeness: 1.0
+          data_freshness: current
+  details (dimension-specific result objects):
+    spec:
+          score: 0.7829
+          confidence: 0.75
+          evidence_trail:
+        dimension: spec_similarity
+        evidences:
+          - [1]
+              type: external_api
+              source: openai://embeddings
+              field: semantic_embedding
+              value:
+                text_hash: 4e1bdcd690f75984e1b3189a709542316f9fd4d215cd6cb348285120d66978ee
+                model: text-embedding-3-small
+              timestamp: 2026-04-18 11:35:56.382192
+              confidence: 0.6
+              url: openai://embeddings
+              notes: Semantic embedding for original material
+          - [2]
+              type: external_api
+              source: openai://embeddings
+              field: semantic_embedding
+              value:
+                text_hash: dcf13a83c3f285b0ad22691744beda8a0fe6d7a6b36ae25a67b72bc090b717e3
+                model: text-embedding-3-small
+              timestamp: 2026-04-18 11:35:56.382244
+              confidence: 0.6
+              url: openai://embeddings
+              notes: Semantic embedding for candidate material
+        overall_confidence: 0.6
+        data_completeness: 1.0
+        data_freshness: current
+          common_props:
+        - bulk_density
+        - glycemic_index
+        - moisture
+        - particle_size
+        - purity
+        - sweetness_index
+          missing_in_kandidat:
+        - keine
+          extra_in_kandidat:
+        - keine
+          details:
+        semantic:
+          original_text_hash: 4e1bdcd690f75984e1b3189a709542316f9fd4d215cd6cb348285120d66978ee
+          kandidat_text_hash: dcf13a83c3f285b0ad22691744beda8a0fe6d7a6b36ae25a67b72bc090b717e3
+          original_text_length: 556
+          kandidat_text_length: 522
+          original_text_preview: name: Sucrose Pharma Grade
+category: sweetener / sugar ingredient
+synonyms: haushaltszucker, saccharose, table sugar
+function: metabolic response relevance, processing and solubility behavior, quality and standardization
+          kandidat_text_preview: name: Cane Sugar Fine
+category: sweetener / sugar ingredient
+synonyms: none
+function: metabolic response relevance, processing and solubility behavior, quality and standardization, sweetener, sweetening intensity
+propert
+          original_embedding_cached: True
+          kandidat_embedding_cached: False
+          original_evidence:
+            type: external_api
+            source: openai://embeddings
+            field: semantic_embedding
+            value:
+              text_hash: 4e1bdcd690f75984e1b3189a709542316f9fd4d215cd6cb348285120d66978ee
+              model: text-embedding-3-small
+            timestamp: 2026-04-18 11:35:56.382192
+            confidence: 0.6
+            url: openai://embeddings
+            notes: Semantic embedding for original material
+          kandidat_evidence:
+            type: external_api
+            source: openai://embeddings
+            field: semantic_embedding
+            value:
+              text_hash: dcf13a83c3f285b0ad22691744beda8a0fe6d7a6b36ae25a67b72bc090b717e3
+              model: text-embedding-3-small
+            timestamp: 2026-04-18 11:35:56.382244
+            confidence: 0.6
+            url: openai://embeddings
+            notes: Semantic embedding for candidate material
+    compliance:
+          score: 1.0
+          confidence: 0.626
+          evidence_trail:
+        dimension: compliance
+        evidences:
+          - [1]
+              type: supplier_website
+              source: https://example.com/cand-004
+              field: certification
+              value: GMP
+              timestamp: 2026-04-18 11:35:56.382427
+              confidence: 0.7
+              url: https://example.com/cand-004
+              notes: GMP: Selbstdeklaration des Lieferanten
+          - [2]
+              type: supplier_website
+              source: https://example.com/cand-004
+              field: certification
+              value: HACCP
+              timestamp: 2026-04-18 11:35:56.382441
+              confidence: 0.7
+              url: https://example.com/cand-004
+              notes: HACCP: Selbstdeklaration des Lieferanten
+          - [3]
+              type: certification_db
+              source: iso.org/certcheck
+              field: certification
+              value: ISO9001
+              timestamp: 2026-04-18 11:35:56.382455
+              confidence: 0.95
+              url: iso.org/certcheck
+              notes: ISO9001 aus offizieller Datenbank
+        overall_confidence: 0.783
+        data_completeness: 1.0
+        data_freshness: current
+          matched:
+        - GMP
+        - HACCP
+        - ISO9001
+          missing:
+        - keine
+          extra:
+        - keine
+          coverage: full
+          certification_evidence:
+        GMP:
+          type: supplier_website
+          source: https://example.com/cand-004
+          field: certification
+          value: GMP
+          timestamp: 2026-04-18 11:35:56.382427
+          confidence: 0.7
+          url: https://example.com/cand-004
+          notes: GMP: Selbstdeklaration des Lieferanten
+        HACCP:
+          type: supplier_website
+          source: https://example.com/cand-004
+          field: certification
+          value: HACCP
+          timestamp: 2026-04-18 11:35:56.382441
+          confidence: 0.7
+          url: https://example.com/cand-004
+          notes: HACCP: Selbstdeklaration des Lieferanten
+        ISO9001:
+          type: certification_db
+          source: iso.org/certcheck
+          field: certification
+          value: ISO9001
+          timestamp: 2026-04-18 11:35:56.382455
+          confidence: 0.95
+          url: iso.org/certcheck
+          notes: ISO9001 aus offizieller Datenbank
+          verified_certs:
+        - ISO9001
+          claimed_only_certs:
+        - GMP
+        - HACCP
+    price:
+          score: 1.0
+          confidence: 0.85
+          evidence_trail:
+        dimension: price_delta
+        evidences:
+          - [1]
+              type: supplier_database
+              source: https://example.com/orig-001
+              field: price
+              value: 3.2
+              timestamp: 2026-04-18 11:35:56.382517
+              confidence: 0.85
+              url: https://example.com/orig-001
+              notes: Original-Material Basispreis
+          - [2]
+              type: supplier_database
+              source: https://example.com/cand-004
+              field: price
+              value: 3.05
+              timestamp: 2026-04-18 11:35:56.382527
+              confidence: 0.85
+              url: https://example.com/cand-004
+              notes: None
+        overall_confidence: 0.85
+        data_completeness: 0.667
+        data_freshness: current
+          delta_percent: -4.69
+          delta_absolute: -0.15
+          direction: cheaper
+          original_price: 3.2
+          kandidat_price: 3.05
+          unit: EUR/kg
+          adjustments:
+        - keine
+    lead_time:
+          score: 0.95
+          confidence: 0.833
+          evidence_trail:
+        dimension: lead_time
+        evidences:
+          - [1]
+              type: supplier_database
+              source: https://example.com/cand-004
+              field: lead_time
+              value: 10
+              timestamp: 2026-04-18 11:35:56.382587
+              confidence: 0.85
+              url: https://example.com/cand-004
+              notes: Lieferzeit stock
+          - [2]
+              type: historical
+              source: historical
+              field: reliability
+              value: 0.95
+              timestamp: 2026-04-18 11:35:56.382604
+              confidence: 0.8
+              url: None
+              notes: Pünktlichkeitsrate aus historischen Daten
+          - [3]
+              type: supplier_database
+              source: https://example.com/cand-004
+              field: stock
+              value: True
+              timestamp: 2026-04-18 11:35:56.382616
+              confidence: 0.85
+              url: https://example.com/cand-004
+              notes: Material auf Lager verfügbar
+        overall_confidence: 0.833
+        data_completeness: 1.0
+        data_freshness: current
+          base_score: 1.0
+          days_original: 10
+          days_kandidat: 3
+          days_difference: -7
+          direction: faster
+          percent_change: -70.0
+          reliability_original: 0.95
+          reliability_kandidat: 0.95
+          risk_level: low
+          tolerance_applied: False
+          lead_time_evidence:
+        type: supplier_database
+        source: https://example.com/cand-004
+        field: lead_time
+        value: 10
+        timestamp: 2026-04-18 11:35:56.382587
+        confidence: 0.85
+        url: https://example.com/cand-004
+        notes: Lieferzeit stock
+          reliability_evidence:
+        type: historical
+        source: historical
+        field: reliability
+        value: 0.95
+        timestamp: 2026-04-18 11:35:56.382604
+        confidence: 0.8
+        url: None
+        notes: Pünktlichkeitsrate aus historischen Daten
+          stock_evidence:
+        type: supplier_database
+        source: https://example.com/cand-004
+        field: stock
+        value: True
+        timestamp: 2026-04-18 11:35:56.382616
+        confidence: 0.85
+        url: https://example.com/cand-004
+        notes: Material auf Lager verfügbar
+    quality:
+          score: 0.948
+          confidence: 0.9
+          evidence_trail:
+        dimension: quality_signals
+        evidences:
+          - [1]
+              type: supplier_website
+              source: https://example.com/cand-004
+              field: supplier_rating
+              value: 4.7
+              timestamp: 2026-04-18 11:35:56.382671
+              confidence: 0.7
+              url: https://example.com/cand-004
+              notes: 320 Bewertungen
+          - [2]
+              type: historical
+              source: historical
+              field: defect_rate
+              value: 0.5
+              timestamp: 2026-04-18 11:35:56.382703
+              confidence: 0.8
+              url: None
+              notes: Defektrate 0.5% bei n=2400
+          - [3]
+              type: historical
+              source: historical
+              field: on_time_delivery
+              value: 97.0
+              timestamp: 2026-04-18 11:35:56.382724
+              confidence: 0.8
+              url: None
+              notes: Pünktlichkeit 97.0%
+          - [4]
+              type: certification_db
+              source: certification_db
+              field: audit_score
+              value: 96.0
+              timestamp: 2026-04-18 11:35:56.382743
+              confidence: 0.638
+              url: None
+              notes: Audit-Score 96.0/100 (4M alt)
+          - [5]
+              type: supplier_database
+              source: https://example.com/cand-004
+              field: years_in_business
+              value: 18
+              timestamp: 2026-04-18 11:35:56.382829
+              confidence: 0.85
+              url: https://example.com/cand-004
+              notes: None
+          - [6]
+              type: historical
+              source: historical
+              field: sample_test
+              value: True
+              timestamp: 2026-04-18 11:35:56.382891
+              confidence: 0.8
+              url: None
+              notes: None
+        overall_confidence: 0.765
+        data_completeness: 1.0
+        data_freshness: current
+          signals:
+        supplier_rating:
+          score: 0.9400000000000001
+          weight_used: 0.25
+          confidence: 0.85
+          notes: Rating 4.7/5 (320 Reviews)
+          evidence:
+            type: supplier_website
+            source: https://example.com/cand-004
+            field: supplier_rating
+            value: 4.7
+            timestamp: 2026-04-18 11:35:56.382671
+            confidence: 0.7
+            url: https://example.com/cand-004
+            notes: 320 Bewertungen
+        defect_rate:
+          score: 0.9
+          weight_used: 0.25
+          confidence: 0.9
+          notes: Defektrate 0.5% (n=2400)
+          evidence:
+            type: historical
+            source: historical
+            field: defect_rate
+            value: 0.5
+            timestamp: 2026-04-18 11:35:56.382703
+            confidence: 0.8
+            url: None
+            notes: Defektrate 0.5% bei n=2400
+        on_time_delivery:
+          score: 0.97
+          weight_used: 0.2
+          confidence: 0.85
+          notes: Pünktlich: 97.0%
+          evidence:
+            type: historical
+            source: historical
+            field: on_time_delivery
+            value: 97.0
+            timestamp: 2026-04-18 11:35:56.382724
+            confidence: 0.8
+            url: None
+            notes: Pünktlichkeit 97.0%
+        audit_score:
+          score: 0.96
+          weight_used: 0.15
+          confidence: 0.95
+          notes: Audit 96.0/100 (4M)
+          evidence:
+            type: certification_db
+            source: certification_db
+            field: audit_score
+            value: 96.0
+            timestamp: 2026-04-18 11:35:56.382743
+            confidence: 0.638
+            url: None
+            notes: Audit-Score 96.0/100 (4M alt)
+        years_in_business:
+          score: 1.0
+          weight_used: 0.1
+          confidence: 1.0
+          notes: 18 Jahre im Geschäft
+          evidence:
+            type: supplier_database
+            source: https://example.com/cand-004
+            field: years_in_business
+            value: 18
+            timestamp: 2026-04-18 11:35:56.382829
+            confidence: 0.85
+            url: https://example.com/cand-004
+            notes: None
+        sample_test:
+          score: 1.0
+          weight_used: 0.05
+          confidence: 1.0
+          notes: Sample-Test bestanden
+          evidence:
+            type: historical
+            source: historical
+            field: sample_test
+            value: True
+            timestamp: 2026-04-18 11:35:56.382891
+            confidence: 0.8
+            url: None
+            notes: None
+          overall_confidence: 0.9
+          missing_signals:
+        - keine
+          risk_factors:
+        - keine
+
+------------------------------------------------------------------------------------------
+rank=3 | kandidat.id=cand-002 | kandidat.name=Dextrose Anhydrous | composite=0.8927 | overall_confidence=0.761
+------------------------------------------------------------------------------------------
+  kandidat (voll):
+    id: cand-002
+    name: Dextrose Anhydrous
+    properties:
+    sweetness_index:
+      value: 0.74
+      unit: rel_sucrose
+    glycemic_index:
+      value: 100.0
+      unit: GI
+    moisture:
+      value: 0.3
+      unit: %
+    bulk_density:
+      value: 0.64
+      unit: g/mL
+    particle_size:
+      value: 320.0
+      unit: um
+    purity:
+      value: 99.5
+      unit: %
+    certifications:
+    - ISO9001
+    - HACCP
+    - GMP
+    price:
+    value: 2.35
+    unit: EUR/kg
+    tiers: None
+    lead_time:
+    days: 11
+    reliability: 0.93
+    type: standard
+    quality:
+    supplier_rating:
+      value: 4.4
+      review_count: 240
+    defect_rate:
+      value: 0.8
+      sample_size: 1700
+    on_time_delivery:
+      value: 95.0
+      sample_size: 130
+    years_in_business: 12
+    audit_score:
+      value: 93.0
+      age_months: 7
+      passed: True
+    moq: 140
+    country_of_origin: NL
+    incoterm: DDP
+    source_url: https://example.com/cand-002
+  scores:
+    spec: 0.7774
+    compliance: 1.0
+    price: 1.0
+    lead_time: 0.93
+    quality: 0.9095
+  confidences:
+    spec: 0.76
+    compliance: 0.626
+    price: 0.85
+    lead_time: 0.825
+    quality: 0.9
+  explanation:
+    summary: Exzellente Alternative (hohe Sicherheit)
+    recommendation: Empfohlen
+    confidence_statement: Gute Datenbasis: Die meisten Daten sind verifiziert.
+    strengths:
+    - [1]
+        text: Alle relevanten Zertifikate vorhanden
+        evidence: certification aus https://example.com/cand-002 (Confidence: 70%)
+        confidence: 0.783
+    - [2]
+        text: Preis deutlich günstiger als das Original
+        evidence: price aus https://example.com/orig-001 (Confidence: 85%)
+        confidence: 0.85
+    - [3]
+        text: Lieferzeit vergleichbar oder besser
+        evidence: lead_time aus https://example.com/cand-002 (Confidence: 85%)
+        confidence: 0.825
+    - [4]
+        text: Hohe Lieferantenqualität nachgewiesen
+        evidence: supplier_rating aus https://example.com/cand-002 (Confidence: 70%)
+        confidence: 0.737
+    weaknesses:
+    - keine
+    risks:
+    - keine
+    score_breakdown:
+    spec: 78%
+    compliance: 100%
+    price: 100%
+    lead_time: 93%
+    quality: 91%
+    evidence_summary:
+    - spec: semantic_embedding aus openai://embeddings
+    - spec: semantic_embedding aus openai://embeddings
+    - compliance: certification aus https://example.com/cand-002
+    - compliance: certification aus https://example.com/cand-002
+    - price: price aus https://example.com/orig-001
+    - price: price aus https://example.com/cand-002
+    - lead_time: lead_time aus https://example.com/cand-002
+    - lead_time: reliability aus historical
+    - quality: supplier_rating aus https://example.com/cand-002
+    - quality: defect_rate aus historical
+    uncertainty_warning: None
+    verification_needed:
+    - keine
+  uncertainty_report:
+    overall_level: medium
+    overall_confidence: 0.719
+    dimension_confidence:
+    spec: 0.6
+    compliance: 0.783
+    price: 0.85
+    lead_time: 0.825
+    quality: 0.737
+    dimension_uncertainty:
+    spec: medium
+    compliance: low
+    price: low
+    lead_time: low
+    quality: medium
+    uncertainty_reasons:
+    - keine
+    data_gaps:
+    - keine
+    verification_suggestions:
+    - keine
+    should_warn_user: False
+    warning_message: None
+  evidence_trails:
+    spec:
+          dimension: spec_similarity
+          evidences:
+        - [1]
+            type: external_api
+            source: openai://embeddings
+            field: semantic_embedding
+            value:
+              text_hash: 4e1bdcd690f75984e1b3189a709542316f9fd4d215cd6cb348285120d66978ee
+              model: text-embedding-3-small
+            timestamp: 2026-04-18 11:35:55.008313
+            confidence: 0.6
+            url: openai://embeddings
+            notes: Semantic embedding for original material
+        - [2]
+            type: external_api
+            source: openai://embeddings
+            field: semantic_embedding
+            value:
+              text_hash: c00bae9d1801f571e9d9cda244235d6e0cb3d248a58b147d2864d65dbcd02606
+              model: text-embedding-3-small
+            timestamp: 2026-04-18 11:35:55.008365
+            confidence: 0.6
+            url: openai://embeddings
+            notes: Semantic embedding for candidate material
+          overall_confidence: 0.6
+          data_completeness: 1.0
+          data_freshness: current
+    compliance:
+          dimension: compliance
+          evidences:
+        - [1]
+            type: supplier_website
+            source: https://example.com/cand-002
+            field: certification
+            value: GMP
+            timestamp: 2026-04-18 11:35:55.008549
+            confidence: 0.7
+            url: https://example.com/cand-002
+            notes: GMP: Selbstdeklaration des Lieferanten
+        - [2]
+            type: supplier_website
+            source: https://example.com/cand-002
+            field: certification
+            value: HACCP
+            timestamp: 2026-04-18 11:35:55.008564
+            confidence: 0.7
+            url: https://example.com/cand-002
+            notes: HACCP: Selbstdeklaration des Lieferanten
+        - [3]
+            type: certification_db
+            source: iso.org/certcheck
+            field: certification
+            value: ISO9001
+            timestamp: 2026-04-18 11:35:55.008576
+            confidence: 0.95
+            url: iso.org/certcheck
+            notes: ISO9001 aus offizieller Datenbank
+          overall_confidence: 0.783
+          data_completeness: 1.0
+          data_freshness: current
+    price:
+          dimension: price_delta
+          evidences:
+        - [1]
+            type: supplier_database
+            source: https://example.com/orig-001
+            field: price
+            value: 3.2
+            timestamp: 2026-04-18 11:35:55.008626
+            confidence: 0.85
+            url: https://example.com/orig-001
+            notes: Original-Material Basispreis
+        - [2]
+            type: supplier_database
+            source: https://example.com/cand-002
+            field: price
+            value: 2.35
+            timestamp: 2026-04-18 11:35:55.008636
+            confidence: 0.85
+            url: https://example.com/cand-002
+            notes: None
+          overall_confidence: 0.85
+          data_completeness: 0.667
+          data_freshness: current
+    lead_time:
+          dimension: lead_time
+          evidences:
+        - [1]
+            type: supplier_database
+            source: https://example.com/cand-002
+            field: lead_time
+            value: 11
+            timestamp: 2026-04-18 11:35:55.008693
+            confidence: 0.85
+            url: https://example.com/cand-002
+            notes: Lieferzeit standard
+        - [2]
+            type: historical
+            source: historical
+            field: reliability
+            value: 0.93
+            timestamp: 2026-04-18 11:35:55.008709
+            confidence: 0.8
+            url: None
+            notes: Pünktlichkeitsrate aus historischen Daten
+          overall_confidence: 0.825
+          data_completeness: 0.667
+          data_freshness: current
+    quality:
+          dimension: quality_signals
+          evidences:
+        - [1]
+            type: supplier_website
+            source: https://example.com/cand-002
+            field: supplier_rating
+            value: 4.4
+            timestamp: 2026-04-18 11:35:55.008765
+            confidence: 0.7
+            url: https://example.com/cand-002
+            notes: 240 Bewertungen
+        - [2]
+            type: historical
+            source: historical
+            field: defect_rate
+            value: 0.8
+            timestamp: 2026-04-18 11:35:55.008796
+            confidence: 0.8
+            url: None
+            notes: Defektrate 0.8% bei n=1700
+        - [3]
+            type: historical
+            source: historical
+            field: on_time_delivery
+            value: 95.0
+            timestamp: 2026-04-18 11:35:55.008817
+            confidence: 0.8
+            url: None
+            notes: Pünktlichkeit 95.0%
+        - [4]
+            type: certification_db
+            source: certification_db
+            field: audit_score
+            value: 93.0
+            timestamp: 2026-04-18 11:35:55.008884
+            confidence: 0.475
+            url: None
+            notes: Audit-Score 93.0/100 (7M alt)
+        - [5]
+            type: supplier_database
+            source: https://example.com/cand-002
+            field: years_in_business
+            value: 12
+            timestamp: 2026-04-18 11:35:55.008897
+            confidence: 0.85
+            url: https://example.com/cand-002
+            notes: None
+        - [6]
+            type: historical
+            source: historical
+            field: sample_test
+            value: True
+            timestamp: 2026-04-18 11:35:55.008909
+            confidence: 0.8
+            url: None
+            notes: None
+          overall_confidence: 0.737
+          data_completeness: 1.0
+          data_freshness: current
+  details (dimension-specific result objects):
+    spec:
+          score: 0.7774
+          confidence: 0.76
+          evidence_trail:
+        dimension: spec_similarity
+        evidences:
+          - [1]
+              type: external_api
+              source: openai://embeddings
+              field: semantic_embedding
+              value:
+                text_hash: 4e1bdcd690f75984e1b3189a709542316f9fd4d215cd6cb348285120d66978ee
+                model: text-embedding-3-small
+              timestamp: 2026-04-18 11:35:55.008313
+              confidence: 0.6
+              url: openai://embeddings
+              notes: Semantic embedding for original material
+          - [2]
+              type: external_api
+              source: openai://embeddings
+              field: semantic_embedding
+              value:
+                text_hash: c00bae9d1801f571e9d9cda244235d6e0cb3d248a58b147d2864d65dbcd02606
+                model: text-embedding-3-small
+              timestamp: 2026-04-18 11:35:55.008365
+              confidence: 0.6
+              url: openai://embeddings
+              notes: Semantic embedding for candidate material
+        overall_confidence: 0.6
+        data_completeness: 1.0
+        data_freshness: current
+          common_props:
+        - bulk_density
+        - glycemic_index
+        - moisture
+        - particle_size
+        - purity
+        - sweetness_index
+          missing_in_kandidat:
+        - keine
+          extra_in_kandidat:
+        - keine
+          details:
+        semantic:
+          original_text_hash: 4e1bdcd690f75984e1b3189a709542316f9fd4d215cd6cb348285120d66978ee
+          kandidat_text_hash: c00bae9d1801f571e9d9cda244235d6e0cb3d248a58b147d2864d65dbcd02606
+          original_text_length: 556
+          kandidat_text_length: 567
+          original_text_preview: name: Sucrose Pharma Grade
+category: sweetener / sugar ingredient
+synonyms: haushaltszucker, saccharose, table sugar
+function: metabolic response relevance, processing and solubility behavior, quality and standardization
+          kandidat_text_preview: name: Dextrose Anhydrous
+category: sweetener / sugar ingredient
+synonyms: glucose, traubenzucker
+function: carbohydrate energy source, metabolic response relevance, processing and solubility behavior, quality and standar
+          original_embedding_cached: True
+          kandidat_embedding_cached: False
+          original_evidence:
+            type: external_api
+            source: openai://embeddings
+            field: semantic_embedding
+            value:
+              text_hash: 4e1bdcd690f75984e1b3189a709542316f9fd4d215cd6cb348285120d66978ee
+              model: text-embedding-3-small
+            timestamp: 2026-04-18 11:35:55.008313
+            confidence: 0.6
+            url: openai://embeddings
+            notes: Semantic embedding for original material
+          kandidat_evidence:
+            type: external_api
+            source: openai://embeddings
+            field: semantic_embedding
+            value:
+              text_hash: c00bae9d1801f571e9d9cda244235d6e0cb3d248a58b147d2864d65dbcd02606
+              model: text-embedding-3-small
+            timestamp: 2026-04-18 11:35:55.008365
+            confidence: 0.6
+            url: openai://embeddings
+            notes: Semantic embedding for candidate material
+    compliance:
+          score: 1.0
+          confidence: 0.626
+          evidence_trail:
+        dimension: compliance
+        evidences:
+          - [1]
+              type: supplier_website
+              source: https://example.com/cand-002
+              field: certification
+              value: GMP
+              timestamp: 2026-04-18 11:35:55.008549
+              confidence: 0.7
+              url: https://example.com/cand-002
+              notes: GMP: Selbstdeklaration des Lieferanten
+          - [2]
+              type: supplier_website
+              source: https://example.com/cand-002
+              field: certification
+              value: HACCP
+              timestamp: 2026-04-18 11:35:55.008564
+              confidence: 0.7
+              url: https://example.com/cand-002
+              notes: HACCP: Selbstdeklaration des Lieferanten
+          - [3]
+              type: certification_db
+              source: iso.org/certcheck
+              field: certification
+              value: ISO9001
+              timestamp: 2026-04-18 11:35:55.008576
+              confidence: 0.95
+              url: iso.org/certcheck
+              notes: ISO9001 aus offizieller Datenbank
+        overall_confidence: 0.783
+        data_completeness: 1.0
+        data_freshness: current
+          matched:
+        - GMP
+        - HACCP
+        - ISO9001
+          missing:
+        - keine
+          extra:
+        - keine
+          coverage: full
+          certification_evidence:
+        GMP:
+          type: supplier_website
+          source: https://example.com/cand-002
+          field: certification
+          value: GMP
+          timestamp: 2026-04-18 11:35:55.008549
+          confidence: 0.7
+          url: https://example.com/cand-002
+          notes: GMP: Selbstdeklaration des Lieferanten
+        HACCP:
+          type: supplier_website
+          source: https://example.com/cand-002
+          field: certification
+          value: HACCP
+          timestamp: 2026-04-18 11:35:55.008564
+          confidence: 0.7
+          url: https://example.com/cand-002
+          notes: HACCP: Selbstdeklaration des Lieferanten
+        ISO9001:
+          type: certification_db
+          source: iso.org/certcheck
+          field: certification
+          value: ISO9001
+          timestamp: 2026-04-18 11:35:55.008576
+          confidence: 0.95
+          url: iso.org/certcheck
+          notes: ISO9001 aus offizieller Datenbank
+          verified_certs:
+        - ISO9001
+          claimed_only_certs:
+        - GMP
+        - HACCP
+    price:
+          score: 1.0
+          confidence: 0.85
+          evidence_trail:
+        dimension: price_delta
+        evidences:
+          - [1]
+              type: supplier_database
+              source: https://example.com/orig-001
+              field: price
+              value: 3.2
+              timestamp: 2026-04-18 11:35:55.008626
+              confidence: 0.85
+              url: https://example.com/orig-001
+              notes: Original-Material Basispreis
+          - [2]
+              type: supplier_database
+              source: https://example.com/cand-002
+              field: price
+              value: 2.35
+              timestamp: 2026-04-18 11:35:55.008636
+              confidence: 0.85
+              url: https://example.com/cand-002
+              notes: None
+        overall_confidence: 0.85
+        data_completeness: 0.667
+        data_freshness: current
+          delta_percent: -26.56
+          delta_absolute: -0.85
+          direction: cheaper
+          original_price: 3.2
+          kandidat_price: 2.35
+          unit: EUR/kg
+          adjustments:
+        - keine
+    lead_time:
+          score: 0.93
+          confidence: 0.825
+          evidence_trail:
+        dimension: lead_time
+        evidences:
+          - [1]
+              type: supplier_database
+              source: https://example.com/cand-002
+              field: lead_time
+              value: 11
+              timestamp: 2026-04-18 11:35:55.008693
+              confidence: 0.85
+              url: https://example.com/cand-002
+              notes: Lieferzeit standard
+          - [2]
+              type: historical
+              source: historical
+              field: reliability
+              value: 0.93
+              timestamp: 2026-04-18 11:35:55.008709
+              confidence: 0.8
+              url: None
+              notes: Pünktlichkeitsrate aus historischen Daten
+        overall_confidence: 0.825
+        data_completeness: 0.667
+        data_freshness: current
+          base_score: 1.0
+          days_original: 10
+          days_kandidat: 11
+          days_difference: 1
+          direction: slower
+          percent_change: 10.0
+          reliability_original: 0.95
+          reliability_kandidat: 0.93
+          risk_level: low
+          tolerance_applied: True
+          lead_time_evidence:
+        type: supplier_database
+        source: https://example.com/cand-002
+        field: lead_time
+        value: 11
+        timestamp: 2026-04-18 11:35:55.008693
+        confidence: 0.85
+        url: https://example.com/cand-002
+        notes: Lieferzeit standard
+          reliability_evidence:
+        type: historical
+        source: historical
+        field: reliability
+        value: 0.93
+        timestamp: 2026-04-18 11:35:55.008709
+        confidence: 0.8
+        url: None
+        notes: Pünktlichkeitsrate aus historischen Daten
+          stock_evidence: None
+    quality:
+          score: 0.9095
+          confidence: 0.9
+          evidence_trail:
+        dimension: quality_signals
+        evidences:
+          - [1]
+              type: supplier_website
+              source: https://example.com/cand-002
+              field: supplier_rating
+              value: 4.4
+              timestamp: 2026-04-18 11:35:55.008765
+              confidence: 0.7
+              url: https://example.com/cand-002
+              notes: 240 Bewertungen
+          - [2]
+              type: historical
+              source: historical
+              field: defect_rate
+              value: 0.8
+              timestamp: 2026-04-18 11:35:55.008796
+              confidence: 0.8
+              url: None
+              notes: Defektrate 0.8% bei n=1700
+          - [3]
+              type: historical
+              source: historical
+              field: on_time_delivery
+              value: 95.0
+              timestamp: 2026-04-18 11:35:55.008817
+              confidence: 0.8
+              url: None
+              notes: Pünktlichkeit 95.0%
+          - [4]
+              type: certification_db
+              source: certification_db
+              field: audit_score
+              value: 93.0
+              timestamp: 2026-04-18 11:35:55.008884
+              confidence: 0.475
+              url: None
+              notes: Audit-Score 93.0/100 (7M alt)
+          - [5]
+              type: supplier_database
+              source: https://example.com/cand-002
+              field: years_in_business
+              value: 12
+              timestamp: 2026-04-18 11:35:55.008897
+              confidence: 0.85
+              url: https://example.com/cand-002
+              notes: None
+          - [6]
+              type: historical
+              source: historical
+              field: sample_test
+              value: True
+              timestamp: 2026-04-18 11:35:55.008909
+              confidence: 0.8
+              url: None
+              notes: None
+        overall_confidence: 0.737
+        data_completeness: 1.0
+        data_freshness: current
+          signals:
+        supplier_rating:
+          score: 0.8800000000000001
+          weight_used: 0.25
+          confidence: 0.85
+          notes: Rating 4.4/5 (240 Reviews)
+          evidence:
+            type: supplier_website
+            source: https://example.com/cand-002
+            field: supplier_rating
+            value: 4.4
+            timestamp: 2026-04-18 11:35:55.008765
+            confidence: 0.7
+            url: https://example.com/cand-002
+            notes: 240 Bewertungen
+        defect_rate:
+          score: 0.84
+          weight_used: 0.25
+          confidence: 0.9
+          notes: Defektrate 0.8% (n=1700)
+          evidence:
+            type: historical
+            source: historical
+            field: defect_rate
+            value: 0.8
+            timestamp: 2026-04-18 11:35:55.008796
+            confidence: 0.8
+            url: None
+            notes: Defektrate 0.8% bei n=1700
+        on_time_delivery:
+          score: 0.95
+          weight_used: 0.2
+          confidence: 0.85
+          notes: Pünktlich: 95.0%
+          evidence:
+            type: historical
+            source: historical
+            field: on_time_delivery
+            value: 95.0
+            timestamp: 2026-04-18 11:35:55.008817
+            confidence: 0.8
+            url: None
+            notes: Pünktlichkeit 95.0%
+        audit_score:
+          score: 0.93
+          weight_used: 0.15
+          confidence: 0.95
+          notes: Audit 93.0/100 (7M)
+          evidence:
+            type: certification_db
+            source: certification_db
+            field: audit_score
+            value: 93.0
+            timestamp: 2026-04-18 11:35:55.008884
+            confidence: 0.475
+            url: None
+            notes: Audit-Score 93.0/100 (7M alt)
+        years_in_business:
+          score: 1.0
+          weight_used: 0.1
+          confidence: 1.0
+          notes: 12 Jahre im Geschäft
+          evidence:
+            type: supplier_database
+            source: https://example.com/cand-002
+            field: years_in_business
+            value: 12
+            timestamp: 2026-04-18 11:35:55.008897
+            confidence: 0.85
+            url: https://example.com/cand-002
+            notes: None
+        sample_test:
+          score: 1.0
+          weight_used: 0.05
+          confidence: 1.0
+          notes: Sample-Test bestanden
+          evidence:
+            type: historical
+            source: historical
+            field: sample_test
+            value: True
+            timestamp: 2026-04-18 11:35:55.008909
+            confidence: 0.8
+            url: None
+            notes: None
+          overall_confidence: 0.9
+          missing_signals:
+        - keine
+          risk_factors:
+        - keine
+
+==========================================================================================
+4) Rejected Candidates
+==========================================================================================
+
+[1] id=cand-014 | name=Allulose Fine
+  candidate (voll):
+    id: cand-014
+    name: Allulose Fine
+    properties:
+    sweetness_index:
+      value: 0.7
+      unit: rel_sucrose
+    glycemic_index:
+      value: 0.0
+      unit: GI
+    moisture:
+      value: 0.25
+      unit: %
+    bulk_density:
+      value: 0.7
+      unit: g/mL
+    particle_size:
+      value: 300.0
+      unit: um
+    purity:
+      value: 98.7
+      unit: %
+    certifications:
+    - ISO9001
+    - HACCP
+    - GMP
+    - REACH
+    price:
+    value: 4.95
+    unit: EUR/kg
+    tiers: None
+    lead_time:
+    days: 15
+    reliability: 0.89
+    type: standard
+    quality:
+    supplier_rating:
+      value: 4.2
+      review_count: 150
+    defect_rate:
+      value: 1.1
+      sample_size: 900
+    on_time_delivery:
+      value: 92.0
+      sample_size: 85
+    years_in_business: 10
+    audit_score:
+      value: 89.0
+      age_months: 10
+      passed: True
+    moq: 170
+    country_of_origin: US
+    incoterm: CIF
+    source_url: https://example.com/cand-014
+  reasons:
+    - Preis 4.95 EUR/kg > Maximum 4.80
+  evidence:
+    - [1]
+            type: supplier_database
+            source: supplier_database
+            field: price
+            value: 4.95
+            timestamp: 2026-04-18 11:35:51.755282
+            confidence: 0.85
+            url: None
+            notes: Preis überschreitet 1.5x Original
+
+[2] id=cand-020 | name=Agave Inulin Blend
+  candidate (voll):
+    id: cand-020
+    name: Agave Inulin Blend
+    properties:
+    sweetness_index:
+      value: 1.35
+      unit: rel_sucrose
+    glycemic_index:
+      value: 15.0
+      unit: GI
+    moisture:
+      value: 1.0
+      unit: %
+    bulk_density:
+      value: 0.52
+      unit: g/mL
+    particle_size:
+      value: 260.0
+      unit: um
+    purity:
+      value: 92.5
+      unit: %
+    certifications:
+    - ISO9001
+    - HACCP
+    - GMP
+    price:
+    value: 4.7
+    unit: EUR/kg
+    tiers: None
+    lead_time:
+    days: 22
+    reliability: 0.82
+    type: standard
+    quality:
+    supplier_rating:
+      value: 3.8
+      review_count: 75
+    defect_rate:
+      value: 2.0
+      sample_size: 550
+    on_time_delivery:
+      value: 86.0
+      sample_size: 50
+    years_in_business: 5
+    audit_score:
+      value: 81.0
+      age_months: 19
+      passed: True
+    moq: 205
+    country_of_origin: MX
+    incoterm: FOB
+    source_url: https://example.com/cand-020
+  reasons:
+    - MOQ 205 > Max-Menge 200
+  evidence:
+    - [1]
+            type: supplier_database
+            source: supplier_database
+            field: moq
+            value: 205
+            timestamp: 2026-04-18 11:35:51.755316
+            confidence: 0.85
+            url: None
+            notes: MOQ überschreitet User-Maximum von 200
+
+[3] id=cand-023 | name=Date Sugar Powder
+  candidate (voll):
+    id: cand-023
+    name: Date Sugar Powder
+    properties:
+    sweetness_index:
+      value: 0.95
+      unit: rel_sucrose
+    glycemic_index:
+      value: 50.0
+      unit: GI
+    moisture:
+      value: 2.5
+      unit: %
+    bulk_density:
+      value: 0.58
+      unit: g/mL
+    particle_size:
+      value: 800.0
+      unit: um
+    purity:
+      value: 89.0
+      unit: %
+    certifications:
+    - HACCP
+    - GMP
+    price:
+    value: 4.1
+    unit: EUR/kg
+    tiers: None
+    lead_time:
+    days: 19
+    reliability: 0.84
+    type: standard
+    quality:
+    supplier_rating:
+      value: 3.9
+      review_count: 70
+    defect_rate:
+      value: 1.9
+      sample_size: 450
+    on_time_delivery:
+      value: 87.0
+      sample_size: 55
+    years_in_business: 5
+    audit_score:
+      value: 79.0
+      age_months: 20
+      passed: True
+    moq: 170
+    country_of_origin: SY
+    incoterm: FOB
+    source_url: https://example.com/cand-023
+  reasons:
+    - Herkunftsland SY auf Blacklist für DE
+    - Kritische Zertifikate fehlen: ISO9001
+  evidence:
+    - [1]
+            type: external_api
+            source: external_api
+            field: country_of_origin
+            value: SY
+            timestamp: 2026-04-18 11:35:51.755328
+            confidence: 0.75
+            url: None
+            notes: Sanktionsliste / Blacklist-Prüfung
+    - [2]
+            type: certification_db
+            source: certification_db
+            field: certification
+            value: None
+            timestamp: 2026-04-18 11:35:51.755335
+            confidence: 0.95
+            url: None
+            notes: Keine ISO9001-Registrierung gefunden für Date Sugar Powder
+
+[4] id=cand-025 | name=Raw Cane Sugar Coarse
+  candidate (voll):
+    id: cand-025
+    name: Raw Cane Sugar Coarse
+    properties:
+    sweetness_index:
+      value: 0.98
+      unit: rel_sucrose
+    glycemic_index:
+      value: 68.0
+      unit: GI
+    moisture:
+      value: 0.3
+      unit: %
+    bulk_density:
+      value: 0.88
+      unit: g/mL
+    particle_size:
+      value: 900.0
+      unit: um
+    purity:
+      value: 98.2
+      unit: %
+    certifications:
+    - ISO9001
+    - HACCP
+    price:
+    value: 2.85
+    unit: EUR/kg
+    tiers: None
+    lead_time:
+    days: 14
+    reliability: 0.9
+    type: standard
+    quality:
+    supplier_rating:
+      value: 4.1
+      review_count: 165
+    defect_rate:
+      value: 1.0
+      sample_size: 1200
+    on_time_delivery:
+      value: 92.0
+      sample_size: 100
+    years_in_business: 11
+    audit_score:
+      value: 89.0
+      age_months: 9
+      passed: True
+    moq: 210
+    country_of_origin: BR
+    incoterm: FOB
+    source_url: https://example.com/cand-025
+  reasons:
+    - MOQ 210 > Max-Menge 200
+  evidence:
+    - [1]
+            type: supplier_database
+            source: supplier_database
+            field: moq
+            value: 210
+            timestamp: 2026-04-18 11:35:51.755369
+            confidence: 0.85
+            url: None
+            notes: MOQ überschreitet User-Maximum von 200
+
+==========================================================================================
+5) Consolidation (optional)
+==========================================================================================
+None (kein bom_context uebergeben)
+
+==========================================================================================
+6) Raw Dataclass Repr (Debug)
+==========================================================================================
+ScoringResult repr:
+ScoringResult(original=CrawledMaterial(id='orig-001', name='Sucrose Pharma Grade', properties={'sweetness_index': MaterialProperty(value=1.0, unit='rel_sucrose'), 'glycemic_index': MaterialProperty(value=65.0, unit='GI'), 'moisture': MaterialProperty(value=0.05, unit='%'), 'bulk_density': MaterialProperty(value=0.85, unit='g/mL'), 'particle_size': MaterialProperty(value=450.0, unit='um'), 'purity': MaterialProperty(value=99.8, unit='%')}, certifications=['ISO9001', 'HACCP', 'GMP'], price=PriceInfo(value=3.2, unit='EUR/kg', tiers=None), lead_time=LeadTimeInfo(days=10, reliability=0.95, type='stock'), quality=QualityInfo(supplier_rating={'value': 4.6, 'review_count': 310}, defect_rate={'value': 0.6, 'sample_size': 2200}, on_time_delivery={'value': 97.0, 'sample_size': 140}, years_in_business=16, audit_score={'value': 95.0, 'age_months': 5, 'passed': True}), moq=120, country_of_origin='DE', incoterm='DDP', source_url='https://example.com/orig-001'), top_candidates=[ScoredCandidate(kandidat=CrawledMaterial(id='cand-003', name='Fructose Crystalline', properties={'sweetness_index': MaterialProperty(value=1.3, unit='rel_sucrose'), 'glycemic_index': MaterialProperty(value=20.0, unit='GI'), 'moisture': MaterialProperty(value=0.2, unit='%'), 'bulk_density': MaterialProperty(value=0.78, unit='g/mL'), 'particle_size': MaterialProperty(value=410.0, unit='um'), 'purity': MaterialProperty(value=99.0, unit='%')}, certifications=['ISO9001', 'HACCP', 'GMP', 'REACH'], price=PriceInfo(value=2.9, unit='EUR/kg', tiers=None), lead_time=LeadTimeInfo(days=9, reliability=0.94, type='stock'), quality=QualityInfo(supplier_rating={'value': 4.5, 'review_count': 265}, defect_rate={'value': 0.7, 'sample_size': 1600}, on_time_delivery={'value': 96.0, 'sample_size': 125}, years_in_business=11, audit_score={'value': 94.0, 'age_months': 6, 'passed': True}), moq=110, country_of_origin='DE', incoterm='DDP', source_url='https://example.com/cand-003'), scores={'spec': 0.8024, 'compliance': 1.0, 'price': 1.0, 'lead_time': 0.94, 'quality': 0.923}, composite_score=0.9043, confidences={'spec': 0.76, 'compliance': 0.591, 'price': 0.85, 'lead_time': 0.833, 'quality': 0.9}, overall_confidence=0.753, evidence_trails={'spec': EvidenceTrail(dimension='spec_similarity', evidences=[Evidence(type=<EvidenceType.EXTERNAL_API: 'external_api'>, source='openai://embeddings', field='semantic_embedding', value={'text_hash': '4e1bdcd690f75984e1b3189a709542316f9fd4d215cd6cb348285120d66978ee', 'model': 'text-embedding-3-small'}, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 36604), confidence=0.6, url='openai://embeddings', notes='Semantic embedding for original material'), Evidence(type=<EvidenceType.EXTERNAL_API: 'external_api'>, source='openai://embeddings', field='semantic_embedding', value={'text_hash': '83dd5b56440e51b763a96ae2367721af7aff8a4ecd3883c5540b64eae807e4e1', 'model': 'text-embedding-3-small'}, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 36654), confidence=0.6, url='openai://embeddings', notes='Semantic embedding for candidate material')], overall_confidence=0.6, data_completeness=1.0, data_freshness='current'), 'compliance': EvidenceTrail(dimension='compliance', evidences=[Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-003', field='certification', value='GMP', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 36830), confidence=0.7, url='https://example.com/cand-003', notes='GMP: Selbstdeklaration des Lieferanten'), Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-003', field='certification', value='HACCP', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 36843), confidence=0.7, url='https://example.com/cand-003', notes='HACCP: Selbstdeklaration des Lieferanten'), Evidence(type=<EvidenceType.CERTIFICATION_DB: 'certification_db'>, source='iso.org/certcheck', field='certification', value='ISO9001', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 36865), confidence=0.95, url='iso.org/certcheck', notes='ISO9001 aus offizieller Datenbank'), Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-003', field='certification', value='REACH', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 36876), confidence=0.7, url='https://example.com/cand-003', notes='REACH: Selbstdeklaration des Lieferanten')], overall_confidence=0.762, data_completeness=1.0, data_freshness='current'), 'price': EvidenceTrail(dimension='price_delta', evidences=[Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/orig-001', field='price', value=3.2, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 36930), confidence=0.85, url='https://example.com/orig-001', notes='Original-Material Basispreis'), Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-003', field='price', value=2.9, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 36940), confidence=0.85, url='https://example.com/cand-003', notes=None)], overall_confidence=0.85, data_completeness=0.667, data_freshness='current'), 'lead_time': EvidenceTrail(dimension='lead_time', evidences=[Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-003', field='lead_time', value=9, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 37000), confidence=0.85, url='https://example.com/cand-003', notes='Lieferzeit stock'), Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='reliability', value=0.94, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 37016), confidence=0.8, url=None, notes='Pünktlichkeitsrate aus historischen Daten'), Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-003', field='stock', value=True, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 37035), confidence=0.85, url='https://example.com/cand-003', notes='Material auf Lager verfügbar')], overall_confidence=0.833, data_completeness=1.0, data_freshness='current'), 'quality': EvidenceTrail(dimension='quality_signals', evidences=[Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-003', field='supplier_rating', value=4.5, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 37092), confidence=0.7, url='https://example.com/cand-003', notes='265 Bewertungen'), Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='defect_rate', value=0.7, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 37130), confidence=0.8, url=None, notes='Defektrate 0.7% bei n=1600'), Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='on_time_delivery', value=96.0, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 37150), confidence=0.8, url=None, notes='Pünktlichkeit 96.0%'), Evidence(type=<EvidenceType.CERTIFICATION_DB: 'certification_db'>, source='certification_db', field='audit_score', value=94.0, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 37171), confidence=0.482, url=None, notes='Audit-Score 94.0/100 (6M alt)'), Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-003', field='years_in_business', value=11, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 37187), confidence=0.85, url='https://example.com/cand-003', notes=None), Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='sample_test', value=True, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 37201), confidence=0.8, url=None, notes=None)], overall_confidence=0.739, data_completeness=1.0, data_freshness='current')}, uncertainty_report=UncertaintyReport(overall_level=<UncertaintyLevel.MEDIUM: 'medium'>, overall_confidence=0.715, dimension_confidence={'spec': 0.6, 'compliance': 0.762, 'price': 0.85, 'lead_time': 0.833, 'quality': 0.739}, dimension_uncertainty={'spec': <UncertaintyLevel.MEDIUM: 'medium'>, 'compliance': <UncertaintyLevel.LOW: 'low'>, 'price': <UncertaintyLevel.LOW: 'low'>, 'lead_time': <UncertaintyLevel.LOW: 'low'>, 'quality': <UncertaintyLevel.MEDIUM: 'medium'>}, uncertainty_reasons=[], data_gaps=[], verification_suggestions=[], should_warn_user=False, warning_message=None), rank=1, explanation=Explanation(summary='Exzellente Alternative (hohe Sicherheit)', recommendation='Empfohlen', confidence_statement='Gute Datenbasis: Die meisten Daten sind verifiziert.', strengths=[StrengthItem(text='Technische Eigenschaften stimmen sehr gut überein', evidence='semantic_embedding aus openai://embeddings (Confidence: 60%)', confidence=0.6), StrengthItem(text='Alle relevanten Zertifikate vorhanden', evidence='certification aus https://example.com/cand-003 (Confidence: 70%)', confidence=0.762), StrengthItem(text='Preis deutlich günstiger als das Original', evidence='price aus https://example.com/orig-001 (Confidence: 85%)', confidence=0.85), StrengthItem(text='Lieferzeit vergleichbar oder besser', evidence='lead_time aus https://example.com/cand-003 (Confidence: 85%)', confidence=0.833), StrengthItem(text='Hohe Lieferantenqualität nachgewiesen', evidence='supplier_rating aus https://example.com/cand-003 (Confidence: 70%)', confidence=0.739)], weaknesses=[], risks=[], score_breakdown={'spec': '80%', 'compliance': '100%', 'price': '100%', 'lead_time': '94%', 'quality': '92%'}, evidence_summary=['spec: semantic_embedding aus openai://embeddings', 'spec: semantic_embedding aus openai://embeddings', 'compliance: certification aus https://example.com/cand-003', 'compliance: certification aus https://example.com/cand-003', 'price: price aus https://example.com/orig-001', 'price: price aus https://example.com/cand-003', 'lead_time: lead_time aus https://example.com/cand-003', 'lead_time: reliability aus historical', 'quality: supplier_rating aus https://example.com/cand-003', 'quality: defect_rate aus historical'], uncertainty_warning=None, verification_needed=[]), details={'spec': SpecSimilarityResult(score=0.8024, confidence=0.76, evidence_trail=EvidenceTrail(dimension='spec_similarity', evidences=[Evidence(type=<EvidenceType.EXTERNAL_API: 'external_api'>, source='openai://embeddings', field='semantic_embedding', value={'text_hash': '4e1bdcd690f75984e1b3189a709542316f9fd4d215cd6cb348285120d66978ee', 'model': 'text-embedding-3-small'}, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 36604), confidence=0.6, url='openai://embeddings', notes='Semantic embedding for original material'), Evidence(type=<EvidenceType.EXTERNAL_API: 'external_api'>, source='openai://embeddings', field='semantic_embedding', value={'text_hash': '83dd5b56440e51b763a96ae2367721af7aff8a4ecd3883c5540b64eae807e4e1', 'model': 'text-embedding-3-small'}, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 36654), confidence=0.6, url='openai://embeddings', notes='Semantic embedding for candidate material')], overall_confidence=0.6, data_completeness=1.0, data_freshness='current'), common_props=['bulk_density', 'glycemic_index', 'moisture', 'particle_size', 'purity', 'sweetness_index'], missing_in_kandidat=[], extra_in_kandidat=[], details={'semantic': SemanticComparison(original_text_hash='4e1bdcd690f75984e1b3189a709542316f9fd4d215cd6cb348285120d66978ee', kandidat_text_hash='83dd5b56440e51b763a96ae2367721af7aff8a4ecd3883c5540b64eae807e4e1', original_text_length=556, kandidat_text_length=533, original_text_preview='name: Sucrose Pharma Grade\ncategory: sweetener / sugar ingredient\nsynonyms: haushaltszucker, saccharose, table sugar\nfunction: metabolic response relevance, processing and solubility behavior, quality and standardization', kandidat_text_preview='name: Fructose Crystalline\ncategory: sweetener / sugar ingredient\nsynonyms: fruchtzucker\nfunction: metabolic response relevance, processing and solubility behavior, quality and standardization, sweetening intensity\nprope', original_embedding_cached=True, kandidat_embedding_cached=False, original_evidence=Evidence(type=<EvidenceType.EXTERNAL_API: 'external_api'>, source='openai://embeddings', field='semantic_embedding', value={'text_hash': '4e1bdcd690f75984e1b3189a709542316f9fd4d215cd6cb348285120d66978ee', 'model': 'text-embedding-3-small'}, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 36604), confidence=0.6, url='openai://embeddings', notes='Semantic embedding for original material'), kandidat_evidence=Evidence(type=<EvidenceType.EXTERNAL_API: 'external_api'>, source='openai://embeddings', field='semantic_embedding', value={'text_hash': '83dd5b56440e51b763a96ae2367721af7aff8a4ecd3883c5540b64eae807e4e1', 'model': 'text-embedding-3-small'}, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 36654), confidence=0.6, url='openai://embeddings', notes='Semantic embedding for candidate material'))}), 'compliance': ComplianceResult(score=1.0, confidence=0.591, evidence_trail=EvidenceTrail(dimension='compliance', evidences=[Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-003', field='certification', value='GMP', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 36830), confidence=0.7, url='https://example.com/cand-003', notes='GMP: Selbstdeklaration des Lieferanten'), Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-003', field='certification', value='HACCP', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 36843), confidence=0.7, url='https://example.com/cand-003', notes='HACCP: Selbstdeklaration des Lieferanten'), Evidence(type=<EvidenceType.CERTIFICATION_DB: 'certification_db'>, source='iso.org/certcheck', field='certification', value='ISO9001', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 36865), confidence=0.95, url='iso.org/certcheck', notes='ISO9001 aus offizieller Datenbank'), Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-003', field='certification', value='REACH', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 36876), confidence=0.7, url='https://example.com/cand-003', notes='REACH: Selbstdeklaration des Lieferanten')], overall_confidence=0.762, data_completeness=1.0, data_freshness='current'), matched=['GMP', 'HACCP', 'ISO9001'], missing=[], extra=['REACH'], coverage='full', certification_evidence={'GMP': Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-003', field='certification', value='GMP', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 36830), confidence=0.7, url='https://example.com/cand-003', notes='GMP: Selbstdeklaration des Lieferanten'), 'HACCP': Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-003', field='certification', value='HACCP', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 36843), confidence=0.7, url='https://example.com/cand-003', notes='HACCP: Selbstdeklaration des Lieferanten'), 'ISO9001': Evidence(type=<EvidenceType.CERTIFICATION_DB: 'certification_db'>, source='iso.org/certcheck', field='certification', value='ISO9001', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 36865), confidence=0.95, url='iso.org/certcheck', notes='ISO9001 aus offizieller Datenbank'), 'REACH': Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-003', field='certification', value='REACH', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 36876), confidence=0.7, url='https://example.com/cand-003', notes='REACH: Selbstdeklaration des Lieferanten')}, verified_certs=['ISO9001'], claimed_only_certs=['GMP', 'HACCP', 'REACH']), 'price': PriceDeltaResult(score=1.0, confidence=0.85, evidence_trail=EvidenceTrail(dimension='price_delta', evidences=[Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/orig-001', field='price', value=3.2, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 36930), confidence=0.85, url='https://example.com/orig-001', notes='Original-Material Basispreis'), Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-003', field='price', value=2.9, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 36940), confidence=0.85, url='https://example.com/cand-003', notes=None)], overall_confidence=0.85, data_completeness=0.667, data_freshness='current'), delta_percent=-9.38, delta_absolute=-0.3, direction='cheaper', original_price=3.2, kandidat_price=2.9, unit='EUR/kg', adjustments=[]), 'lead_time': LeadTimeResult(score=0.94, confidence=0.833, evidence_trail=EvidenceTrail(dimension='lead_time', evidences=[Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-003', field='lead_time', value=9, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 37000), confidence=0.85, url='https://example.com/cand-003', notes='Lieferzeit stock'), Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='reliability', value=0.94, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 37016), confidence=0.8, url=None, notes='Pünktlichkeitsrate aus historischen Daten'), Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-003', field='stock', value=True, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 37035), confidence=0.85, url='https://example.com/cand-003', notes='Material auf Lager verfügbar')], overall_confidence=0.833, data_completeness=1.0, data_freshness='current'), base_score=1.0, days_original=10, days_kandidat=3, days_difference=-7, direction='faster', percent_change=-70.0, reliability_original=0.95, reliability_kandidat=0.94, risk_level='low', tolerance_applied=False, lead_time_evidence=Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-003', field='lead_time', value=9, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 37000), confidence=0.85, url='https://example.com/cand-003', notes='Lieferzeit stock'), reliability_evidence=Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='reliability', value=0.94, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 37016), confidence=0.8, url=None, notes='Pünktlichkeitsrate aus historischen Daten'), stock_evidence=Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-003', field='stock', value=True, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 37035), confidence=0.85, url='https://example.com/cand-003', notes='Material auf Lager verfügbar')), 'quality': QualitySignalsResult(score=0.923, confidence=0.9, evidence_trail=EvidenceTrail(dimension='quality_signals', evidences=[Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-003', field='supplier_rating', value=4.5, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 37092), confidence=0.7, url='https://example.com/cand-003', notes='265 Bewertungen'), Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='defect_rate', value=0.7, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 37130), confidence=0.8, url=None, notes='Defektrate 0.7% bei n=1600'), Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='on_time_delivery', value=96.0, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 37150), confidence=0.8, url=None, notes='Pünktlichkeit 96.0%'), Evidence(type=<EvidenceType.CERTIFICATION_DB: 'certification_db'>, source='certification_db', field='audit_score', value=94.0, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 37171), confidence=0.482, url=None, notes='Audit-Score 94.0/100 (6M alt)'), Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-003', field='years_in_business', value=11, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 37187), confidence=0.85, url='https://example.com/cand-003', notes=None), Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='sample_test', value=True, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 37201), confidence=0.8, url=None, notes=None)], overall_confidence=0.739, data_completeness=1.0, data_freshness='current'), signals={'supplier_rating': SignalResult(score=0.9, weight_used=0.25, confidence=0.85, notes='Rating 4.5/5 (265 Reviews)', evidence=Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-003', field='supplier_rating', value=4.5, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 37092), confidence=0.7, url='https://example.com/cand-003', notes='265 Bewertungen')), 'defect_rate': SignalResult(score=0.86, weight_used=0.25, confidence=0.9, notes='Defektrate 0.7% (n=1600)', evidence=Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='defect_rate', value=0.7, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 37130), confidence=0.8, url=None, notes='Defektrate 0.7% bei n=1600')), 'on_time_delivery': SignalResult(score=0.96, weight_used=0.2, confidence=0.85, notes='Pünktlich: 96.0%', evidence=Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='on_time_delivery', value=96.0, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 37150), confidence=0.8, url=None, notes='Pünktlichkeit 96.0%')), 'audit_score': SignalResult(score=0.94, weight_used=0.15, confidence=0.95, notes='Audit 94.0/100 (6M)', evidence=Evidence(type=<EvidenceType.CERTIFICATION_DB: 'certification_db'>, source='certification_db', field='audit_score', value=94.0, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 37171), confidence=0.482, url=None, notes='Audit-Score 94.0/100 (6M alt)')), 'years_in_business': SignalResult(score=1.0, weight_used=0.1, confidence=1.0, notes='11 Jahre im Geschäft', evidence=Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-003', field='years_in_business', value=11, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 37187), confidence=0.85, url='https://example.com/cand-003', notes=None)), 'sample_test': SignalResult(score=1.0, weight_used=0.05, confidence=1.0, notes='Sample-Test bestanden', evidence=Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='sample_test', value=True, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 37201), confidence=0.8, url=None, notes=None))}, overall_confidence=0.9, missing_signals=[], risk_factors=[])}), ScoredCandidate(kandidat=CrawledMaterial(id='cand-004', name='Cane Sugar Fine', properties={'sweetness_index': MaterialProperty(value=1.0, unit='rel_sucrose'), 'glycemic_index': MaterialProperty(value=64.0, unit='GI'), 'moisture': MaterialProperty(value=0.06, unit='%'), 'bulk_density': MaterialProperty(value=0.86, unit='g/mL'), 'particle_size': MaterialProperty(value=500.0, unit='um'), 'purity': MaterialProperty(value=99.7, unit='%')}, certifications=['ISO9001', 'HACCP', 'GMP'], price=PriceInfo(value=3.05, unit='EUR/kg', tiers=None), lead_time=LeadTimeInfo(days=10, reliability=0.95, type='stock'), quality=QualityInfo(supplier_rating={'value': 4.7, 'review_count': 320}, defect_rate={'value': 0.5, 'sample_size': 2400}, on_time_delivery={'value': 97.0, 'sample_size': 150}, years_in_business=18, audit_score={'value': 96.0, 'age_months': 4, 'passed': True}), moq=130, country_of_origin='DE', incoterm='DDP', source_url='https://example.com/cand-004'), scores={'spec': 0.7829, 'compliance': 1.0, 'price': 1.0, 'lead_time': 0.95, 'quality': 0.948}, composite_score=0.9023, confidences={'spec': 0.75, 'compliance': 0.626, 'price': 0.85, 'lead_time': 0.833, 'quality': 0.9}, overall_confidence=0.757, evidence_trails={'spec': EvidenceTrail(dimension='spec_similarity', evidences=[Evidence(type=<EvidenceType.EXTERNAL_API: 'external_api'>, source='openai://embeddings', field='semantic_embedding', value={'text_hash': '4e1bdcd690f75984e1b3189a709542316f9fd4d215cd6cb348285120d66978ee', 'model': 'text-embedding-3-small'}, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382192), confidence=0.6, url='openai://embeddings', notes='Semantic embedding for original material'), Evidence(type=<EvidenceType.EXTERNAL_API: 'external_api'>, source='openai://embeddings', field='semantic_embedding', value={'text_hash': 'dcf13a83c3f285b0ad22691744beda8a0fe6d7a6b36ae25a67b72bc090b717e3', 'model': 'text-embedding-3-small'}, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382244), confidence=0.6, url='openai://embeddings', notes='Semantic embedding for candidate material')], overall_confidence=0.6, data_completeness=1.0, data_freshness='current'), 'compliance': EvidenceTrail(dimension='compliance', evidences=[Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-004', field='certification', value='GMP', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382427), confidence=0.7, url='https://example.com/cand-004', notes='GMP: Selbstdeklaration des Lieferanten'), Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-004', field='certification', value='HACCP', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382441), confidence=0.7, url='https://example.com/cand-004', notes='HACCP: Selbstdeklaration des Lieferanten'), Evidence(type=<EvidenceType.CERTIFICATION_DB: 'certification_db'>, source='iso.org/certcheck', field='certification', value='ISO9001', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382455), confidence=0.95, url='iso.org/certcheck', notes='ISO9001 aus offizieller Datenbank')], overall_confidence=0.783, data_completeness=1.0, data_freshness='current'), 'price': EvidenceTrail(dimension='price_delta', evidences=[Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/orig-001', field='price', value=3.2, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382517), confidence=0.85, url='https://example.com/orig-001', notes='Original-Material Basispreis'), Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-004', field='price', value=3.05, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382527), confidence=0.85, url='https://example.com/cand-004', notes=None)], overall_confidence=0.85, data_completeness=0.667, data_freshness='current'), 'lead_time': EvidenceTrail(dimension='lead_time', evidences=[Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-004', field='lead_time', value=10, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382587), confidence=0.85, url='https://example.com/cand-004', notes='Lieferzeit stock'), Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='reliability', value=0.95, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382604), confidence=0.8, url=None, notes='Pünktlichkeitsrate aus historischen Daten'), Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-004', field='stock', value=True, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382616), confidence=0.85, url='https://example.com/cand-004', notes='Material auf Lager verfügbar')], overall_confidence=0.833, data_completeness=1.0, data_freshness='current'), 'quality': EvidenceTrail(dimension='quality_signals', evidences=[Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-004', field='supplier_rating', value=4.7, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382671), confidence=0.7, url='https://example.com/cand-004', notes='320 Bewertungen'), Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='defect_rate', value=0.5, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382703), confidence=0.8, url=None, notes='Defektrate 0.5% bei n=2400'), Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='on_time_delivery', value=97.0, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382724), confidence=0.8, url=None, notes='Pünktlichkeit 97.0%'), Evidence(type=<EvidenceType.CERTIFICATION_DB: 'certification_db'>, source='certification_db', field='audit_score', value=96.0, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382743), confidence=0.638, url=None, notes='Audit-Score 96.0/100 (4M alt)'), Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-004', field='years_in_business', value=18, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382829), confidence=0.85, url='https://example.com/cand-004', notes=None), Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='sample_test', value=True, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382891), confidence=0.8, url=None, notes=None)], overall_confidence=0.765, data_completeness=1.0, data_freshness='current')}, uncertainty_report=UncertaintyReport(overall_level=<UncertaintyLevel.MEDIUM: 'medium'>, overall_confidence=0.723, dimension_confidence={'spec': 0.6, 'compliance': 0.783, 'price': 0.85, 'lead_time': 0.833, 'quality': 0.765}, dimension_uncertainty={'spec': <UncertaintyLevel.MEDIUM: 'medium'>, 'compliance': <UncertaintyLevel.LOW: 'low'>, 'price': <UncertaintyLevel.LOW: 'low'>, 'lead_time': <UncertaintyLevel.LOW: 'low'>, 'quality': <UncertaintyLevel.LOW: 'low'>}, uncertainty_reasons=[], data_gaps=[], verification_suggestions=[], should_warn_user=False, warning_message=None), rank=2, explanation=Explanation(summary='Exzellente Alternative (hohe Sicherheit)', recommendation='Empfohlen', confidence_statement='Gute Datenbasis: Die meisten Daten sind verifiziert.', strengths=[StrengthItem(text='Alle relevanten Zertifikate vorhanden', evidence='certification aus https://example.com/cand-004 (Confidence: 70%)', confidence=0.783), StrengthItem(text='Preis deutlich günstiger als das Original', evidence='price aus https://example.com/orig-001 (Confidence: 85%)', confidence=0.85), StrengthItem(text='Lieferzeit vergleichbar oder besser', evidence='lead_time aus https://example.com/cand-004 (Confidence: 85%)', confidence=0.833), StrengthItem(text='Hohe Lieferantenqualität nachgewiesen', evidence='supplier_rating aus https://example.com/cand-004 (Confidence: 70%)', confidence=0.765)], weaknesses=[], risks=[], score_breakdown={'spec': '78%', 'compliance': '100%', 'price': '100%', 'lead_time': '95%', 'quality': '95%'}, evidence_summary=['spec: semantic_embedding aus openai://embeddings', 'spec: semantic_embedding aus openai://embeddings', 'compliance: certification aus https://example.com/cand-004', 'compliance: certification aus https://example.com/cand-004', 'price: price aus https://example.com/orig-001', 'price: price aus https://example.com/cand-004', 'lead_time: lead_time aus https://example.com/cand-004', 'lead_time: reliability aus historical', 'quality: supplier_rating aus https://example.com/cand-004', 'quality: defect_rate aus historical'], uncertainty_warning=None, verification_needed=[]), details={'spec': SpecSimilarityResult(score=0.7829, confidence=0.75, evidence_trail=EvidenceTrail(dimension='spec_similarity', evidences=[Evidence(type=<EvidenceType.EXTERNAL_API: 'external_api'>, source='openai://embeddings', field='semantic_embedding', value={'text_hash': '4e1bdcd690f75984e1b3189a709542316f9fd4d215cd6cb348285120d66978ee', 'model': 'text-embedding-3-small'}, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382192), confidence=0.6, url='openai://embeddings', notes='Semantic embedding for original material'), Evidence(type=<EvidenceType.EXTERNAL_API: 'external_api'>, source='openai://embeddings', field='semantic_embedding', value={'text_hash': 'dcf13a83c3f285b0ad22691744beda8a0fe6d7a6b36ae25a67b72bc090b717e3', 'model': 'text-embedding-3-small'}, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382244), confidence=0.6, url='openai://embeddings', notes='Semantic embedding for candidate material')], overall_confidence=0.6, data_completeness=1.0, data_freshness='current'), common_props=['bulk_density', 'glycemic_index', 'moisture', 'particle_size', 'purity', 'sweetness_index'], missing_in_kandidat=[], extra_in_kandidat=[], details={'semantic': SemanticComparison(original_text_hash='4e1bdcd690f75984e1b3189a709542316f9fd4d215cd6cb348285120d66978ee', kandidat_text_hash='dcf13a83c3f285b0ad22691744beda8a0fe6d7a6b36ae25a67b72bc090b717e3', original_text_length=556, kandidat_text_length=522, original_text_preview='name: Sucrose Pharma Grade\ncategory: sweetener / sugar ingredient\nsynonyms: haushaltszucker, saccharose, table sugar\nfunction: metabolic response relevance, processing and solubility behavior, quality and standardization', kandidat_text_preview='name: Cane Sugar Fine\ncategory: sweetener / sugar ingredient\nsynonyms: none\nfunction: metabolic response relevance, processing and solubility behavior, quality and standardization, sweetener, sweetening intensity\npropert', original_embedding_cached=True, kandidat_embedding_cached=False, original_evidence=Evidence(type=<EvidenceType.EXTERNAL_API: 'external_api'>, source='openai://embeddings', field='semantic_embedding', value={'text_hash': '4e1bdcd690f75984e1b3189a709542316f9fd4d215cd6cb348285120d66978ee', 'model': 'text-embedding-3-small'}, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382192), confidence=0.6, url='openai://embeddings', notes='Semantic embedding for original material'), kandidat_evidence=Evidence(type=<EvidenceType.EXTERNAL_API: 'external_api'>, source='openai://embeddings', field='semantic_embedding', value={'text_hash': 'dcf13a83c3f285b0ad22691744beda8a0fe6d7a6b36ae25a67b72bc090b717e3', 'model': 'text-embedding-3-small'}, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382244), confidence=0.6, url='openai://embeddings', notes='Semantic embedding for candidate material'))}), 'compliance': ComplianceResult(score=1.0, confidence=0.626, evidence_trail=EvidenceTrail(dimension='compliance', evidences=[Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-004', field='certification', value='GMP', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382427), confidence=0.7, url='https://example.com/cand-004', notes='GMP: Selbstdeklaration des Lieferanten'), Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-004', field='certification', value='HACCP', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382441), confidence=0.7, url='https://example.com/cand-004', notes='HACCP: Selbstdeklaration des Lieferanten'), Evidence(type=<EvidenceType.CERTIFICATION_DB: 'certification_db'>, source='iso.org/certcheck', field='certification', value='ISO9001', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382455), confidence=0.95, url='iso.org/certcheck', notes='ISO9001 aus offizieller Datenbank')], overall_confidence=0.783, data_completeness=1.0, data_freshness='current'), matched=['GMP', 'HACCP', 'ISO9001'], missing=[], extra=[], coverage='full', certification_evidence={'GMP': Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-004', field='certification', value='GMP', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382427), confidence=0.7, url='https://example.com/cand-004', notes='GMP: Selbstdeklaration des Lieferanten'), 'HACCP': Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-004', field='certification', value='HACCP', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382441), confidence=0.7, url='https://example.com/cand-004', notes='HACCP: Selbstdeklaration des Lieferanten'), 'ISO9001': Evidence(type=<EvidenceType.CERTIFICATION_DB: 'certification_db'>, source='iso.org/certcheck', field='certification', value='ISO9001', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382455), confidence=0.95, url='iso.org/certcheck', notes='ISO9001 aus offizieller Datenbank')}, verified_certs=['ISO9001'], claimed_only_certs=['GMP', 'HACCP']), 'price': PriceDeltaResult(score=1.0, confidence=0.85, evidence_trail=EvidenceTrail(dimension='price_delta', evidences=[Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/orig-001', field='price', value=3.2, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382517), confidence=0.85, url='https://example.com/orig-001', notes='Original-Material Basispreis'), Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-004', field='price', value=3.05, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382527), confidence=0.85, url='https://example.com/cand-004', notes=None)], overall_confidence=0.85, data_completeness=0.667, data_freshness='current'), delta_percent=-4.69, delta_absolute=-0.15, direction='cheaper', original_price=3.2, kandidat_price=3.05, unit='EUR/kg', adjustments=[]), 'lead_time': LeadTimeResult(score=0.95, confidence=0.833, evidence_trail=EvidenceTrail(dimension='lead_time', evidences=[Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-004', field='lead_time', value=10, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382587), confidence=0.85, url='https://example.com/cand-004', notes='Lieferzeit stock'), Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='reliability', value=0.95, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382604), confidence=0.8, url=None, notes='Pünktlichkeitsrate aus historischen Daten'), Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-004', field='stock', value=True, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382616), confidence=0.85, url='https://example.com/cand-004', notes='Material auf Lager verfügbar')], overall_confidence=0.833, data_completeness=1.0, data_freshness='current'), base_score=1.0, days_original=10, days_kandidat=3, days_difference=-7, direction='faster', percent_change=-70.0, reliability_original=0.95, reliability_kandidat=0.95, risk_level='low', tolerance_applied=False, lead_time_evidence=Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-004', field='lead_time', value=10, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382587), confidence=0.85, url='https://example.com/cand-004', notes='Lieferzeit stock'), reliability_evidence=Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='reliability', value=0.95, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382604), confidence=0.8, url=None, notes='Pünktlichkeitsrate aus historischen Daten'), stock_evidence=Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-004', field='stock', value=True, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382616), confidence=0.85, url='https://example.com/cand-004', notes='Material auf Lager verfügbar')), 'quality': QualitySignalsResult(score=0.948, confidence=0.9, evidence_trail=EvidenceTrail(dimension='quality_signals', evidences=[Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-004', field='supplier_rating', value=4.7, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382671), confidence=0.7, url='https://example.com/cand-004', notes='320 Bewertungen'), Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='defect_rate', value=0.5, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382703), confidence=0.8, url=None, notes='Defektrate 0.5% bei n=2400'), Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='on_time_delivery', value=97.0, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382724), confidence=0.8, url=None, notes='Pünktlichkeit 97.0%'), Evidence(type=<EvidenceType.CERTIFICATION_DB: 'certification_db'>, source='certification_db', field='audit_score', value=96.0, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382743), confidence=0.638, url=None, notes='Audit-Score 96.0/100 (4M alt)'), Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-004', field='years_in_business', value=18, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382829), confidence=0.85, url='https://example.com/cand-004', notes=None), Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='sample_test', value=True, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382891), confidence=0.8, url=None, notes=None)], overall_confidence=0.765, data_completeness=1.0, data_freshness='current'), signals={'supplier_rating': SignalResult(score=0.9400000000000001, weight_used=0.25, confidence=0.85, notes='Rating 4.7/5 (320 Reviews)', evidence=Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-004', field='supplier_rating', value=4.7, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382671), confidence=0.7, url='https://example.com/cand-004', notes='320 Bewertungen')), 'defect_rate': SignalResult(score=0.9, weight_used=0.25, confidence=0.9, notes='Defektrate 0.5% (n=2400)', evidence=Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='defect_rate', value=0.5, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382703), confidence=0.8, url=None, notes='Defektrate 0.5% bei n=2400')), 'on_time_delivery': SignalResult(score=0.97, weight_used=0.2, confidence=0.85, notes='Pünktlich: 97.0%', evidence=Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='on_time_delivery', value=97.0, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382724), confidence=0.8, url=None, notes='Pünktlichkeit 97.0%')), 'audit_score': SignalResult(score=0.96, weight_used=0.15, confidence=0.95, notes='Audit 96.0/100 (4M)', evidence=Evidence(type=<EvidenceType.CERTIFICATION_DB: 'certification_db'>, source='certification_db', field='audit_score', value=96.0, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382743), confidence=0.638, url=None, notes='Audit-Score 96.0/100 (4M alt)')), 'years_in_business': SignalResult(score=1.0, weight_used=0.1, confidence=1.0, notes='18 Jahre im Geschäft', evidence=Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-004', field='years_in_business', value=18, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382829), confidence=0.85, url='https://example.com/cand-004', notes=None)), 'sample_test': SignalResult(score=1.0, weight_used=0.05, confidence=1.0, notes='Sample-Test bestanden', evidence=Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='sample_test', value=True, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 56, 382891), confidence=0.8, url=None, notes=None))}, overall_confidence=0.9, missing_signals=[], risk_factors=[])}), ScoredCandidate(kandidat=CrawledMaterial(id='cand-002', name='Dextrose Anhydrous', properties={'sweetness_index': MaterialProperty(value=0.74, unit='rel_sucrose'), 'glycemic_index': MaterialProperty(value=100.0, unit='GI'), 'moisture': MaterialProperty(value=0.3, unit='%'), 'bulk_density': MaterialProperty(value=0.64, unit='g/mL'), 'particle_size': MaterialProperty(value=320.0, unit='um'), 'purity': MaterialProperty(value=99.5, unit='%')}, certifications=['ISO9001', 'HACCP', 'GMP'], price=PriceInfo(value=2.35, unit='EUR/kg', tiers=None), lead_time=LeadTimeInfo(days=11, reliability=0.93, type='standard'), quality=QualityInfo(supplier_rating={'value': 4.4, 'review_count': 240}, defect_rate={'value': 0.8, 'sample_size': 1700}, on_time_delivery={'value': 95.0, 'sample_size': 130}, years_in_business=12, audit_score={'value': 93.0, 'age_months': 7, 'passed': True}), moq=140, country_of_origin='NL', incoterm='DDP', source_url='https://example.com/cand-002'), scores={'spec': 0.7774, 'compliance': 1.0, 'price': 1.0, 'lead_time': 0.93, 'quality': 0.9095}, composite_score=0.8927, confidences={'spec': 0.76, 'compliance': 0.626, 'price': 0.85, 'lead_time': 0.825, 'quality': 0.9}, overall_confidence=0.761, evidence_trails={'spec': EvidenceTrail(dimension='spec_similarity', evidences=[Evidence(type=<EvidenceType.EXTERNAL_API: 'external_api'>, source='openai://embeddings', field='semantic_embedding', value={'text_hash': '4e1bdcd690f75984e1b3189a709542316f9fd4d215cd6cb348285120d66978ee', 'model': 'text-embedding-3-small'}, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8313), confidence=0.6, url='openai://embeddings', notes='Semantic embedding for original material'), Evidence(type=<EvidenceType.EXTERNAL_API: 'external_api'>, source='openai://embeddings', field='semantic_embedding', value={'text_hash': 'c00bae9d1801f571e9d9cda244235d6e0cb3d248a58b147d2864d65dbcd02606', 'model': 'text-embedding-3-small'}, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8365), confidence=0.6, url='openai://embeddings', notes='Semantic embedding for candidate material')], overall_confidence=0.6, data_completeness=1.0, data_freshness='current'), 'compliance': EvidenceTrail(dimension='compliance', evidences=[Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-002', field='certification', value='GMP', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8549), confidence=0.7, url='https://example.com/cand-002', notes='GMP: Selbstdeklaration des Lieferanten'), Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-002', field='certification', value='HACCP', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8564), confidence=0.7, url='https://example.com/cand-002', notes='HACCP: Selbstdeklaration des Lieferanten'), Evidence(type=<EvidenceType.CERTIFICATION_DB: 'certification_db'>, source='iso.org/certcheck', field='certification', value='ISO9001', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8576), confidence=0.95, url='iso.org/certcheck', notes='ISO9001 aus offizieller Datenbank')], overall_confidence=0.783, data_completeness=1.0, data_freshness='current'), 'price': EvidenceTrail(dimension='price_delta', evidences=[Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/orig-001', field='price', value=3.2, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8626), confidence=0.85, url='https://example.com/orig-001', notes='Original-Material Basispreis'), Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-002', field='price', value=2.35, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8636), confidence=0.85, url='https://example.com/cand-002', notes=None)], overall_confidence=0.85, data_completeness=0.667, data_freshness='current'), 'lead_time': EvidenceTrail(dimension='lead_time', evidences=[Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-002', field='lead_time', value=11, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8693), confidence=0.85, url='https://example.com/cand-002', notes='Lieferzeit standard'), Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='reliability', value=0.93, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8709), confidence=0.8, url=None, notes='Pünktlichkeitsrate aus historischen Daten')], overall_confidence=0.825, data_completeness=0.667, data_freshness='current'), 'quality': EvidenceTrail(dimension='quality_signals', evidences=[Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-002', field='supplier_rating', value=4.4, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8765), confidence=0.7, url='https://example.com/cand-002', notes='240 Bewertungen'), Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='defect_rate', value=0.8, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8796), confidence=0.8, url=None, notes='Defektrate 0.8% bei n=1700'), Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='on_time_delivery', value=95.0, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8817), confidence=0.8, url=None, notes='Pünktlichkeit 95.0%'), Evidence(type=<EvidenceType.CERTIFICATION_DB: 'certification_db'>, source='certification_db', field='audit_score', value=93.0, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8884), confidence=0.475, url=None, notes='Audit-Score 93.0/100 (7M alt)'), Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-002', field='years_in_business', value=12, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8897), confidence=0.85, url='https://example.com/cand-002', notes=None), Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='sample_test', value=True, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8909), confidence=0.8, url=None, notes=None)], overall_confidence=0.737, data_completeness=1.0, data_freshness='current')}, uncertainty_report=UncertaintyReport(overall_level=<UncertaintyLevel.MEDIUM: 'medium'>, overall_confidence=0.719, dimension_confidence={'spec': 0.6, 'compliance': 0.783, 'price': 0.85, 'lead_time': 0.825, 'quality': 0.737}, dimension_uncertainty={'spec': <UncertaintyLevel.MEDIUM: 'medium'>, 'compliance': <UncertaintyLevel.LOW: 'low'>, 'price': <UncertaintyLevel.LOW: 'low'>, 'lead_time': <UncertaintyLevel.LOW: 'low'>, 'quality': <UncertaintyLevel.MEDIUM: 'medium'>}, uncertainty_reasons=[], data_gaps=[], verification_suggestions=[], should_warn_user=False, warning_message=None), rank=3, explanation=Explanation(summary='Exzellente Alternative (hohe Sicherheit)', recommendation='Empfohlen', confidence_statement='Gute Datenbasis: Die meisten Daten sind verifiziert.', strengths=[StrengthItem(text='Alle relevanten Zertifikate vorhanden', evidence='certification aus https://example.com/cand-002 (Confidence: 70%)', confidence=0.783), StrengthItem(text='Preis deutlich günstiger als das Original', evidence='price aus https://example.com/orig-001 (Confidence: 85%)', confidence=0.85), StrengthItem(text='Lieferzeit vergleichbar oder besser', evidence='lead_time aus https://example.com/cand-002 (Confidence: 85%)', confidence=0.825), StrengthItem(text='Hohe Lieferantenqualität nachgewiesen', evidence='supplier_rating aus https://example.com/cand-002 (Confidence: 70%)', confidence=0.737)], weaknesses=[], risks=[], score_breakdown={'spec': '78%', 'compliance': '100%', 'price': '100%', 'lead_time': '93%', 'quality': '91%'}, evidence_summary=['spec: semantic_embedding aus openai://embeddings', 'spec: semantic_embedding aus openai://embeddings', 'compliance: certification aus https://example.com/cand-002', 'compliance: certification aus https://example.com/cand-002', 'price: price aus https://example.com/orig-001', 'price: price aus https://example.com/cand-002', 'lead_time: lead_time aus https://example.com/cand-002', 'lead_time: reliability aus historical', 'quality: supplier_rating aus https://example.com/cand-002', 'quality: defect_rate aus historical'], uncertainty_warning=None, verification_needed=[]), details={'spec': SpecSimilarityResult(score=0.7774, confidence=0.76, evidence_trail=EvidenceTrail(dimension='spec_similarity', evidences=[Evidence(type=<EvidenceType.EXTERNAL_API: 'external_api'>, source='openai://embeddings', field='semantic_embedding', value={'text_hash': '4e1bdcd690f75984e1b3189a709542316f9fd4d215cd6cb348285120d66978ee', 'model': 'text-embedding-3-small'}, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8313), confidence=0.6, url='openai://embeddings', notes='Semantic embedding for original material'), Evidence(type=<EvidenceType.EXTERNAL_API: 'external_api'>, source='openai://embeddings', field='semantic_embedding', value={'text_hash': 'c00bae9d1801f571e9d9cda244235d6e0cb3d248a58b147d2864d65dbcd02606', 'model': 'text-embedding-3-small'}, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8365), confidence=0.6, url='openai://embeddings', notes='Semantic embedding for candidate material')], overall_confidence=0.6, data_completeness=1.0, data_freshness='current'), common_props=['bulk_density', 'glycemic_index', 'moisture', 'particle_size', 'purity', 'sweetness_index'], missing_in_kandidat=[], extra_in_kandidat=[], details={'semantic': SemanticComparison(original_text_hash='4e1bdcd690f75984e1b3189a709542316f9fd4d215cd6cb348285120d66978ee', kandidat_text_hash='c00bae9d1801f571e9d9cda244235d6e0cb3d248a58b147d2864d65dbcd02606', original_text_length=556, kandidat_text_length=567, original_text_preview='name: Sucrose Pharma Grade\ncategory: sweetener / sugar ingredient\nsynonyms: haushaltszucker, saccharose, table sugar\nfunction: metabolic response relevance, processing and solubility behavior, quality and standardization', kandidat_text_preview='name: Dextrose Anhydrous\ncategory: sweetener / sugar ingredient\nsynonyms: glucose, traubenzucker\nfunction: carbohydrate energy source, metabolic response relevance, processing and solubility behavior, quality and standar', original_embedding_cached=True, kandidat_embedding_cached=False, original_evidence=Evidence(type=<EvidenceType.EXTERNAL_API: 'external_api'>, source='openai://embeddings', field='semantic_embedding', value={'text_hash': '4e1bdcd690f75984e1b3189a709542316f9fd4d215cd6cb348285120d66978ee', 'model': 'text-embedding-3-small'}, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8313), confidence=0.6, url='openai://embeddings', notes='Semantic embedding for original material'), kandidat_evidence=Evidence(type=<EvidenceType.EXTERNAL_API: 'external_api'>, source='openai://embeddings', field='semantic_embedding', value={'text_hash': 'c00bae9d1801f571e9d9cda244235d6e0cb3d248a58b147d2864d65dbcd02606', 'model': 'text-embedding-3-small'}, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8365), confidence=0.6, url='openai://embeddings', notes='Semantic embedding for candidate material'))}), 'compliance': ComplianceResult(score=1.0, confidence=0.626, evidence_trail=EvidenceTrail(dimension='compliance', evidences=[Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-002', field='certification', value='GMP', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8549), confidence=0.7, url='https://example.com/cand-002', notes='GMP: Selbstdeklaration des Lieferanten'), Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-002', field='certification', value='HACCP', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8564), confidence=0.7, url='https://example.com/cand-002', notes='HACCP: Selbstdeklaration des Lieferanten'), Evidence(type=<EvidenceType.CERTIFICATION_DB: 'certification_db'>, source='iso.org/certcheck', field='certification', value='ISO9001', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8576), confidence=0.95, url='iso.org/certcheck', notes='ISO9001 aus offizieller Datenbank')], overall_confidence=0.783, data_completeness=1.0, data_freshness='current'), matched=['GMP', 'HACCP', 'ISO9001'], missing=[], extra=[], coverage='full', certification_evidence={'GMP': Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-002', field='certification', value='GMP', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8549), confidence=0.7, url='https://example.com/cand-002', notes='GMP: Selbstdeklaration des Lieferanten'), 'HACCP': Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-002', field='certification', value='HACCP', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8564), confidence=0.7, url='https://example.com/cand-002', notes='HACCP: Selbstdeklaration des Lieferanten'), 'ISO9001': Evidence(type=<EvidenceType.CERTIFICATION_DB: 'certification_db'>, source='iso.org/certcheck', field='certification', value='ISO9001', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8576), confidence=0.95, url='iso.org/certcheck', notes='ISO9001 aus offizieller Datenbank')}, verified_certs=['ISO9001'], claimed_only_certs=['GMP', 'HACCP']), 'price': PriceDeltaResult(score=1.0, confidence=0.85, evidence_trail=EvidenceTrail(dimension='price_delta', evidences=[Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/orig-001', field='price', value=3.2, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8626), confidence=0.85, url='https://example.com/orig-001', notes='Original-Material Basispreis'), Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-002', field='price', value=2.35, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8636), confidence=0.85, url='https://example.com/cand-002', notes=None)], overall_confidence=0.85, data_completeness=0.667, data_freshness='current'), delta_percent=-26.56, delta_absolute=-0.85, direction='cheaper', original_price=3.2, kandidat_price=2.35, unit='EUR/kg', adjustments=[]), 'lead_time': LeadTimeResult(score=0.93, confidence=0.825, evidence_trail=EvidenceTrail(dimension='lead_time', evidences=[Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-002', field='lead_time', value=11, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8693), confidence=0.85, url='https://example.com/cand-002', notes='Lieferzeit standard'), Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='reliability', value=0.93, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8709), confidence=0.8, url=None, notes='Pünktlichkeitsrate aus historischen Daten')], overall_confidence=0.825, data_completeness=0.667, data_freshness='current'), base_score=1.0, days_original=10, days_kandidat=11, days_difference=1, direction='slower', percent_change=10.0, reliability_original=0.95, reliability_kandidat=0.93, risk_level='low', tolerance_applied=True, lead_time_evidence=Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-002', field='lead_time', value=11, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8693), confidence=0.85, url='https://example.com/cand-002', notes='Lieferzeit standard'), reliability_evidence=Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='reliability', value=0.93, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8709), confidence=0.8, url=None, notes='Pünktlichkeitsrate aus historischen Daten'), stock_evidence=None), 'quality': QualitySignalsResult(score=0.9095, confidence=0.9, evidence_trail=EvidenceTrail(dimension='quality_signals', evidences=[Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-002', field='supplier_rating', value=4.4, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8765), confidence=0.7, url='https://example.com/cand-002', notes='240 Bewertungen'), Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='defect_rate', value=0.8, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8796), confidence=0.8, url=None, notes='Defektrate 0.8% bei n=1700'), Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='on_time_delivery', value=95.0, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8817), confidence=0.8, url=None, notes='Pünktlichkeit 95.0%'), Evidence(type=<EvidenceType.CERTIFICATION_DB: 'certification_db'>, source='certification_db', field='audit_score', value=93.0, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8884), confidence=0.475, url=None, notes='Audit-Score 93.0/100 (7M alt)'), Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-002', field='years_in_business', value=12, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8897), confidence=0.85, url='https://example.com/cand-002', notes=None), Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='sample_test', value=True, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8909), confidence=0.8, url=None, notes=None)], overall_confidence=0.737, data_completeness=1.0, data_freshness='current'), signals={'supplier_rating': SignalResult(score=0.8800000000000001, weight_used=0.25, confidence=0.85, notes='Rating 4.4/5 (240 Reviews)', evidence=Evidence(type=<EvidenceType.SUPPLIER_WEBSITE: 'supplier_website'>, source='https://example.com/cand-002', field='supplier_rating', value=4.4, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8765), confidence=0.7, url='https://example.com/cand-002', notes='240 Bewertungen')), 'defect_rate': SignalResult(score=0.84, weight_used=0.25, confidence=0.9, notes='Defektrate 0.8% (n=1700)', evidence=Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='defect_rate', value=0.8, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8796), confidence=0.8, url=None, notes='Defektrate 0.8% bei n=1700')), 'on_time_delivery': SignalResult(score=0.95, weight_used=0.2, confidence=0.85, notes='Pünktlich: 95.0%', evidence=Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='on_time_delivery', value=95.0, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8817), confidence=0.8, url=None, notes='Pünktlichkeit 95.0%')), 'audit_score': SignalResult(score=0.93, weight_used=0.15, confidence=0.95, notes='Audit 93.0/100 (7M)', evidence=Evidence(type=<EvidenceType.CERTIFICATION_DB: 'certification_db'>, source='certification_db', field='audit_score', value=93.0, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8884), confidence=0.475, url=None, notes='Audit-Score 93.0/100 (7M alt)')), 'years_in_business': SignalResult(score=1.0, weight_used=0.1, confidence=1.0, notes='12 Jahre im Geschäft', evidence=Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='https://example.com/cand-002', field='years_in_business', value=12, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8897), confidence=0.85, url='https://example.com/cand-002', notes=None)), 'sample_test': SignalResult(score=1.0, weight_used=0.05, confidence=1.0, notes='Sample-Test bestanden', evidence=Evidence(type=<EvidenceType.HISTORICAL_PROCUREMENT: 'historical'>, source='historical', field='sample_test', value=True, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 55, 8909), confidence=0.8, url=None, notes=None))}, overall_confidence=0.9, missing_signals=[], risk_factors=[])})], rejected=[RejectedCandidate(candidate=CrawledMaterial(id='cand-014', name='Allulose Fine', properties={'sweetness_index': MaterialProperty(value=0.7, unit='rel_sucrose'), 'glycemic_index': MaterialProperty(value=0.0, unit='GI'), 'moisture': MaterialProperty(value=0.25, unit='%'), 'bulk_density': MaterialProperty(value=0.7, unit='g/mL'), 'particle_size': MaterialProperty(value=300.0, unit='um'), 'purity': MaterialProperty(value=98.7, unit='%')}, certifications=['ISO9001', 'HACCP', 'GMP', 'REACH'], price=PriceInfo(value=4.95, unit='EUR/kg', tiers=None), lead_time=LeadTimeInfo(days=15, reliability=0.89, type='standard'), quality=QualityInfo(supplier_rating={'value': 4.2, 'review_count': 150}, defect_rate={'value': 1.1, 'sample_size': 900}, on_time_delivery={'value': 92.0, 'sample_size': 85}, years_in_business=10, audit_score={'value': 89.0, 'age_months': 10, 'passed': True}), moq=170, country_of_origin='US', incoterm='CIF', source_url='https://example.com/cand-014'), reasons=['Preis 4.95 EUR/kg > Maximum 4.80'], evidence=[Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='supplier_database', field='price', value=4.95, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 51, 755282), confidence=0.85, url=None, notes='Preis überschreitet 1.5x Original')]), RejectedCandidate(candidate=CrawledMaterial(id='cand-020', name='Agave Inulin Blend', properties={'sweetness_index': MaterialProperty(value=1.35, unit='rel_sucrose'), 'glycemic_index': MaterialProperty(value=15.0, unit='GI'), 'moisture': MaterialProperty(value=1.0, unit='%'), 'bulk_density': MaterialProperty(value=0.52, unit='g/mL'), 'particle_size': MaterialProperty(value=260.0, unit='um'), 'purity': MaterialProperty(value=92.5, unit='%')}, certifications=['ISO9001', 'HACCP', 'GMP'], price=PriceInfo(value=4.7, unit='EUR/kg', tiers=None), lead_time=LeadTimeInfo(days=22, reliability=0.82, type='standard'), quality=QualityInfo(supplier_rating={'value': 3.8, 'review_count': 75}, defect_rate={'value': 2.0, 'sample_size': 550}, on_time_delivery={'value': 86.0, 'sample_size': 50}, years_in_business=5, audit_score={'value': 81.0, 'age_months': 19, 'passed': True}), moq=205, country_of_origin='MX', incoterm='FOB', source_url='https://example.com/cand-020'), reasons=['MOQ 205 > Max-Menge 200'], evidence=[Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='supplier_database', field='moq', value=205, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 51, 755316), confidence=0.85, url=None, notes='MOQ überschreitet User-Maximum von 200')]), RejectedCandidate(candidate=CrawledMaterial(id='cand-023', name='Date Sugar Powder', properties={'sweetness_index': MaterialProperty(value=0.95, unit='rel_sucrose'), 'glycemic_index': MaterialProperty(value=50.0, unit='GI'), 'moisture': MaterialProperty(value=2.5, unit='%'), 'bulk_density': MaterialProperty(value=0.58, unit='g/mL'), 'particle_size': MaterialProperty(value=800.0, unit='um'), 'purity': MaterialProperty(value=89.0, unit='%')}, certifications=['HACCP', 'GMP'], price=PriceInfo(value=4.1, unit='EUR/kg', tiers=None), lead_time=LeadTimeInfo(days=19, reliability=0.84, type='standard'), quality=QualityInfo(supplier_rating={'value': 3.9, 'review_count': 70}, defect_rate={'value': 1.9, 'sample_size': 450}, on_time_delivery={'value': 87.0, 'sample_size': 55}, years_in_business=5, audit_score={'value': 79.0, 'age_months': 20, 'passed': True}), moq=170, country_of_origin='SY', incoterm='FOB', source_url='https://example.com/cand-023'), reasons=['Herkunftsland SY auf Blacklist für DE', 'Kritische Zertifikate fehlen: ISO9001'], evidence=[Evidence(type=<EvidenceType.EXTERNAL_API: 'external_api'>, source='external_api', field='country_of_origin', value='SY', timestamp=datetime.datetime(2026, 4, 18, 11, 35, 51, 755328), confidence=0.75, url=None, notes='Sanktionsliste / Blacklist-Prüfung'), Evidence(type=<EvidenceType.CERTIFICATION_DB: 'certification_db'>, source='certification_db', field='certification', value=None, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 51, 755335), confidence=0.95, url=None, notes='Keine ISO9001-Registrierung gefunden für Date Sugar Powder')]), RejectedCandidate(candidate=CrawledMaterial(id='cand-025', name='Raw Cane Sugar Coarse', properties={'sweetness_index': MaterialProperty(value=0.98, unit='rel_sucrose'), 'glycemic_index': MaterialProperty(value=68.0, unit='GI'), 'moisture': MaterialProperty(value=0.3, unit='%'), 'bulk_density': MaterialProperty(value=0.88, unit='g/mL'), 'particle_size': MaterialProperty(value=900.0, unit='um'), 'purity': MaterialProperty(value=98.2, unit='%')}, certifications=['ISO9001', 'HACCP'], price=PriceInfo(value=2.85, unit='EUR/kg', tiers=None), lead_time=LeadTimeInfo(days=14, reliability=0.9, type='standard'), quality=QualityInfo(supplier_rating={'value': 4.1, 'review_count': 165}, defect_rate={'value': 1.0, 'sample_size': 1200}, on_time_delivery={'value': 92.0, 'sample_size': 100}, years_in_business=11, audit_score={'value': 89.0, 'age_months': 9, 'passed': True}), moq=210, country_of_origin='BR', incoterm='FOB', source_url='https://example.com/cand-025'), reasons=['MOQ 210 > Max-Menge 200'], evidence=[Evidence(type=<EvidenceType.SUPPLIER_DATABASE: 'supplier_database'>, source='supplier_database', field='moq', value=210, timestamp=datetime.datetime(2026, 4, 18, 11, 35, 51, 755369), confidence=0.85, url=None, notes='MOQ überschreitet User-Maximum von 200')])], metadata=ScoringMetadata(weights={'spec': 0.4, 'compliance': 0.25, 'price': 0.15, 'lead_time': 0.1, 'quality': 0.1}, total_candidates=25, passed_knockout=15, average_confidence=0.757), consolidation=None)
+
+==========================================================================================
+7) Kurzfazit
+==========================================================================================
+Total candidates input: 25
+Top candidates output: 3
+Rejected output: 4
+Average confidence: 0.757
+
+Hinweis:
+- Die wichtigsten Rueckgabefelder von find_substitutes sind damit komplett sichtbar.
+- Wenn dir diese Ausgabe zu lang ist, kann ich eine 'compact' und eine 'full' Variante einbauen.
+
+Legacy summary:
+Original: orig-001 (Sucrose Pharma Grade)
+Total candidates: 25
+Passed knockout:  15
+Top candidates:   3
+Rejected:         4
+Rejected reasons (quick list):
+- id=cand-014
+  reason: Preis 4.95 EUR/kg > Maximum 4.80
+- id=cand-020
+  reason: MOQ 205 > Max-Menge 200
+- id=cand-023
+  reason: Herkunftsland SY auf Blacklist für DE
+  reason: Kritische Zertifikate fehlen: ISO9001
+- id=cand-025
+  reason: MOQ 210 > Max-Menge 200
