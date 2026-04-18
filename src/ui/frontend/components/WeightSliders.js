@@ -1,18 +1,20 @@
 /**
  * WeightSliders Component
- * Interactive sliders for adjusting scoring weights (demo feature)
+ * Independent priority sliders (0-10), normalized to scoring weights on apply.
  */
 
 export class WeightSliders {
     constructor(container, onWeightsChange) {
         this.container = container;
         this.onWeightsChange = onWeightsChange;
-        this.weights = {
-            spec: 0.40,
-            compliance: 0.25,
-            price: 0.15,
-            lead_time: 0.10,
-            quality: 0.10
+
+        // Maps original default weights (40/25/15/10/10) to a simple 0-10 scale.
+        this.importance = {
+            spec: 4,
+            compliance: 3,
+            price: 2,
+            lead_time: 1,
+            quality: 1
         };
 
         this.dimensionLabels = {
@@ -27,197 +29,157 @@ export class WeightSliders {
         this.attachEventListeners();
     }
 
-    /**
-     * Render the weight sliders interface
-     */
     render() {
         this.container.innerHTML = `
             <div class="weight-panel">
                 <div class="weight-panel-header">
-                    <h4>Adjust Weights</h4>
+                    <h4>Adjust Priorities</h4>
                 </div>
-                <p class="weight-help">Drag the sliders to increase or decrease the importance of each scoring dimension.</p>
+                <p class="weight-help">Set priority per dimension from 0 (ignore) to 10 (very important).</p>
                 <div class="weight-sliders">
-                    ${Object.entries(this.weights).map(([key, weight]) =>
-                        this.renderWeightSlider(key, weight)
+                    ${Object.entries(this.importance).map(([key, value]) =>
+                        this.renderImportanceSlider(key, value)
                     ).join('')}
                 </div>
                 <div class="weight-presets">
                     <button class="btn btn-secondary preset-btn" data-preset="default">Default</button>
-                    <button class="btn btn-secondary preset-btn" data-preset="cost">Cost-Focused</button>
-                    <button class="btn btn-secondary preset-btn" data-preset="availability">Time-Sensitive</button>
+                    <button class="btn btn-secondary preset-btn" data-preset="cost">Cost</button>
+                    <button class="btn btn-secondary preset-btn" data-preset="availability">Time</button>
                 </div>
                 <div class="weight-actions">
-                    <button class="btn btn-secondary reset-weights">Reset to Default</button>
+                    <button class="btn btn-secondary reset-weights">Reset</button>
                     <button class="btn btn-primary apply-weights">Recalculate</button>
-                </div>
-                <div class="weight-total">
-                    <span>Total: <span class="total-value">${this.getTotalWeight()}%</span></span>
                 </div>
             </div>
         `;
 
-        this.updateTotalDisplay();
+        this.updateSliderDisplays();
     }
 
-    /**
-     * Render a single weight slider
-     */
-    renderWeightSlider(key, weight) {
-        const percentage = (weight * 100).toFixed(1);
+    renderImportanceSlider(key, importanceValue) {
         const label = this.dimensionLabels[key];
 
         return `
             <div class="weight-slider" data-dimension="${key}">
                 <div class="weight-label">
                     <span class="dimension-name">${label}</span>
-                    <span class="weight-value">${percentage}%</span>
+                    <span class="weight-value-badge">${importanceValue}/10</span>
                 </div>
                 <input
                     type="range"
                     class="weight-input"
                     min="0"
-                    max="1"
-                    step="0.01"
-                    value="${weight}"
+                    max="10"
+                    step="1"
+                    value="${importanceValue}"
                     data-dimension="${key}"
                 >
-                <div class="weight-scale">
-                    <span>0%</span>
-                    <span>25%</span>
-                    <span>50%</span>
-                    <span>75%</span>
-                    <span>100%</span>
+                <div class="weight-scale weight-scale-full">
+                    ${Array.from({ length: 11 }, (_, i) => `<span>${i}</span>`).join('')}
                 </div>
             </div>
         `;
     }
 
-    /**
-     * Attach event listeners to sliders and buttons
-     */
     attachEventListeners() {
-        // Slider change events
         const sliders = this.container.querySelectorAll('.weight-input');
-        sliders.forEach(slider => {
+        sliders.forEach((slider) => {
             slider.addEventListener('input', (e) => {
                 this.handleSliderChange(e.target);
             });
         });
 
-        // Reset button
         const resetBtn = this.container.querySelector('.reset-weights');
         resetBtn.addEventListener('click', () => {
             this.resetToDefault();
         });
 
-        // Apply button
         const applyBtn = this.container.querySelector('.apply-weights');
         applyBtn.addEventListener('click', () => {
             this.applyWeights();
         });
 
-        // Preset buttons
         const presetButtons = this.container.querySelectorAll('.preset-btn');
-        presetButtons.forEach(button => {
+        presetButtons.forEach((button) => {
             button.addEventListener('click', () => {
                 this.applyPreset(button.dataset.preset);
             });
         });
     }
 
-    /**
-     * Handle slider value change
-     */
     handleSliderChange(slider) {
         const dimension = slider.dataset.dimension;
-        const newValue = parseFloat(slider.value);
+        const newValue = Math.max(0, Math.min(10, parseInt(slider.value, 10) || 0));
 
-        const otherDimensions = Object.keys(this.weights).filter((key) => key !== dimension);
-        const remainingTotal = 1 - newValue;
-        const currentRemainingSum = otherDimensions.reduce((sum, key) => sum + this.weights[key], 0);
-
-        this.weights[dimension] = newValue;
-
-        if (currentRemainingSum > 0) {
-            const scale = remainingTotal / currentRemainingSum;
-            otherDimensions.forEach((key) => {
-                this.weights[key] = Math.max(0, this.weights[key] * scale);
-            });
-        } else {
-            otherDimensions.forEach((key) => {
-                this.weights[key] = remainingTotal / otherDimensions.length;
-            });
-        }
-
-        const normalizedTotal = Object.values(this.weights).reduce((sum, weight) => sum + weight, 0);
-        if (normalizedTotal > 0) {
-            const adjustFactor = 1 / normalizedTotal;
-            Object.keys(this.weights).forEach((key) => {
-                this.weights[key] *= adjustFactor;
-            });
-        }
-
-        this.render();
-        this.attachEventListeners();
+        this.importance[dimension] = newValue;
+        this.updateSliderDisplays();
     }
 
-    /**
-     * Update the total weight display
-     */
-    updateTotalDisplay() {
-        const total = this.getTotalWeight();
-        const totalElement = this.container.querySelector('.total-value');
-        if (totalElement) {
-            totalElement.textContent = `${total}%`;
-            totalElement.className = `total-value ${total === 100 ? 'valid' : 'invalid'}`;
+    updateSliderDisplays() {
+        Object.entries(this.importance).forEach(([key, importanceValue]) => {
+            const slider = this.container.querySelector(`.weight-input[data-dimension="${key}"]`);
+            if (slider) {
+                slider.value = String(importanceValue);
+                const percent = ((importanceValue / 10) * 100).toFixed(0);
+                slider.style.setProperty('--slider-fill', `${percent}%`);
+            }
+
+            const valueLabel = this.container.querySelector(
+                `.weight-slider[data-dimension="${key}"] .weight-value-badge`
+            );
+            if (valueLabel) {
+                valueLabel.textContent = `${importanceValue}/10`;
+            }
+        });
+    }
+
+    getTotalPriority() {
+        return Object.values(this.importance).reduce((sum, value) => sum + value, 0);
+    }
+
+    getNormalizedWeights() {
+        const totalImportance = this.getTotalPriority();
+        if (totalImportance <= 0) {
+            return Object.fromEntries(Object.keys(this.importance).map((key) => [key, 0]));
         }
+
+        const normalized = {};
+        Object.entries(this.importance).forEach(([key, value]) => {
+            normalized[key] = value / totalImportance;
+        });
+        return normalized;
     }
 
-    /**
-     * Calculate total weight percentage
-     */
-    getTotalWeight() {
-        const total = Object.values(this.weights).reduce((sum, weight) => sum + weight, 0);
-        return (total * 100).toFixed(1);
-    }
-
-    /**
-     * Reset weights to default values
-     */
     resetToDefault() {
         this.setPreset('default');
     }
 
-    /**
-     * Apply a preset distribution
-     */
     setPreset(preset) {
         const presets = {
             default: {
-                spec: 0.40,
-                compliance: 0.25,
-                price: 0.15,
-                lead_time: 0.10,
-                quality: 0.10
+                spec: 4,
+                compliance: 3,
+                price: 2,
+                lead_time: 1,
+                quality: 1
             },
             cost: {
-                spec: 0.25,
-                compliance: 0.20,
-                price: 0.30,
-                lead_time: 0.15,
-                quality: 0.10
+                spec: 3,
+                compliance: 2,
+                price: 5,
+                lead_time: 2,
+                quality: 1
             },
             availability: {
-                spec: 0.20,
-                compliance: 0.20,
-                price: 0.15,
-                lead_time: 0.30,
-                quality: 0.15
+                spec: 3,
+                compliance: 2,
+                price: 1,
+                lead_time: 5,
+                quality: 2
             }
         };
 
-        this.weights = presets[preset] ?? { ...this.weights };
+        this.importance = presets[preset] ? { ...presets[preset] } : { ...this.importance };
         this.render();
         this.attachEventListeners();
     }
@@ -226,43 +188,47 @@ export class WeightSliders {
         this.setPreset(preset);
     }
 
-    /**
-     * Apply the current weights
-     */
     applyWeights() {
-        const total = Object.values(this.weights).reduce((sum, weight) => sum + weight, 0);
-
-        if (Math.abs(total - 1.0) > 0.01) {
-            this.showError('Weights must total 100%');
+        const totalPriority = this.getTotalPriority();
+        if (totalPriority <= 0) {
+            this.showError('Set at least one slider above 0 before recalculating.');
             return;
         }
-
         if (this.onWeightsChange) {
-            this.onWeightsChange(this.weights);
+            this.onWeightsChange(this.getNormalizedWeights());
         }
     }
 
     /**
-     * Set weights programmatically
+     * Set normalized weights programmatically and map them to priorities (0-10).
      */
     setWeights(weights) {
-        this.weights = { ...weights };
+        if (!weights || typeof weights !== 'object') return;
+
+        const keys = Object.keys(this.importance);
+        const mappedImportance = {};
+        keys.forEach((key) => {
+            const value = Number(weights[key] ?? 0);
+            if (!Number.isFinite(value) || value <= 0) {
+                mappedImportance[key] = 0;
+                return;
+            }
+            mappedImportance[key] = Math.max(0, Math.min(10, Math.round(value * 10)));
+        });
+
+        this.importance = mappedImportance;
         this.render();
         this.attachEventListeners();
     }
 
     /**
-     * Get current weights
+     * Return normalized weights (sum = 1.0) for scoring API.
      */
     getWeights() {
-        return { ...this.weights };
+        return this.getNormalizedWeights();
     }
 
-    /**
-     * Show error message
-     */
     showError(message) {
-        // Remove existing error
         const existingError = this.container.querySelector('.weight-error');
         if (existingError) existingError.remove();
 
@@ -273,7 +239,6 @@ export class WeightSliders {
         const actions = this.container.querySelector('.weight-actions');
         actions.appendChild(errorDiv);
 
-        // Auto-remove after 3 seconds
         setTimeout(() => {
             if (errorDiv.parentNode) {
                 errorDiv.remove();
@@ -281,11 +246,7 @@ export class WeightSliders {
         }, 3000);
     }
 
-    /**
-     * Validate that weights sum to 100%
-     */
     validateWeights() {
-        const total = Object.values(this.weights).reduce((sum, weight) => sum + weight, 0);
-        return Math.abs(total - 1.0) <= 0.01;
+        return true;
     }
 }

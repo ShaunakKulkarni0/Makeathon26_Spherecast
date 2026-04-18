@@ -357,16 +357,16 @@ body {
 }
 
 .weight-help {
-    color: #555;
-    font-size: 0.95rem;
-    line-height: 1.5;
+    color: #5e6b7a;
+    font-size: 0.9rem;
+    line-height: 1.45;
     margin: 0;
 }
 
 .weight-slider {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     padding: 12px 0;
     border-bottom: 1px solid #edf2f7;
 }
@@ -383,64 +383,119 @@ body {
     font-weight: 500;
 }
 
+.weight-value-badge {
+    min-width: 48px;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #205493;
+    background: #e9f3ff;
+    border: 1px solid #cfe4ff;
+    border-radius: 999px;
+    padding: 2px 10px;
+}
+
 .weight-input {
     width: 100%;
-    height: 10px;
+    height: 24px;
     border-radius: 999px;
-    background: #e8eef6;
+    background: transparent;
     outline: none;
     -webkit-appearance: none;
     appearance: none;
-    box-shadow: inset 0 0 0 1px rgba(52, 73, 94, 0.08);
+    --slider-fill: 0%;
 }
 
 .weight-input::-webkit-slider-runnable-track {
     width: 100%;
-    height: 10px;
+    height: 8px;
     border-radius: 999px;
-    background: #eef2f7;
+    background:
+        linear-gradient(
+            90deg,
+            #3f8efc 0%,
+            #3f8efc var(--slider-fill),
+            #e6ebf2 var(--slider-fill),
+            #e6ebf2 100%
+        );
+    box-shadow: inset 0 0 0 1px rgba(52, 73, 94, 0.12);
 }
 
 .weight-input::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
-    background: #3498db;
-    border: 3px solid white;
-    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.25);
+    background: #ffffff;
+    border: 2px solid #3f8efc;
+    box-shadow: 0 2px 6px rgba(63, 142, 252, 0.35);
     cursor: pointer;
-    margin-top: -4px;
+    margin-top: -6px;
 }
 
 .weight-input::-moz-range-track {
     width: 100%;
-    height: 10px;
+    height: 8px;
     border-radius: 999px;
-    background: #eef2f7;
+    background: #e6ebf2;
+    box-shadow: inset 0 0 0 1px rgba(52, 73, 94, 0.12);
+}
+
+.weight-input::-moz-range-progress {
+    height: 8px;
+    border-radius: 999px;
+    background: #3f8efc;
 }
 
 .weight-input::-moz-range-thumb {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
-    background: #3498db;
-    border: 3px solid white;
-    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.25);
+    background: #ffffff;
+    border: 2px solid #3f8efc;
+    box-shadow: 0 2px 6px rgba(63, 142, 252, 0.35);
     cursor: pointer;
+}
+
+.weight-input:focus-visible {
+    outline: 2px solid rgba(63, 142, 252, 0.35);
+    outline-offset: 4px;
+    border-radius: 8px;
+}
+
+.weight-scale {
+    display: flex;
+    justify-content: space-between;
+    color: #6b7c93;
+    font-size: 0.75rem;
+}
+
+.weight-scale-full {
+    display: grid;
+    grid-template-columns: repeat(11, minmax(0, 1fr));
+    padding: 0 10px;
+    align-items: center;
+}
+
+.weight-scale-full span {
+    text-align: center;
+    font-variant-numeric: tabular-nums;
 }
 
 .weight-presets {
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
-    margin-top: 10px;
+    margin-top: 8px;
 }
 
 .weight-presets .preset-btn {
     flex: 1;
-    min-width: 100px;
+    min-width: 88px;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 0.85rem;
 }
 
 .weight-actions {
@@ -450,19 +505,11 @@ body {
     flex-wrap: wrap;
 }
 
-.weight-total {
-    display: flex;
-    justify-content: flex-end;
-    font-weight: 600;
-    color: #2c3e50;
-}
-
-.total-value.valid {
-    color: #27ae60;
-}
-
-.total-value.invalid {
-    color: #e74c3c;
+.weight-actions .btn {
+    flex: 1;
+    min-width: 120px;
+    border-radius: 10px;
+    padding: 10px 12px;
 }
 
 .weight-error {
@@ -1048,23 +1095,4 @@ body {
 
 .evidence-description {
     color: #7f8c8d;
-}
-
-/* Weight scale */
-.weight-scale {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.75rem;
-    color: #7f8c8d;
-    margin-top: 5px;
-}
-
-/* Total weight validation */
-.total-value.valid {
-    color: #27ae60;
-}
-
-.total-value.invalid {
-    color: #e74c3c;
-    font-weight: bold;
 }
