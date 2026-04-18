@@ -46,6 +46,8 @@ export class ResultsList {
     renderCandidate(candidate, rank) {
         const material = candidate.kandidat;
         const compositeScore = (candidate.composite_score * 100).toFixed(1);
+        const explanation = candidate.explanation || null;
+        const uncertainty = candidate.uncertainty_report || null;
 
         return `
             <div class="candidate-item" data-candidate-id="${material.id}">
@@ -85,6 +87,14 @@ export class ResultsList {
                         Compare Details
                     </button>
                 </div>
+
+                <details class="candidate-detail-panel">
+                    <summary>Show Explanation & Uncertainty</summary>
+                    <div class="candidate-detail-body">
+                        ${this.renderExplanation(explanation)}
+                        ${this.renderUncertainty(uncertainty)}
+                    </div>
+                </details>
             </div>
         `;
     }
@@ -94,7 +104,7 @@ export class ResultsList {
      */
     renderMiniScoreBreakdown(candidate) {
         const scores = candidate.scores;
-        const dimensions = ['spec_similarity', 'compliance', 'price_delta', 'lead_time', 'quality_signals'];
+        const dimensions = ['spec', 'compliance', 'price', 'lead_time', 'quality'];
 
         return `
             <div class="mini-scores">
@@ -103,7 +113,7 @@ export class ResultsList {
                     const percentage = (score * 100).toFixed(0);
                     return `
                         <div class="mini-score-item" title="${dim.replace('_', ' ')}: ${percentage}%">
-                            <span class="mini-score-label">${dim.split('_')[0]}</span>
+                            <span class="mini-score-label">${dim}</span>
                             <div class="mini-score-bar">
                                 <div class="mini-score-fill" style="width: ${percentage}%"></div>
                             </div>
@@ -111,6 +121,45 @@ export class ResultsList {
                         </div>
                     `;
                 }).join('')}
+            </div>
+        `;
+    }
+
+    renderExplanation(explanation) {
+        if (!explanation) {
+            return `<p><strong>Explanation:</strong> not available</p>`;
+        }
+
+        const strengths = (explanation.strengths || []).map((s) => s.text).slice(0, 3);
+        const weaknesses = (explanation.weaknesses || []).map((w) => w.text).slice(0, 3);
+        const risks = explanation.risks || [];
+
+        return `
+            <div class="candidate-explanation">
+                <h5>Explanation</h5>
+                <p><strong>Summary:</strong> ${explanation.summary || '-'}</p>
+                <p><strong>Recommendation:</strong> ${explanation.recommendation || '-'}</p>
+                <p><strong>Confidence Statement:</strong> ${explanation.confidence_statement || '-'}</p>
+                <p><strong>Strengths:</strong> ${strengths.length ? strengths.join(' | ') : 'none'}</p>
+                <p><strong>Weaknesses:</strong> ${weaknesses.length ? weaknesses.join(' | ') : 'none'}</p>
+                <p><strong>Risks:</strong> ${risks.length ? risks.join(' | ') : 'none'}</p>
+            </div>
+        `;
+    }
+
+    renderUncertainty(uncertainty) {
+        if (!uncertainty) {
+            return `<p><strong>Uncertainty:</strong> not available</p>`;
+        }
+
+        const suggestions = uncertainty.verification_suggestions || [];
+        return `
+            <div class="candidate-uncertainty">
+                <h5>Uncertainty</h5>
+                <p><strong>Overall level:</strong> ${uncertainty.overall_level || '-'}</p>
+                <p><strong>Overall confidence:</strong> ${uncertainty.overall_confidence ?? '-'}</p>
+                <p><strong>Warning:</strong> ${uncertainty.warning_message || 'none'}</p>
+                <p><strong>Verification suggestions:</strong> ${suggestions.length ? suggestions.join(' | ') : 'none'}</p>
             </div>
         `;
     }
@@ -155,16 +204,6 @@ export class ResultsList {
                 }
             });
         });
-    }
-
-    /**
-     * Find candidate by ID (helper method)
-     * Note: In a real implementation, you'd store the candidates array
-     */
-    findCandidateById(id) {
-        // This is a placeholder - in real implementation, store candidates array
-        // For now, return null and let the parent component handle it
-        return null;
     }
 
     /**

@@ -14,6 +14,15 @@ from shared.schemas import (
 )
 
 
+_REQUIREMENTS_REQUIRED_KEYS = (
+    "destination_country",
+    "critical_certs_json",
+    "max_lead_time_days",
+    "max_price_multiplier",
+)
+_REQUIREMENTS_QUANTITY_KEYS = ("max_quantity", "max_moq", "mqo")
+
+
 def _parse_float(value: str | None, default: float | None = None) -> float | None:
     if value is None or value.strip() == "":
         return default
@@ -41,6 +50,63 @@ def _parse_json(value: str | None, fallback: object) -> object:
     if value is None or value.strip() == "":
         return fallback
     return json.loads(value)
+
+
+def _is_non_empty(value: str | None) -> bool:
+    return value is not None and value.strip() != ""
+
+
+def _validate_requirements_row(row: dict[str, str], path: Path) -> None:
+    if None in row and row[None]:
+        raise ValueError(
+            f"Ungueltige Requirements-CSV {path}: Zeile hat mehr Werte als Header-Spalten. "
+            "Bitte Header und Spaltenreihenfolge pruefen."
+        )
+
+    missing_required = [key for key in _REQUIREMENTS_REQUIRED_KEYS if key not in row]
+    if missing_required:
+        raise ValueError(
+            f"Ungueltige Requirements-CSV {path}: Fehlende Pflichtspalten: {', '.join(missing_required)}"
+        )
+
+    if not any(key in row for key in _REQUIREMENTS_QUANTITY_KEYS):
+        raise ValueError(
+            f"Ungueltige Requirements-CSV {path}: Mengen-Spalte fehlt. "
+            "Erwartet eine von: max_quantity, max_moq, mqo."
+        )
+
+
+def _parse_max_quantity(row: dict[str, str], path: Path) -> int | None:
+    values_by_key: dict[str, int] = {}
+    for key in _REQUIREMENTS_QUANTITY_KEYS:
+        raw = row.get(key)
+        if not _is_non_empty(raw):
+            continue
+        try:
+            parsed = _parse_int(raw)
+        except ValueError as exc:
+            raise ValueError(
+                f"Ungueltiger Integer-Wert in Requirements-CSV {path}: Feld '{key}' = {raw!r}"
+            ) from exc
+        if parsed is not None:
+            values_by_key[key] = parsed
+
+    if not values_by_key:
+        return None
+
+    source_key = next(key for key in _REQUIREMENTS_QUANTITY_KEYS if key in values_by_key)
+    canonical_value = values_by_key[source_key]
+    conflicting = {
+        key: value for key, value in values_by_key.items() if value != canonical_value
+    }
+    if conflicting:
+        conflict_parts = ", ".join(f"{k}={v}" for k, v in sorted(values_by_key.items()))
+        raise ValueError(
+            f"Konflikt in Requirements-CSV {path}: Mengen-Spalten enthalten unterschiedliche Werte "
+            f"({conflict_parts})."
+        )
+
+    return canonical_value
 
 
 def _parse_properties(raw: str) -> dict[str, MaterialProperty]:
@@ -155,13 +221,14 @@ def load_requirements_csv(path: Path) -> UserRequirements:
         raise ValueError(f"Leere Requirements-CSV: {path}")
 
     row = rows[0]
+    _validate_requirements_row(row, path)
     critical_certs = _parse_json(row.get("critical_certs_json"), None)
+    max_quantity = _parse_max_quantity(row, path)
 
     return UserRequirements(
-        max_quantity=_parse_int(row.get("max_quantity")),
+        max_quantity=max_quantity,
         destination_country=row.get("destination_country") or "DE",
         critical_certs=critical_certs,  # type: ignore[arg-type]
         max_lead_time_days=_parse_int(row.get("max_lead_time_days")),
         max_price_multiplier=float(row.get("max_price_multiplier") or "2.0"),
     )
-

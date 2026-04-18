@@ -23,12 +23,13 @@ import sys
 from pathlib import Path
 from typing import Optional
 
-_ROOT = Path(__file__).resolve().parent.parent
-if str(_ROOT) not in sys.path:
-    sys.path.insert(0, str(_ROOT))
 
-from embedder import run_embedding                             # noqa: E402
-from matcher  import vector_search, judge_pair                 # noqa: E402
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))            # Damit 'shared' gefunden wird
+sys.path.insert(0, str(ROOT / "layers")) # Damit 'normalizer' gefunden wird
+
+from embedder import run_embedding, load_all_embeddings
+from matcher  import vector_search, vector_search_from_cache, judge_pair
 from shared.schemas import JudgeResult                         # noqa: E402
 from shared.constants import VECTOR_SEARCH_TOP_K, COSINE_SIMILARITY_THRESHOLD  # noqa: E402
 
@@ -110,6 +111,23 @@ def _fetch_all_raw_material_ids(conn: sqlite3.Connection) -> list[int]:
         """
     ).fetchall()
     return [r[0] for r in rows]
+
+def run_matching(conn: sqlite3.Connection, skip_existing: bool = True) -> None:
+    _ensure_matches_table(conn)
+    all_embeddings = load_all_embeddings(conn)
+    embedding_map  = {sid: vec for sid, vec in all_embeddings}
+
+    for target_id in embedding_map:
+        candidates = vector_search_from_cache(target_id, embedding_map)
+        for candidate_id, score in candidates:
+            if skip_existing and _already_judged(conn, target_id, candidate_id):
+                continue
+            try:
+                result = judge_pair(conn, target_id, candidate_id, score)
+                _write_match(conn, result)
+                conn.commit()
+            except Exception as exc:
+                logger.error("Judge failed (%d, %d): %s", target_id, candidate_id, exc)
 
 
 # ---------------------------------------------------------------------------
@@ -195,48 +213,16 @@ def run_layer2_for_sku(
 # Full pipeline (embed all + match all)
 # ---------------------------------------------------------------------------
 
-def run_layer2_all(
-    conn: sqlite3.Connection,
-    embed_limit: Optional[int] = None,
-    skip_existing: bool = True,
-) -> dict[str, int]:
-    """
-    Run the complete Layer 2 pipeline:
-      1. Embed any un-embedded canonical strings (step 2.1).
-      2. For every embedded SKU, run vector search + judge (steps 2.2/2.3).
-      3. Persist results to the matches table (step 2.4).
-
-    Args:
-        conn:          Active SQLite connection.
-        embed_limit:   Cap on SKUs to embed in step 2.1 (None = all).
-        skip_existing: Skip pairs that already have match rows.
-
-    Returns:
-        Dict with 'embedded', 'skus_processed', 'matches_written' counts.
-    """
-    # Step 2.1
+def run_layer2_all(conn, embed_limit=None, skip_existing=True):
     n_embedded = run_embedding(conn, limit=embed_limit)
-
-    # Steps 2.2 / 2.3 / 2.4
-    all_ids = _fetch_all_raw_material_ids(conn)
-    logger.info("Layer 2: running match pipeline for %d SKU(s).", len(all_ids))
-
-    total_matches = 0
-    for sku_id in all_ids:
-        try:
-            results = run_layer2_for_sku(conn, sku_id, skip_existing=skip_existing)
-            total_matches += len(results)
-        except Exception as exc:
-            logger.error("Layer 2 failed for sku_id=%d: %s", sku_id, exc)
-
-    summary = {
-        "embedded":        n_embedded,
-        "skus_processed":  len(all_ids),
-        "matches_written": total_matches,
-    }
-    logger.info("Layer 2 complete: %s", summary)
-    return summary
-
+    _ensure_matches_table(conn)
+    
+    # run_matching übernimmt jetzt den gesamten Match-Teil
+    run_matching(conn, skip_existing=skip_existing)
+    
+    # Zählen was geschrieben wurde
+    total = conn.execute("SELECT COUNT(*) FROM matches").fetchone()[0]
+    return {"embedded": n_embedded, "matches_written": total}
 
 # ---------------------------------------------------------------------------
 # CLI

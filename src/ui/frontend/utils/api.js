@@ -4,7 +4,7 @@
  */
 
 export class API {
-    constructor(baseURL = '/api') {
+    constructor(baseURL = 'http://localhost:8001/api') {
         this.baseURL = baseURL;
     }
 
@@ -14,7 +14,7 @@ export class API {
      * @returns {Promise<Object>} Search results
      */
     async searchMaterials(query) {
-        const response = await this.request('/search', {
+        const response = await this.request('/csv/score', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -23,6 +23,19 @@ export class API {
         });
 
         return response;
+    }
+
+    async getCsvMaterials() {
+        return this.request('/csv/materials');
+    }
+
+    async scoreCsvSelection(selectedMaterialId, weights = null, topN = 3, requirementsOverride = null) {
+        return this.searchMaterials({
+            selected_material_id: selectedMaterialId,
+            weights,
+            top_n: topN,
+            requirements_override: requirementsOverride,
+        });
     }
 
     /**
