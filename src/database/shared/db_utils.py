@@ -1,5 +1,5 @@
 """
-db_util.py — Database utilities for the Spherecast Agnes hackathon.
+db_utils.py — Database utilities for the Spherecast Agnes hackathon.
 
 Schema overview:
   Company(Id, Name)
