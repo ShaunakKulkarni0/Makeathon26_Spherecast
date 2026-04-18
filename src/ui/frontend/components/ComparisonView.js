@@ -16,7 +16,7 @@ export class ComparisonView {
      * @param {Object} original - Original CrawledMaterial
      * @param {Object} candidate - ScoredCandidate
      */
-    showComparison(original, candidate) {
+    showComparison(original, candidate, weights = null) {
         const candidateMaterial = candidate.kandidat;
 
         this.container.innerHTML = `
@@ -38,7 +38,7 @@ export class ComparisonView {
                         <h3>Candidate Material</h3>
                         ${this.renderMaterialCard(candidateMaterial, 'candidate')}
                         <div class="candidate-score-breakdown">
-                            ${this.renderScoreBreakdown(candidate)}
+                            ${this.renderScoreBreakdown(candidate, weights)}
                         </div>
                     </div>
                 </div>
@@ -117,10 +117,10 @@ export class ComparisonView {
     /**
      * Render score breakdown for candidate
      */
-    renderScoreBreakdown(candidate) {
+    renderScoreBreakdown(candidate, weights = null) {
         const tempContainer = document.createElement('div');
         this.scoreBreakdown.container = tempContainer;
-        this.scoreBreakdown.render(candidate, true);
+        this.scoreBreakdown.render(candidate, true, weights);
         return tempContainer.innerHTML;
     }
 
