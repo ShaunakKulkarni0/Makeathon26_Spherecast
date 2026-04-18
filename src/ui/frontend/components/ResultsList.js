@@ -1,6 +1,6 @@
 /**
  * ResultsList Component
- * Displays the list of top material candidates
+ * Displays top material candidates in a dense table-first layout.
  */
 
 import { ScoreBreakdown } from './ScoreBreakdown.js';
@@ -10,110 +10,103 @@ export class ResultsList {
         this.container = container;
         this.onCandidateSelect = onCandidateSelect;
         this.scoreBreakdown = new ScoreBreakdown(document.createElement('div'));
+        this.candidates = [];
     }
 
     displayCandidates(candidates) {
-        if (!candidates || candidates.length === 0) {
+        this.candidates = Array.isArray(candidates) ? candidates : [];
+
+        if (this.candidates.length === 0) {
             this.container.innerHTML = `
-                <div class="no-results">
+                <section class="no-results">
                     <h3>No suitable candidates found</h3>
-                    <p>Try adjusting K.O. filters or scoring priorities.</p>
-                </div>
+                    <p>Adjust constraints or increase result depth.</p>
+                </section>
             `;
             return;
         }
 
         this.container.innerHTML = `
-            <div class="candidates-section">
-                <h3>Top Material Candidates</h3>
-                <div class="candidates-list">
-                    ${candidates.map((candidate, index) => this.renderCandidate(candidate, index + 1)).join('')}
+            <section class="candidates-section">
+                <div class="section-headline-row">
+                    <h3>Top Material Candidates</h3>
+                    <p class="section-meta">Sorted by composite score</p>
                 </div>
-            </div>
+
+                <div class="results-table-wrap">
+                    <table class="results-table" role="table" aria-label="Top material candidates">
+                        <thead>
+                            <tr>
+                                <th class="col-expand" aria-label="Expand"></th>
+                                <th>Rank</th>
+                                <th>Material</th>
+                                <th>Price</th>
+                                <th>Lead Time</th>
+                                <th>MOQ</th>
+                                <th>Origin</th>
+                                <th>Match</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${this.candidates.map((candidate, index) => this.renderCandidateRows(candidate, index + 1)).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
         `;
 
         this.attachEventListeners();
     }
 
-    renderCandidate(candidate, rank) {
+    renderCandidateRows(candidate, rank) {
         const material = candidate.kandidat;
         const compositeScore = (candidate.composite_score * 100).toFixed(1);
-        const uncertainty = candidate.uncertainty_report || null;
+        const safeId = String(material.id).replace(/[^a-zA-Z0-9_-]/g, '-');
+        const rowId = `cand-${safeId}`;
 
         return `
-            <article class="candidate-item" data-candidate-id="${material.id}">
-                <div class="candidate-header">
-                    <div class="candidate-rank">#${rank}</div>
-                    <div class="candidate-name-wrap">
-                        <h4 class="candidate-name">${material.name}</h4>
-                        <p class="candidate-raw-id">Raw ID: ${material.id}</p>
-                    </div>
-                    <div class="candidate-score">${compositeScore}% match</div>
-                </div>
-
-                <div class="candidate-details">
-                    <div class="candidate-metrics">
-                        <div class="metric">
-                            <span class="metric-label">Price</span>
-                            <span class="metric-value">${this.formatPrice(material.price)}</span>
+            <tr class="candidate-row" data-candidate-id="${material.id}" data-detail-id="${rowId}">
+                <td class="col-expand">
+                    <button class="row-expand-btn" data-expanded="false" aria-label="Expand candidate details">▸</button>
+                </td>
+                <td class="mono">#${rank}</td>
+                <td>
+                    <div class="cell-primary">${material.name}</div>
+                    <div class="cell-secondary mono">${material.id}</div>
+                </td>
+                <td class="mono">${this.formatPrice(material.price)}</td>
+                <td class="mono">${material.lead_time.days} days</td>
+                <td class="mono">${material.moq}</td>
+                <td>${material.country_of_origin || 'N/A'}</td>
+                <td>
+                    <span class="match-pill ${this.getMatchClass(candidate.composite_score)}">${compositeScore}%</span>
+                </td>
+                <td>
+                    <button class="btn btn-primary btn-small compare-btn" data-candidate-id="${material.id}">Compare</button>
+                </td>
+            </tr>
+            <tr class="candidate-detail-row hidden" id="${rowId}">
+                <td colspan="9">
+                    <div class="candidate-detail-layout">
+                        <div class="candidate-detail-block">
+                            ${this.renderScoreBreakdown(candidate)}
                         </div>
-                        <div class="metric">
-                            <span class="metric-label">Lead Time</span>
-                            <span class="metric-value">${material.lead_time.days} days</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-label">MOQ</span>
-                            <span class="metric-value">${material.moq}</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-label">Origin</span>
-                            <span class="metric-value">${material.country_of_origin || 'N/A'}</span>
+                        <div class="candidate-detail-block ai-accent-panel">
+                            ${this.renderExplanation(candidate)}
+                            ${this.renderUncertainty(candidate.uncertainty_report || null)}
                         </div>
                     </div>
-
-                    <div class="candidate-score-breakdown">
-                        ${this.renderMiniScoreBreakdown(candidate)}
-                    </div>
-                </div>
-
-                <div class="candidate-actions">
-                    <button class="btn btn-primary compare-btn" data-candidate-id="${material.id}">
-                        Compare Details
-                    </button>
-                </div>
-
-                <details class="candidate-detail-panel ai-accent-panel">
-                    <summary>View Structured Explanation</summary>
-                    <div class="candidate-detail-body">
-                        ${this.renderExplanation(candidate)}
-                        ${this.renderUncertainty(uncertainty)}
-                    </div>
-                </details>
-            </article>
+                </td>
+            </tr>
         `;
     }
 
-    renderMiniScoreBreakdown(candidate) {
-        const scores = candidate.scores;
-        const dimensions = ['spec', 'compliance', 'price', 'lead_time', 'quality'];
-
-        return `
-            <div class="mini-scores">
-                ${dimensions.map((dim) => {
-                    const score = scores[dim] || 0;
-                    const percentage = (score * 100).toFixed(0);
-                    return `
-                        <div class="mini-score-item" title="${dim.replace('_', ' ')}: ${percentage}%">
-                            <span class="mini-score-label">${dim}</span>
-                            <div class="mini-score-bar">
-                                <div class="mini-score-fill" style="width: ${percentage}%"></div>
-                            </div>
-                            <span class="mini-score-value">${percentage}%</span>
-                        </div>
-                    `;
-                }).join('')}
-            </div>
-        `;
+    renderScoreBreakdown(candidate) {
+        const tempContainer = document.createElement('div');
+        this.scoreBreakdown.container = tempContainer;
+        this.scoreBreakdown.render(candidate, true);
+        return tempContainer.innerHTML;
     }
 
     renderExplanation(candidate) {
@@ -171,6 +164,28 @@ export class ResultsList {
         `;
     }
 
+    renderUncertainty(uncertainty) {
+        if (!uncertainty) {
+            return `
+                <section class="detail-card">
+                    <h5>Uncertainty</h5>
+                    <p>Not available</p>
+                </section>
+            `;
+        }
+
+        const suggestions = uncertainty.verification_suggestions || [];
+        return `
+            <section class="detail-card">
+                <h5>Uncertainty</h5>
+                <div class="detail-kv"><span>Overall Level</span><span>${uncertainty.overall_level || 'Not available'}</span></div>
+                <div class="detail-kv"><span>Overall Confidence</span><span>${uncertainty.overall_confidence ?? 'Not available'}</span></div>
+                <div class="detail-kv"><span>Warning</span><span>${uncertainty.warning_message || 'None'}</span></div>
+                ${this.renderSimpleList(suggestions, 'No verification suggestions')}
+            </section>
+        `;
+    }
+
     getAllergenState(containsHits, mayContainHits, hasAllergenData) {
         if (!hasAllergenData) {
             return {
@@ -198,28 +213,6 @@ export class ResultsList {
             label: 'No Match Found',
             text: 'No prohibited allergen matches found in available data.'
         };
-    }
-
-    renderUncertainty(uncertainty) {
-        if (!uncertainty) {
-            return `
-                <section class="detail-card">
-                    <h5>Uncertainty</h5>
-                    <p>Not available</p>
-                </section>
-            `;
-        }
-
-        const suggestions = uncertainty.verification_suggestions || [];
-        return `
-            <section class="detail-card">
-                <h5>Uncertainty</h5>
-                <div class="detail-kv"><span>Overall Level</span><span>${uncertainty.overall_level || 'Not available'}</span></div>
-                <div class="detail-kv"><span>Overall Confidence</span><span>${uncertainty.overall_confidence ?? 'Not available'}</span></div>
-                <div class="detail-kv"><span>Warning</span><span>${uncertainty.warning_message || 'None'}</span></div>
-                ${this.renderSimpleList(suggestions, 'No verification suggestions')}
-            </section>
-        `;
     }
 
     renderListCard(title, items, emptyText) {
@@ -250,21 +243,26 @@ export class ResultsList {
         return `${value} ${unit}`;
     }
 
-    attachEventListeners() {
-        const candidateItems = this.container.querySelectorAll('.candidate-item');
-        const compareButtons = this.container.querySelectorAll('.compare-btn');
+    getMatchClass(score) {
+        if (score >= 0.8) return 'match-ok';
+        if (score >= 0.6) return 'match-warn';
+        return 'match-danger';
+    }
 
-        candidateItems.forEach((item) => {
-            item.addEventListener('click', (e) => {
-                if (e.target.closest('.candidate-detail-panel')) {
+    attachEventListeners() {
+        const rows = this.container.querySelectorAll('.candidate-row');
+        const compareButtons = this.container.querySelectorAll('.compare-btn');
+        const expandButtons = this.container.querySelectorAll('.row-expand-btn');
+
+        rows.forEach((row) => {
+            row.addEventListener('click', (e) => {
+                if (e.target.closest('button')) {
                     return;
                 }
-                if (!e.target.classList.contains('compare-btn')) {
-                    const candidateId = item.dataset.candidateId;
-                    const candidate = this.findCandidateById(candidateId);
-                    if (candidate && this.onCandidateSelect) {
-                        this.onCandidateSelect(candidate);
-                    }
+                const candidateId = row.dataset.candidateId;
+                const candidate = this.findCandidateById(candidateId);
+                if (candidate && this.onCandidateSelect) {
+                    this.onCandidateSelect(candidate);
                 }
             });
         });
@@ -276,6 +274,28 @@ export class ResultsList {
                 const candidate = this.findCandidateById(candidateId);
                 if (candidate && this.onCandidateSelect) {
                     this.onCandidateSelect(candidate);
+                }
+            });
+        });
+
+        expandButtons.forEach((button) => {
+            button.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const row = button.closest('.candidate-row');
+                const detailId = row.dataset.detailId;
+                const detailRow = this.container.querySelector(`#${detailId}`);
+                const isExpanded = button.dataset.expanded === 'true';
+
+                if (!detailRow) return;
+
+                if (isExpanded) {
+                    detailRow.classList.add('hidden');
+                    button.dataset.expanded = 'false';
+                    button.textContent = '▸';
+                } else {
+                    detailRow.classList.remove('hidden');
+                    button.dataset.expanded = 'true';
+                    button.textContent = '▾';
                 }
             });
         });

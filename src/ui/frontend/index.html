@@ -3,53 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spherecast - Material Substitute Finder</title>
+    <title>Spherecast - Supply Substitution Console</title>
     <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
-    <div class="app">
-        <header class="header">
-            <p class="header-kicker">Spherecast</p>
-            <h1>Material Substitution Console</h1>
-            <p>From unstructured supplier data to precise, auditable recommendations.</p>
-        </header>
-
-        <main class="main-content">
-            <div id="search-section" class="search-section search-with-panel">
-                <div class="search-panel">
-                    <h2>Find Material Substitutes</h2>
-                    <p class="section-intro">Select a source material and set hard constraints before running scoring.</p>
-                    <div id="search-form-container"></div>
-                </div>
-                <aside class="weight-panel-wrapper">
-                    <div id="weight-controls-container"></div>
-                </aside>
-            </div>
-
-            <div id="results-section" class="results-section hidden">
-                <div class="results-header">
-                    <h2>Substitution Results</h2>
-                    <button id="back-to-menu-btn" class="btn btn-secondary">Back to Main Menu</button>
-                </div>
-
-                <div class="results-content">
-                    <div id="original-material-container"></div>
-                    <div id="top-candidates-container"></div>
-                    <div id="rejected-candidates-container"></div>
+    <div class="app-shell">
+        <aside class="app-sidebar" aria-label="Main navigation">
+            <div class="sidebar-brand">
+                <div class="brand-mark">SC</div>
+                <div class="brand-copy">
+                    <p class="brand-name">Spherecast</p>
+                    <p class="brand-tag">AI Supply Manager</p>
                 </div>
             </div>
-
-            <div id="comparison-section" class="comparison-section hidden">
-                <div id="comparison-view-container"></div>
+            <nav class="sidebar-nav">
+                <button class="nav-item active" type="button">Dashboard</button>
+                <button class="nav-item" type="button">Forecasts</button>
+                <button class="nav-item" type="button">PO / TO</button>
+                <button class="nav-item" type="button">Substitution Lab</button>
+                <button class="nav-item" type="button">Settings</button>
+            </nav>
+            <div class="sidebar-footer">
+                <p>From Chaos to Clarity</p>
             </div>
-        </main>
+        </aside>
 
-        <footer class="footer">
-            <p>&copy; 2026 Spherecast Team</p>
-        </footer>
+        <div class="app-main">
+            <header class="topbar">
+                <div class="global-search-wrap">
+                    <label for="global-search" class="sr-only">Global Search</label>
+                    <input id="global-search" type="search" placeholder="Search SKU, supplier, co-man, or ask in plain English (Cmd/Ctrl + K)">
+                </div>
+                <div class="topbar-actions">
+                    <button type="button" class="btn btn-ai" id="open-ai-drawer-btn">Ask AI Colleague</button>
+                    <button type="button" class="btn btn-secondary">Notifications</button>
+                    <button type="button" class="btn btn-secondary">Profile</button>
+                </div>
+            </header>
+
+            <main class="workspace">
+                <section class="workspace-header">
+                    <p class="workspace-kicker">Substitution Lab</p>
+                    <h1>Material Substitution Console</h1>
+                    <p>Transform supplier data into transparent, execution-ready recommendations with explainable AI scoring.</p>
+                </section>
+
+                <section class="exception-strip" aria-label="Priority exceptions">
+                    <article class="exception-card warning">
+                        <div class="exception-copy">
+                            <p class="exception-title">Co-man lead-time variance</p>
+                            <p class="exception-text">2 candidates exceed target lead time by more than 20%.</p>
+                        </div>
+                        <div class="exception-actions">
+                            <button type="button" class="btn btn-secondary btn-small">Review</button>
+                        </div>
+                    </article>
+                    <article class="exception-card danger">
+                        <div class="exception-copy">
+                            <p class="exception-title">Potential allergen conflict</p>
+                            <p class="exception-text">1 candidate flagged for prohibited allergen overlap.</p>
+                        </div>
+                        <div class="exception-actions">
+                            <button type="button" class="btn btn-secondary btn-small">Inspect</button>
+                        </div>
+                    </article>
+                    <article class="exception-card success">
+                        <div class="exception-copy">
+                            <p class="exception-title">Stable supply option</p>
+                            <p class="exception-text">Top recommendation has high confidence and compliance fit.</p>
+                        </div>
+                        <div class="exception-actions">
+                            <button type="button" class="btn btn-secondary btn-small">Use</button>
+                        </div>
+                    </article>
+                </section>
+
+                <div id="search-section" class="search-section search-with-panel">
+                    <div class="search-panel">
+                        <h2>Find Material Substitutes</h2>
+                        <p class="section-intro">Configure hard filters and ranking priorities, then run a scoring pass.</p>
+                        <div id="search-form-container"></div>
+                    </div>
+                    <aside class="weight-panel-wrapper">
+                        <div id="weight-controls-container"></div>
+                    </aside>
+                </div>
+
+                <div id="results-section" class="results-section hidden">
+                    <div class="results-header">
+                        <h2>Substitution Results</h2>
+                        <button id="back-to-menu-btn" class="btn btn-secondary">Back to Query Setup</button>
+                    </div>
+
+                    <div class="results-content">
+                        <div id="original-material-container"></div>
+                        <div id="top-candidates-container"></div>
+                        <div id="rejected-candidates-container"></div>
+                    </div>
+                </div>
+
+                <div id="comparison-section" class="comparison-section hidden">
+                    <div id="comparison-view-container"></div>
+                </div>
+            </main>
+        </div>
     </div>
 
-    <!-- Load JavaScript modules -->
+    <aside id="ai-drawer" class="ai-drawer" aria-label="AI Colleague" aria-hidden="true">
+        <div class="ai-drawer-header">
+            <h3>AI Colleague</h3>
+            <button id="close-ai-drawer-btn" type="button" class="btn btn-secondary btn-small">Close</button>
+        </div>
+        <div class="ai-drawer-body">
+            <p>Ask for scenario checks, sourcing trade-offs, or explanation of score shifts.</p>
+            <div class="ai-message ai-message-user">What happens if demand drops by 15%?</div>
+            <div class="ai-message ai-message-ai">Projected impact: reduced MOQ pressure, lower stockout risk, and two additional viable substitutes.</div>
+            <textarea class="ai-input" rows="4" placeholder="Ask AI Colleague..."></textarea>
+            <button type="button" class="btn btn-ai">Simulate What-If</button>
+        </div>
+    </aside>
+
     <script type="module" src="utils/api.js"></script>
     <script type="module" src="components/SearchForm.js"></script>
     <script type="module" src="components/WeightSliders.js"></script>
@@ -59,7 +132,6 @@
     <script type="module" src="components/ComparisonView.js"></script>
     <script type="module" src="components/RejectedList.js"></script>
 
-    <!-- Main app script -->
     <script type="module">
         import { API } from './utils/api.js';
         import { SearchForm } from './components/SearchForm.js';
@@ -80,35 +152,27 @@
                     compliance: 0.25,
                     price: 0.15,
                     lead_time: 0.10,
-                    quality: 0.10
+                    quality: 0.10,
                 };
-                this.loadingInterval = null;
-                this.loadingProgress = 0;
+                this.loadingOverlay = null;
                 this.initializeComponents();
             }
 
             async initializeComponents() {
-                // Initialize search form
                 const searchContainer = document.getElementById('search-form-container');
                 this.searchForm = new SearchForm(searchContainer, this.handleSearch.bind(this));
 
-                // Initialize weight sliders
                 const weightContainer = document.getElementById('weight-controls-container');
                 this.weightSliders = new WeightSliders(weightContainer, this.handleWeightsChange.bind(this));
 
-                // Initialize results containers
                 this.resultsList = new ResultsList(
                     document.getElementById('top-candidates-container'),
-                    this.handleCandidateSelect.bind(this)
+                    this.handleCandidateSelect.bind(this),
                 );
 
-                this.rejectedList = new RejectedList(
-                    document.getElementById('rejected-candidates-container')
-                );
+                this.rejectedList = new RejectedList(document.getElementById('rejected-candidates-container'));
+                this.comparisonView = new ComparisonView(document.getElementById('comparison-view-container'));
 
-                this.comparisonView = new ComparisonView(
-                    document.getElementById('comparison-view-container')
-                );
                 this.bindViewActions();
 
                 try {
@@ -125,20 +189,51 @@
                 if (backBtn) {
                     backBtn.addEventListener('click', () => this.resetToMainMenuView());
                 }
+
+                const openAiBtn = document.getElementById('open-ai-drawer-btn');
+                const closeAiBtn = document.getElementById('close-ai-drawer-btn');
+                const aiDrawer = document.getElementById('ai-drawer');
+                const globalSearch = document.getElementById('global-search');
+
+                if (openAiBtn && aiDrawer) {
+                    openAiBtn.addEventListener('click', () => {
+                        aiDrawer.classList.add('open');
+                        aiDrawer.setAttribute('aria-hidden', 'false');
+                    });
+                }
+
+                if (closeAiBtn && aiDrawer) {
+                    closeAiBtn.addEventListener('click', () => {
+                        aiDrawer.classList.remove('open');
+                        aiDrawer.setAttribute('aria-hidden', 'true');
+                    });
+                }
+
+                document.addEventListener('keydown', (event) => {
+                    const isShortcut = (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k';
+                    if (!isShortcut) return;
+                    event.preventDefault();
+                    if (globalSearch) {
+                        globalSearch.focus();
+                        globalSearch.select();
+                    }
+                });
             }
 
             async handleSearch(query) {
                 try {
-                    this.showLoading();
+                    this.showLoadingSkeleton();
                     this.currentSelectionId = query.selected_material_id;
                     this.currentTopN = query.top_n || 3;
                     this.currentRequirementsOverride = query.requirements_override || null;
+
                     const result = await this.api.scoreCsvSelection(
                         query.selected_material_id,
                         this.currentWeights,
                         query.top_n || 3,
                         query.requirements_override || null,
                     );
+
                     this.currentResult = result;
                     this.currentWeights = result.metadata?.weights ?? this.currentWeights;
                     this.currentRequirementsOverride = result.metadata?.requirements ?? this.currentRequirementsOverride;
@@ -146,7 +241,7 @@
                 } catch (error) {
                     this.showError(error.message);
                 } finally {
-                    this.hideLoading();
+                    this.hideLoadingSkeleton();
                 }
             }
 
@@ -155,7 +250,7 @@
 
                 this.currentWeights = { ...weights };
                 try {
-                    this.showLoading();
+                    this.showLoadingSkeleton();
                     const rescoredResult = await this.api.scoreCsvSelection(
                         this.currentSelectionId,
                         weights,
@@ -167,7 +262,7 @@
                 } catch (error) {
                     this.showError(error.message);
                 } finally {
-                    this.hideLoading();
+                    this.hideLoadingSkeleton();
                 }
             }
 
@@ -177,17 +272,11 @@
             }
 
             displayResults(result) {
-                // Display original material
                 this.displayOriginalMaterial(result.original);
-
-                // Display top candidates
                 this.resultsList.setCandidates(result.top_candidates);
                 this.resultsList.displayCandidates(result.top_candidates);
-
-                // Display rejected candidates
                 this.rejectedList.displayRejected(result.rejected);
 
-                // Update weight sliders with current weights
                 const activeWeights = result.metadata?.weights ?? this.currentWeights;
                 this.weightSliders.setWeights(activeWeights);
 
@@ -197,19 +286,22 @@
             displayOriginalMaterial(material) {
                 const container = document.getElementById('original-material-container');
                 container.innerHTML = `
-                    <div class="original-material">
-                        <h3>Original Material</h3>
-                        <div class="material-card original">
-                            <h4>${material.name}</h4>
-                            <div class="material-details">
-                                <p><strong>ID:</strong> <span class="raw-code">${material.id}</span></p>
-                                <p><strong>Price:</strong> ${material.price.value} ${material.price.unit}</p>
-                                <p><strong>Lead Time:</strong> ${material.lead_time.days} days</p>
-                                <p><strong>MOQ:</strong> ${material.moq}</p>
-                                <p><strong>Certifications:</strong> ${material.certifications.join(', ') || 'None'}</p>
-                            </div>
+                    <section class="original-material">
+                        <div class="section-headline-row">
+                            <h3>Reference Material</h3>
+                            <p class="section-meta">Baseline for all score dimensions</p>
                         </div>
-                    </div>
+                        <article class="material-card original">
+                            <h4>${material.name}</h4>
+                            <div class="material-details-grid">
+                                <div><span class="label">ID</span><span class="value mono">${material.id}</span></div>
+                                <div><span class="label">Price</span><span class="value mono">${material.price.value} ${material.price.unit}</span></div>
+                                <div><span class="label">Lead Time</span><span class="value mono">${material.lead_time.days} days</span></div>
+                                <div><span class="label">MOQ</span><span class="value mono">${material.moq}</span></div>
+                                <div><span class="label">Certifications</span><span class="value">${material.certifications.join(', ') || 'None'}</span></div>
+                            </div>
+                        </article>
+                    </section>
                 `;
             }
 
@@ -229,62 +321,33 @@
                 document.getElementById('search-section').classList.remove('hidden');
             }
 
-            showLoading() {
-                // Avoid duplicate overlays
-                if (document.querySelector('.loading-overlay')) return;
-
-                this.loadingProgress = 5;
+            showLoadingSkeleton() {
+                if (this.loadingOverlay) return;
 
                 const overlay = document.createElement('div');
                 overlay.className = 'loading-overlay';
                 overlay.innerHTML = `
-                    <div class="loading-card">
-                        <h3>Analyzing materials...</h3>
-                        <div class="loading-progress-track">
-                            <div class="loading-progress-fill" style="width: 5%"></div>
+                    <div class="loading-skeleton-card" role="status" aria-live="polite">
+                        <p>Crunching scenario data...</p>
+                        <div class="skeleton-row"></div>
+                        <div class="skeleton-row"></div>
+                        <div class="skeleton-row short"></div>
+                        <div class="skeleton-table">
+                            <div class="skeleton-cell"></div>
+                            <div class="skeleton-cell"></div>
+                            <div class="skeleton-cell"></div>
+                            <div class="skeleton-cell"></div>
                         </div>
-                        <p class="loading-progress-label">5%</p>
                     </div>
                 `;
                 document.body.appendChild(overlay);
-
-                const startedAt = Date.now();
-                this.loadingInterval = window.setInterval(() => {
-                    const elapsed = Date.now() - startedAt;
-                    const target = Math.min(95, 5 + Math.floor((elapsed / 5000) * 90));
-                    if (target > this.loadingProgress) {
-                        this.loadingProgress = target;
-                        this.updateLoadingProgress(this.loadingProgress);
-                    }
-                }, 120);
+                this.loadingOverlay = overlay;
             }
 
-            hideLoading() {
-                const overlay = document.querySelector('.loading-overlay');
-                if (!overlay) return;
-
-                if (this.loadingInterval) {
-                    window.clearInterval(this.loadingInterval);
-                    this.loadingInterval = null;
-                }
-
-                this.loadingProgress = 100;
-                this.updateLoadingProgress(100);
-
-                window.setTimeout(() => {
-                    overlay.remove();
-                }, 220);
-            }
-
-            updateLoadingProgress(value) {
-                const overlay = document.querySelector('.loading-overlay');
-                if (!overlay) return;
-
-                const fill = overlay.querySelector('.loading-progress-fill');
-                const label = overlay.querySelector('.loading-progress-label');
-
-                if (fill) fill.style.width = `${value}%`;
-                if (label) label.textContent = `${value}%`;
+            hideLoadingSkeleton() {
+                if (!this.loadingOverlay) return;
+                this.loadingOverlay.remove();
+                this.loadingOverlay = null;
             }
 
             showError(message) {
@@ -296,7 +359,6 @@
             }
         }
 
-        // Initialize app when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             new App();
         });
