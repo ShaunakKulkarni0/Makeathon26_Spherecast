@@ -5,6 +5,7 @@ import unittest
 from shared.schemas import UserRequirements
 from src.scoring.composite import calculate_composite_score
 from src.scoring.pipeline import find_substitutes
+from tests.scoring.embedding_test_utils import embedding_backend_available
 from tests.scoring.factories import make_material
 
 
@@ -31,6 +32,10 @@ class TestCompositeAndPipeline(unittest.TestCase):
         self.assertAlmostEqual(result.confidence, 0.4, places=3)
 
     def test_pipeline_returns_ranked_result_with_explanation(self) -> None:
+        available, reason = embedding_backend_available()
+        if not available:
+            self.skipTest(reason)
+
         original = make_material(
             "orig",
             certifications=["RoHS", "ISO9001"],

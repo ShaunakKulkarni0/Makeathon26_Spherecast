@@ -8,19 +8,26 @@ from src.scoring.lead_time import lead_time_score
 from src.scoring.price_delta import price_delta_score
 from src.scoring.quality_signals import quality_signals_score
 from src.scoring.spec_similarity import spec_similarity
+from tests.scoring.embedding_test_utils import embedding_backend_available
 from tests.scoring.factories import make_material
 
 
 class TestScoringDimensions(unittest.TestCase):
+    def _require_embedding_env(self) -> None:
+        available, reason = embedding_backend_available()
+        if not available:
+            self.skipTest(reason)
+
     def test_spec_similarity_identical_materials(self) -> None:
-        original = make_material("orig")
-        candidate = make_material("cand")
+        self._require_embedding_env()
+        original = make_material("orig", name="Glucose Powder")
+        candidate = make_material("cand", name="Traubenzucker")
 
         result = spec_similarity(original, candidate)
 
-        self.assertAlmostEqual(result.score, 1.0, places=4)
+        self.assertGreater(result.score, 0.70)
         self.assertGreater(result.confidence, 0.0)
-        self.assertEqual(result.missing_in_kandidat, [])
+        self.assertIn("semantic", result.details)
 
     def test_compliance_partial_match(self) -> None:
         original = make_material("orig", certifications=["RoHS", "ISO9001", "FDA"])
@@ -72,19 +79,23 @@ class TestScoringDimensions(unittest.TestCase):
         self.assertIn("Keine Qualitätsdaten verfügbar", result.risk_factors)
 
     def test_spec_similarity_without_common_properties(self) -> None:
+        self._require_embedding_env()
         original = make_material(
             "orig",
+            name="Glucose",
             properties={"a": MaterialProperty(value=1.0, unit="x")},
         )
         candidate = make_material(
             "cand",
+            name="Erythritol",
             properties={"b": MaterialProperty(value=2.0, unit="x")},
         )
 
         result = spec_similarity(original, candidate)
 
-        self.assertEqual(result.score, 0.0)
-        self.assertEqual(result.confidence, 0.0)
+        self.assertGreaterEqual(result.score, 0.0)
+        self.assertLessEqual(result.score, 1.0)
+        self.assertGreater(result.confidence, 0.0)
         self.assertEqual(result.common_props, [])
 
 

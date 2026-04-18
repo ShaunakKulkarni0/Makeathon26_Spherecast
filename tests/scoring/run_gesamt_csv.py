@@ -18,12 +18,18 @@ def main() -> int:
     original, candidates = load_materials_csv(materials_csv)
     requirements = load_requirements_csv(requirements_csv)
 
-    result = find_substitutes(
-        original=original,
-        candidates=candidates,
-        user_requirements=requirements,
-        top_n=3,
-    )
+    try:
+        result = find_substitutes(
+            original=original,
+            candidates=candidates,
+            user_requirements=requirements,
+            top_n=3,
+        )
+    except Exception as exc:
+        print("Scoring run failed before result generation.")
+        print(f"Reason: {exc}")
+        print("Hint: Ensure OPENAI_API_KEY is set and outbound network to OpenAI is available.")
+        return 1
 
     print("=== CSV -> ScoringResult Demo ===")
     print(f"Original: {result.original.id} ({result.original.name})")
