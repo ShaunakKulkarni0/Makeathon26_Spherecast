@@ -453,55 +453,46 @@ Datei: spec_similarity.py
 
 ### Zweck
 
-Technische Eigenschaften (numerische Properties) zwischen Original und Kandidat vergleichen.
+Semantische Austauschbarkeit zwischen Original und Kandidat vergleichen, speziell für Supplements/Lebensmittelzutaten.
 
 ### Datentyp
 
-Numerische Properties wie Zugfestigkeit, Dichte, Schmelzpunkt, E-Modul, etc.
+Semantische Materialbeschreibungen (Name, Synonyme, Funktion, Kategorie, Properties, Beschreibung).
 
 ### Methode
 
-Cosine Similarity auf normalisierten Property-Vektoren.
+Semantic Similarity via OpenAI Embeddings (`text-embedding-3-small`).
 
 ### Algorithmus
 
 ```
-Schritt 1: Gemeinsame Properties finden
-           common_props = original.properties.keys() ∩ kandidat.properties.keys()
+Schritt 1: Material in Text transformieren
+           material_to_text(material):
+             - Name
+             - Synonyme
+             - Funktionale Tags (z.B. sweetener, carrier)
+             - Kategorie
+             - Properties
+             - Kurzbeschreibung
 
-Schritt 2: Werte extrahieren
-           vec_original = [original.properties[p].value for p in sorted(common_props)]
-           vec_kandidat = [kandidat.properties[p].value for p in sorted(common_props)]
+Schritt 2: Embeddings berechnen
+           embedding = OpenAI(text-embedding-3-small, material_text)
 
-Schritt 3: Min-Max Normalisierung pro Property
-           Nutze PROPERTY_RANGES für bekannte Properties
-           normalized_value = (value - min) / (max - min)
+Schritt 3: Embedding-Cache prüfen
+           Key = sha256(material_text)
+           Falls vorhanden: Cache nutzen
+           Sonst: API-Call und speichern
 
 Schritt 4: Cosine Similarity berechnen
            cos_sim = (A · B) / (||A|| × ||B||)
 
 Schritt 5: Evidence sammeln
-           Für jede Property: Quelle dokumentieren
+           Embedding-Quelle, Modell, Text-Hash dokumentieren
 
 Schritt 6: Confidence berechnen
-           Basierend auf: Datenquellen, Vollständigkeit, Aktualität
+           Basierend auf Textqualität (Informationsdichte/Länge) + Evidence Confidence
 
 Schritt 7: Score + Evidence + Confidence zurückgeben
-```
-
-### Property Ranges
-
-```python
-PROPERTY_RANGES = {
-    "zugfestigkeit":      {"min": 1,     "max": 2000,   "unit": "MPa"},
-    "dichte":             {"min": 0.1,   "max": 25.0,   "unit": "g/cm³"},
-    "e_modul":            {"min": 100,   "max": 500000, "unit": "MPa"},
-    "schmelzpunkt":       {"min": 50,    "max": 3500,   "unit": "°C"},
-    "biegefestigkeit":    {"min": 1,     "max": 1000,   "unit": "MPa"},
-    "haerte":             {"min": 1,     "max": 100,    "unit": "HRC"},
-    "waermeleitfaehigkeit": {"min": 0.01, "max": 500,   "unit": "W/mK"},
-    "bruchdehnung":       {"min": 0,     "max": 100,    "unit": "%"},
-}
 ```
 
 ### Funktion
@@ -546,10 +537,10 @@ class PropertyComparison:
 
 ### Edge Cases
 
-- Keine gemeinsamen Properties: score = 0.0, confidence = 0.0
-- Property nicht in PROPERTY_RANGES: Dynamischer Range aus den zwei Werten
+- Fehlender `OPENAI_API_KEY`: fail-fast mit klarer Fehlermeldung
+- Embedding API nicht erreichbar: Fehler propagieren (kein stiller Fallback)
+- Sehr kurze/arme Texte: niedrigere Confidence
 - Division by Zero bei Magnitude: score = 0.0
-- Fehlende Datenquelle: confidence reduzieren, INFERRED Evidence-Type
 
 ## Dimension 2: Compliance Match (25%)
 

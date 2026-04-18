@@ -5,10 +5,15 @@ from pathlib import Path
 
 from src.scoring.pipeline import find_substitutes
 from tests.scoring.csv_loader import load_materials_csv, load_requirements_csv
+from tests.scoring.embedding_test_utils import embedding_backend_available
 
 
 class TestGesamt(unittest.TestCase):
     def test_csv_to_scoring_end_to_end(self) -> None:
+        available, reason = embedding_backend_available()
+        if not available:
+            self.skipTest(reason)
+
         data_dir = Path(__file__).parent / "data"
         materials_csv = data_dir / "gesamt_materials.csv"
         requirements_csv = data_dir / "gesamt_requirements.csv"

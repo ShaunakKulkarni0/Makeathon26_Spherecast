@@ -10,11 +10,16 @@ from shared.schemas import (
     UserRequirements,
 )
 from src.scoring.pipeline import find_substitutes
+from tests.scoring.embedding_test_utils import embedding_backend_available
 from tests.scoring.factories import make_material
 
 
 class TestPipelineEndToEnd(unittest.TestCase):
     def test_pipeline_end_to_end_without_bom_context(self) -> None:
+        available, reason = embedding_backend_available()
+        if not available:
+            self.skipTest(reason)
+
         original = make_material(
             "orig",
             certifications=["RoHS", "ISO9001"],
@@ -87,6 +92,10 @@ class TestPipelineEndToEnd(unittest.TestCase):
         self.assertGreaterEqual(len(result.rejected[0].evidence), 1)
 
     def test_pipeline_end_to_end_with_bom_context(self) -> None:
+        available, reason = embedding_backend_available()
+        if not available:
+            self.skipTest(reason)
+
         original = make_material("orig-bom", price_value=2.0, lead_days=14, country_of_origin="DE")
         candidate = make_material(
             "cand-bom",
