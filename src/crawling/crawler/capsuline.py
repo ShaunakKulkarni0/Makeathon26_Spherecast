@@ -80,11 +80,23 @@ def _scrape_detail_page(url: str, driver_or_session) -> Dict[str, Any]:
 
     # 2. Price
     price = ""
-    price_elem = soup.find(class_="price")
-    if price_elem:
-        raw_price = price_elem.text.strip()
-        price_lines = [line.strip() for line in raw_price.split("\n") if line.strip()]
-        price = price_lines[0] if price_lines else raw_price
+    # The true computed price (with VAT/local taxes) is rendered by JS inside the "Add to cart" button
+    add_to_cart_btn = soup.find("button", {"name": "add"}) or soup.find("button", class_="product-form__submit")
+    if add_to_cart_btn:
+        btn_text = add_to_cart_btn.text.strip()
+        # "Add to cart - €761,95" -> "€761,95"
+        if "-" in btn_text:
+            price = btn_text.split("-")[-1].strip()
+        else:
+            price = btn_text
+            
+    # Fallback to OG tags if button is somehow missing
+    if not price:
+        og_price = soup.find("meta", property="og:price:amount")
+        og_currency = soup.find("meta", property="og:price:currency")
+        if og_price and og_price.get("content"):
+            currency_sym = "€" if (og_currency and "EUR" in og_currency.get("content", "")) else (og_currency.get("content", "") if og_currency else "")
+            price = f"{currency_sym}{og_price.get('content')}"
 
     # 3. Documents
     certifications = []
