@@ -57,6 +57,14 @@ def _is_non_empty(value: str | None) -> bool:
     return value is not None and value.strip() != ""
 
 
+def _first_non_empty(row: dict[str, str], keys: tuple[str, ...]) -> str | None:
+    for key in keys:
+        value = row.get(key)
+        if _is_non_empty(value):
+            return value.strip()
+    return None
+
+
 def _validate_requirements_row(row: dict[str, str], path: Path) -> None:
     if None in row and row[None]:
         raise ValueError(
@@ -168,6 +176,15 @@ def material_from_row(row: dict[str, str]) -> CrawledMaterial:
     certifications = _parse_json(row.get("certifications_json"), [])
     tiers = _parse_json(row.get("price_tiers_json"), None)
 
+    seller_email = _first_non_empty(
+        row,
+        ("seller_email", "sales_email", "contact_email", "email"),
+    )
+    seller_website = _first_non_empty(
+        row,
+        ("seller_website", "website", "supplier_website", "source_url"),
+    )
+
     return CrawledMaterial(
         id=row["id"],
         name=row["name"],
@@ -188,6 +205,8 @@ def material_from_row(row: dict[str, str]) -> CrawledMaterial:
         country_of_origin=row["country_of_origin"],
         incoterm=row["incoterm"],
         source_url=row.get("source_url") or None,
+        seller_email=seller_email,
+        seller_website=seller_website,
         allergen_profile=AllergenProfile(
             contains=list(_parse_json(row.get("allergens_contains_json"), [])),
             may_contain=list(_parse_json(row.get("allergens_may_contain_json"), [])),

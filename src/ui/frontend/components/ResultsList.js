@@ -91,7 +91,7 @@ export class ResultsList {
                 <details class="candidate-detail-panel">
                     <summary>Show Explanation & Uncertainty</summary>
                     <div class="candidate-detail-body">
-                        ${this.renderExplanation(explanation)}
+                        ${this.renderExplanation(candidate)}
                         ${this.renderUncertainty(uncertainty)}
                     </div>
                 </details>
@@ -125,26 +125,53 @@ export class ResultsList {
         `;
     }
 
-    renderExplanation(explanation) {
-        if (!explanation) {
-            return `<p><strong>Explanation:</strong> not available</p>`;
-        }
+    renderExplanation(candidate) {
+        const explanation = candidate?.explanation || null;
+        const material = candidate?.kandidat || {};
+        const allergenRisk = candidate?.details?.allergen_risk || {};
 
-        const strengths = (explanation.strengths || []).map((s) => s.text).slice(0, 3);
-        const weaknesses = (explanation.weaknesses || []).map((w) => w.text).slice(0, 3);
-        const risks = explanation.risks || [];
+        const sellerEmail = String(material.seller_email || '').trim();
+        const sellerWebsite = String(material.seller_website || material.source_url || '').trim();
+        const prohibited = Array.isArray(allergenRisk.prohibited_allergens)
+            ? allergenRisk.prohibited_allergens
+            : [];
+        const containsHits = Array.isArray(allergenRisk.contains_hits) ? allergenRisk.contains_hits : [];
+        const mayContainHits = Array.isArray(allergenRisk.may_contain_hits) ? allergenRisk.may_contain_hits : [];
+        const hasAllergenData = Boolean(allergenRisk.has_allergen_data);
+
+        const strengths = explanation ? (explanation.strengths || []).map((s) => s.text).slice(0, 3) : [];
+        const weaknesses = explanation ? (explanation.weaknesses || []).map((w) => w.text).slice(0, 3) : [];
+        const risks = explanation ? (explanation.risks || []) : [];
 
         return `
             <div class="candidate-explanation">
                 <h5>Explanation</h5>
-                <p><strong>Summary:</strong> ${explanation.summary || '-'}</p>
-                <p><strong>Recommendation:</strong> ${explanation.recommendation || '-'}</p>
-                <p><strong>Confidence Statement:</strong> ${explanation.confidence_statement || '-'}</p>
+                <p><strong>Summary:</strong> ${explanation?.summary || 'not available'}</p>
+                <p><strong>Recommendation:</strong> ${explanation?.recommendation || 'not available'}</p>
+                <p><strong>Confidence Statement:</strong> ${explanation?.confidence_statement || 'not available'}</p>
                 <p><strong>Strengths:</strong> ${strengths.length ? strengths.join(' | ') : 'none'}</p>
                 <p><strong>Weaknesses:</strong> ${weaknesses.length ? weaknesses.join(' | ') : 'none'}</p>
                 <p><strong>Risks:</strong> ${risks.length ? risks.join(' | ') : 'none'}</p>
+                <h5>Contact & Allergen Information</h5>
+                <p><strong>For more information, contact sales:</strong> ${sellerEmail || 'No email for the seller'}</p>
+                <p><strong>Website:</strong> ${sellerWebsite || 'No website for the seller'}</p>
+                <p><strong>Selected prohibited allergens:</strong> ${prohibited.length ? prohibited.join(', ') : 'none selected'}</p>
+                <p><strong>Allergen check:</strong> ${this.renderAllergenCheck(containsHits, mayContainHits, hasAllergenData)}</p>
             </div>
         `;
+    }
+
+    renderAllergenCheck(containsHits, mayContainHits, hasAllergenData) {
+        if (!hasAllergenData) {
+            return 'Contact seller for better information';
+        }
+        if (containsHits.length) {
+            return `Contains prohibited allergens: ${containsHits.join(', ')}`;
+        }
+        if (mayContainHits.length) {
+            return `May contain prohibited allergens: ${mayContainHits.join(', ')}`;
+        }
+        return 'No prohibited allergen matches found in available data';
     }
 
     renderUncertainty(uncertainty) {
