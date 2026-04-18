@@ -1,209 +1,323 @@
 {
-  "timestamp": "2026-04-18T13:00:34Z",
+  "timestamp": "2026-04-18T16:55:57Z",
   "supplier": "Capsuline",
   "products": [
     {
-      "product_id": "clear-gelatin-capsules-size-4-box-of-250-000",
-      "name": "Clear Gelatin Capsules Size 4 (Box of 250,000)",
-      "price": "€1.293,95",
-      "url": "https://eu.capsuline.com/products/clear-gelatin-capsules-size-4-box-of-250-000",
+      "product_id": "colored-vegetarian-capsules-size-0-blue-blue-free-tio2",
+      "name": "Capsuline Spirulina Natural Colorant Empty Vegetarian Capsules Size 0",
+      "price": "€820,95",
+      "url": "https://eu.capsuline.com/products/colored-vegetarian-capsules-size-0-blue-blue-free-tio2",
       "documents": {
         "certifications": [
           {
             "title": "COA Sample",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/SAMPLE_COA_00E_GEL_1.pdf?v=1752513780",
-            "local_path": "assets/documents/capsuline/COA_Sample_a309d24b.pdf"
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/K2202001655_1.pdf?v=1656425235",
+            "local_path": "assets/documents/capsuline/COA_Sample_2bebe3c5.pdf"
+          },
+          {
+            "title": "Ko Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Ko_Kosher_Certificate_84d91d72.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_f7e4e812.pdf"
+          },
+          {
+            "title": "Vegan Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/vegan.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Vegan_Certificate_c907a66c.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/veg-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_d7b2c35b.pdf"
+          }
+        ],
+        "technical_sheet": null
+      }
+    },
+    {
+      "product_id": "colored-empty-vegetarian-capsules-size-1-box-of-125-000",
+      "name": "Colored Empty Vegetarian Capsules Size 1 (Box of 125,000)",
+      "price": "€826,95",
+      "url": "https://eu.capsuline.com/products/colored-empty-vegetarian-capsules-size-1-box-of-125-000",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/K2202001655_1.pdf?v=1656425235",
+            "local_path": "assets/documents/capsuline/COA_Sample_b93a1c47.pdf"
+          },
+          {
+            "title": "Ko Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Ko_Kosher_Certificate_08bc0c96.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_facaeb4b.pdf"
+          },
+          {
+            "title": "Vegan Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/vegan.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Vegan_Certificate_4c3cee6b.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/veg-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_1afd809d.pdf"
+          }
+        ],
+        "technical_sheet": null
+      }
+    },
+    {
+      "product_id": "capsuline-separated-size-0-clear-gelatin-empty-capsules",
+      "name": "Clear 0 Separated Capsules | Fast Fill - Caspuline",
+      "price": "€19,95",
+      "url": "https://eu.capsuline.com/products/capsuline-separated-size-0-clear-gelatin-empty-capsules",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/F2202000360_1.pdf?v=1656446578",
+            "local_path": "assets/documents/capsuline/COA_Sample_5354f2ce.pdf"
           },
           {
             "title": "Kosher Certificate",
             "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Kosher_Certificate_0942b996.pdf"
+            "local_path": "assets/documents/capsuline/Kosher_Certificate_5070eb5e.pdf"
           },
           {
             "title": "Halal Certificate",
             "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Halal_Certificate_889efeba.pdf"
+            "local_path": "assets/documents/capsuline/Halal_Certificate_92054b3f.pdf"
           },
           {
             "title": "Allergen Free",
             "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
-            "local_path": "assets/documents/capsuline/Allergen_Free_a1d7428f.pdf"
+            "local_path": "assets/documents/capsuline/Allergen_Free_7812c0be.pdf"
+          }
+        ],
+        "technical_sheet": null
+      }
+    },
+    {
+      "product_id": "petcaps-trade-chicken-flavored-size-1",
+      "name": "Buy Gelatin Capsules for Pets Size 3 (Box of 200,000)",
+      "price": "€1.500,95",
+      "url": "https://eu.capsuline.com/products/petcaps-trade-chicken-flavored-size-1",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Petcaps_coa.pdf?v=1659122475",
+            "local_path": "assets/documents/capsuline/COA_Sample_816229c7.pdf"
+          },
+          {
+            "title": "Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/KoKosher_FSA_2022.pdf?v=1656447513",
+            "local_path": "assets/documents/capsuline/Kosher_Certificate_0deb86f1.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Halal_Gelatin_Certificate_2022.pdf?v=1656446766",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_cca3b0aa.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Allergen_Free_-_Gelatin_-_Capsuline.pdf?v=1656446870",
+            "local_path": "assets/documents/capsuline/Allergen_Free_417a6c8a.pdf"
           }
         ],
         "technical_sheet": {
-          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_-_Gelatin_-_Capsuline_2023.pdf?v=1678912151",
-          "local_path": "assets/documents/capsuline/Technical_Sheet_2028b4ce.pdf"
+          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Cats_Palatability_Study.pdf?v=1657917610",
+          "local_path": "assets/documents/capsuline/Technical_Sheet_fba1b98d.pdf"
         }
       }
     },
     {
-      "product_id": "separated-empty-gelatin-capsules-size-00-box-of-75-000-f05592-sep",
-      "name": "Separated Empty Gelatin Capsules Size 00 (Box of 75,000)",
-      "price": "€904,95",
-      "url": "https://eu.capsuline.com/products/separated-empty-gelatin-capsules-size-00-box-of-75-000-f05592-sep",
+      "product_id": "titanium-dioxide-tio2-free-colored-empty-vegetarian-capsules-size-0-box-of-100-000",
+      "name": "Titanium Dioxide (TiO2) Free - Colored Empty Vegetarian Capsules Size",
+      "price": "€749,95",
+      "url": "https://eu.capsuline.com/products/titanium-dioxide-tio2-free-colored-empty-vegetarian-capsules-size-0-box-of-100-000",
       "documents": {
         "certifications": [
           {
             "title": "COA Sample",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/SAMPLE_COA_00E_GEL_1.pdf?v=1752513780",
-            "local_path": "assets/documents/capsuline/COA_Sample_42c05f95.pdf"
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/K2202001655_1.pdf?v=1656425235",
+            "local_path": "assets/documents/capsuline/COA_Sample_1708344e.pdf"
           },
           {
-            "title": "Kosher Certificate",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Kosher_Certificate_5e948612.pdf"
+            "title": "Ko Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Ko_Kosher_Certificate_07d8671d.pdf"
           },
           {
             "title": "Halal Certificate",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Halal_Certificate_aab34b4e.pdf"
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_e01e0470.pdf"
+          },
+          {
+            "title": "Vegan Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/vegan.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Vegan_Certificate_a8f1414a.pdf"
           },
           {
             "title": "Allergen Free",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
-            "local_path": "assets/documents/capsuline/Allergen_Free_330a48f9.pdf"
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/veg-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_30997fa9.pdf"
+          }
+        ],
+        "technical_sheet": null
+      }
+    },
+    {
+      "product_id": "vegetarian-acid-resistant-enteric-empty-capsules-size-0-box-of-125-000",
+      "name": "Vegetarian Acid Resistant Enteric Empty Capsules Size 0 (Box of 100,00",
+      "price": "Add to cart",
+      "url": "https://eu.capsuline.com/products/vegetarian-acid-resistant-enteric-empty-capsules-size-0-box-of-125-000",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/K2202001655_1.pdf?v=1656425235",
+            "local_path": "assets/documents/capsuline/COA_Sample_96203a70.pdf"
+          },
+          {
+            "title": "Ko Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Ko_Kosher_Certificate_28bb7259.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_ac991ee3.pdf"
+          },
+          {
+            "title": "Vegan Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/vegan.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Vegan_Certificate_3dbf67c4.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/veg-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_9fd5a2a0.pdf"
+          },
+          {
+            "title": "Request a quote",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_AR_Caps_-_Capsuline_2023.pdf?v=1682104534",
+            "local_path": "assets/documents/capsuline/Request_a_quote_ee24e0a1.pdf"
           }
         ],
         "technical_sheet": {
-          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_-_Gelatin_-_Capsuline_2023.pdf?v=1678912151",
-          "local_path": "assets/documents/capsuline/Technical_Sheet_48b27875.pdf"
+          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_AR_Caps_-_Capsuline_2023.pdf?v=1682104534",
+          "local_path": "assets/documents/capsuline/Technical_Sheet_6619e10e.pdf"
         }
       }
     },
     {
-      "product_id": "clear-gelatin-capsules-size-3-box-of-200-000",
-      "name": "Clear Gelatin Capsules Size 3 (Box of 200,000)",
-      "price": "€1.034,95",
-      "url": "https://eu.capsuline.com/products/clear-gelatin-capsules-size-3-box-of-200-000",
+      "product_id": "clear-vegetarian-pullulan-capsules-size-00-p",
+      "name": "Clear Pullulan Vegetarian Capsules Size 00 by Capsuline",
+      "price": "€19,95",
+      "url": "https://eu.capsuline.com/products/clear-vegetarian-pullulan-capsules-size-00-p",
       "documents": {
         "certifications": [
           {
             "title": "COA Sample",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/SAMPLE_COA_00E_GEL_1.pdf?v=1752513780",
-            "local_path": "assets/documents/capsuline/COA_Sample_41912f53.pdf"
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/F2202000360_1.pdf?v=1656446578",
+            "local_path": "assets/documents/capsuline/COA_Sample_3bca6fcf.pdf"
           },
           {
             "title": "Kosher Certificate",
             "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Kosher_Certificate_78b7a5c8.pdf"
+            "local_path": "assets/documents/capsuline/Kosher_Certificate_d9746c27.pdf"
           },
           {
             "title": "Halal Certificate",
             "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Halal_Certificate_67c85d0a.pdf"
+            "local_path": "assets/documents/capsuline/Halal_Certificate_53ec149e.pdf"
           },
           {
             "title": "Allergen Free",
             "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
-            "local_path": "assets/documents/capsuline/Allergen_Free_a336b78c.pdf"
+            "local_path": "assets/documents/capsuline/Allergen_Free_41879abe.pdf"
+          }
+        ],
+        "technical_sheet": null
+      }
+    },
+    {
+      "product_id": "capsuline-petcaps-chicken-flavored-gelatin-empty-capsules-size-3",
+      "name": "Chicken Flavored Empty Capsules for Pets | Size 3 - Caspuline",
+      "price": "€9,95",
+      "url": "https://eu.capsuline.com/products/capsuline-petcaps-chicken-flavored-gelatin-empty-capsules-size-3",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Petcaps_coa.pdf?v=1659122475",
+            "local_path": "assets/documents/capsuline/COA_Sample_32dab7ef.pdf"
+          },
+          {
+            "title": "Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/KoKosher_FSA_2022.pdf?v=1656447513",
+            "local_path": "assets/documents/capsuline/Kosher_Certificate_7962a965.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Halal_Gelatin_Certificate_2022.pdf?v=1656446766",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_ed53e520.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Allergen_Free_-_Gelatin_-_Capsuline.pdf?v=1656446870",
+            "local_path": "assets/documents/capsuline/Allergen_Free_349dd0f5.pdf"
           }
         ],
         "technical_sheet": {
-          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_-_Gelatin_-_Capsuline_2023.pdf?v=1678912151",
-          "local_path": "assets/documents/capsuline/Technical_Sheet_8b2a4de8.pdf"
+          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Cats_Palatability_Study.pdf?v=1657917610",
+          "local_path": "assets/documents/capsuline/Technical_Sheet_7a2ab1c2.pdf"
         }
       }
     },
     {
-      "product_id": "joined-empty-gelatin-capsules-size-4-box-of-250-000",
-      "name": "Colored Empty Gelatin Capsules Size 4 (Box of 250,000)",
-      "price": "€1.490,95",
-      "url": "https://eu.capsuline.com/products/joined-empty-gelatin-capsules-size-4-box-of-250-000",
+      "product_id": "clear-vegetarian-capsules-size-2-box-of-175-000",
+      "name": "Clear Vegetarian Capsules Size 2 (Box of 175,000)",
+      "price": "€1.139,95",
+      "url": "https://eu.capsuline.com/products/clear-vegetarian-capsules-size-2-box-of-175-000",
       "documents": {
         "certifications": [
           {
             "title": "COA Sample",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/SAMPLE_COA_00E_GEL_1.pdf?v=1752513780",
-            "local_path": "assets/documents/capsuline/COA_Sample_28443039.pdf"
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/K2202001655_1.pdf?v=1656425235",
+            "local_path": "assets/documents/capsuline/COA_Sample_cde751d6.pdf"
           },
           {
-            "title": "Kosher Certificate",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Kosher_Certificate_fe5b0922.pdf"
-          },
-          {
-            "title": "Halal Certificate",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Halal_Certificate_39da8d35.pdf"
-          },
-          {
-            "title": "Allergen Free",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
-            "local_path": "assets/documents/capsuline/Allergen_Free_f626caf1.pdf"
-          }
-        ],
-        "technical_sheet": {
-          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_-_Gelatin_-_Capsuline_2023.pdf?v=1678912151",
-          "local_path": "assets/documents/capsuline/Technical_Sheet_1dc17158.pdf"
-        }
-      }
-    },
-    {
-      "product_id": "clear-gelatin-capsules-size-00-box-of-70-000",
-      "name": "Clear Empty Gelatin Capsules Size 00 (Box of 70,000)",
-      "price": "€362,95",
-      "url": "https://eu.capsuline.com/products/clear-gelatin-capsules-size-00-box-of-70-000",
-      "documents": {
-        "certifications": [
-          {
-            "title": "COA Sample",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/SAMPLE_COA_00E_GEL_1.pdf?v=1752513780",
-            "local_path": "assets/documents/capsuline/COA_Sample_1e8fe83c.pdf"
-          },
-          {
-            "title": "Kosher Certificate",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Kosher_Certificate_58116724.pdf"
+            "title": "Ko Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Ko_Kosher_Certificate_0b15cc99.pdf"
           },
           {
             "title": "Halal Certificate",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Halal_Certificate_279ff74c.pdf"
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_439e3b37.pdf"
+          },
+          {
+            "title": "Vegan Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/vegan.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Vegan_Certificate_198a7262.pdf"
           },
           {
             "title": "Allergen Free",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
-            "local_path": "assets/documents/capsuline/Allergen_Free_c8605184.pdf"
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/veg-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_9e4b16f6.pdf"
           }
         ],
-        "technical_sheet": {
-          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_-_Gelatin_-_Capsuline_2023.pdf?v=1678912151",
-          "local_path": "assets/documents/capsuline/Technical_Sheet_0e452664.pdf"
-        }
-      }
-    },
-    {
-      "product_id": "clear-gelatin-capsules-size-2-box-of-175-000",
-      "name": "Clear Gelatin Capsules Size 2 (Box of 175,000)",
-      "price": "€743,95",
-      "url": "https://eu.capsuline.com/products/clear-gelatin-capsules-size-2-box-of-175-000",
-      "documents": {
-        "certifications": [
-          {
-            "title": "COA Sample",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/SAMPLE_COA_00E_GEL_1.pdf?v=1752513780",
-            "local_path": "assets/documents/capsuline/COA_Sample_30c3379c.pdf"
-          },
-          {
-            "title": "Kosher Certificate",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Kosher_Certificate_048c0aa2.pdf"
-          },
-          {
-            "title": "Halal Certificate",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Halal_Certificate_84646f01.pdf"
-          },
-          {
-            "title": "Allergen Free",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
-            "local_path": "assets/documents/capsuline/Allergen_Free_bd8e103e.pdf"
-          }
-        ],
-        "technical_sheet": {
-          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_-_Gelatin_-_Capsuline_2023.pdf?v=1678912151",
-          "local_path": "assets/documents/capsuline/Technical_Sheet_fd5736ca.pdf"
-        }
+        "technical_sheet": null
       }
     },
     {
@@ -216,22 +330,120 @@
           {
             "title": "COA Sample",
             "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/F2202000360_1.pdf?v=1656446578",
-            "local_path": "assets/documents/capsuline/COA_Sample_92bd29ef.pdf"
+            "local_path": "assets/documents/capsuline/COA_Sample_f5e886bb.pdf"
           },
           {
             "title": "Kosher Certificate",
             "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Kosher_Certificate_4b67fa4a.pdf"
+            "local_path": "assets/documents/capsuline/Kosher_Certificate_3db336d9.pdf"
           },
           {
             "title": "Halal Certificate",
             "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Halal_Certificate_978aea0c.pdf"
+            "local_path": "assets/documents/capsuline/Halal_Certificate_a293b274.pdf"
           },
           {
             "title": "Allergen Free",
             "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
-            "local_path": "assets/documents/capsuline/Allergen_Free_ff54b5a0.pdf"
+            "local_path": "assets/documents/capsuline/Allergen_Free_06e261aa.pdf"
+          }
+        ],
+        "technical_sheet": null
+      }
+    },
+    {
+      "product_id": "clear-size-5-empty-gelatin-capsules-by-capsuline",
+      "name": "Clear empty gelatin Capsules Size 5 | Mini Dose - Capsuline",
+      "price": "€721,95",
+      "url": "https://eu.capsuline.com/products/clear-size-5-empty-gelatin-capsules-by-capsuline",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/F2202000360_1.pdf?v=1656446578",
+            "local_path": "assets/documents/capsuline/COA_Sample_480a7d0a.pdf"
+          },
+          {
+            "title": "Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Kosher_Certificate_da4076ac.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_447e1a29.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_ad1a72a6.pdf"
+          }
+        ],
+        "technical_sheet": null
+      }
+    },
+    {
+      "product_id": "capsuline-chlorophyll-vegetarian-empty-capsules-size-00-green-green",
+      "name": "Capsuline Chlorophyll Empty Vegetarian Capsules Size 00 - Green/Green",
+      "price": "€33,95",
+      "url": "https://eu.capsuline.com/products/capsuline-chlorophyll-vegetarian-empty-capsules-size-00-green-green",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/K2202001655_1.pdf?v=1656425235",
+            "local_path": "assets/documents/capsuline/COA_Sample_7022a571.pdf"
+          },
+          {
+            "title": "Ko Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Ko_Kosher_Certificate_22eb4726.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_4b8e4d86.pdf"
+          },
+          {
+            "title": "Vegan Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/vegan.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Vegan_Certificate_54bc7254.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/veg-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_635f1716.pdf"
+          }
+        ],
+        "technical_sheet": null
+      }
+    },
+    {
+      "product_id": "clear-size-3-empty-gelatin-capsules-by-capsuline",
+      "name": "Clear empty Gelatin Capsules Size 3 - Caspuline",
+      "price": "€15,95",
+      "url": "https://eu.capsuline.com/products/clear-size-3-empty-gelatin-capsules-by-capsuline",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/F2202000360_1.pdf?v=1656446578",
+            "local_path": "assets/documents/capsuline/COA_Sample_e478133c.pdf"
+          },
+          {
+            "title": "Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Kosher_Certificate_8dda4a41.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_62c499b9.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_7eeba3e7.pdf"
           }
         ],
         "technical_sheet": null
@@ -247,197 +459,27 @@
           {
             "title": "COA Sample",
             "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/SAMPLE_COA_00E_GEL_1.pdf?v=1752513780",
-            "local_path": "assets/documents/capsuline/COA_Sample_a1357069.pdf"
+            "local_path": "assets/documents/capsuline/COA_Sample_94b3493c.pdf"
           },
           {
             "title": "Kosher Certificate",
             "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Kosher_Certificate_f32133dc.pdf"
+            "local_path": "assets/documents/capsuline/Kosher_Certificate_a71c6481.pdf"
           },
           {
             "title": "Halal Certificate",
             "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Halal_Certificate_04bdf180.pdf"
+            "local_path": "assets/documents/capsuline/Halal_Certificate_10262312.pdf"
           },
           {
             "title": "Allergen Free",
             "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
-            "local_path": "assets/documents/capsuline/Allergen_Free_d0122921.pdf"
+            "local_path": "assets/documents/capsuline/Allergen_Free_cc607209.pdf"
           }
         ],
         "technical_sheet": {
           "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_-_Gelatin_-_Capsuline_2023.pdf?v=1678912151",
-          "local_path": "assets/documents/capsuline/Technical_Sheet_c3761dba.pdf"
-        }
-      }
-    },
-    {
-      "product_id": "clear-gelatin-capsules-size-000-box-of-50-000",
-      "name": "Clear Gelatin Capsules Size 000 (Box of 50,000)",
-      "price": "€776,95",
-      "url": "https://eu.capsuline.com/products/clear-gelatin-capsules-size-000-box-of-50-000",
-      "documents": {
-        "certifications": [
-          {
-            "title": "COA Sample",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/SAMPLE_COA_00E_GEL_1.pdf?v=1752513780",
-            "local_path": "assets/documents/capsuline/COA_Sample_6f649c9d.pdf"
-          },
-          {
-            "title": "Kosher Certificate",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Kosher_Certificate_280f3103.pdf"
-          },
-          {
-            "title": "Halal Certificate",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Halal_Certificate_0d05fefc.pdf"
-          },
-          {
-            "title": "Allergen Free",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
-            "local_path": "assets/documents/capsuline/Allergen_Free_ce4ab0e2.pdf"
-          }
-        ],
-        "technical_sheet": {
-          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_-_Gelatin_-_Capsuline_2023.pdf?v=1678912151",
-          "local_path": "assets/documents/capsuline/Technical_Sheet_de12f12d.pdf"
-        }
-      }
-    },
-    {
-      "product_id": "colored-empty-gelatin-capsules-size-3-box-of-200-000",
-      "name": "Colored Empty Gelatin Capsules Size 3 (Box of 200,000)",
-      "price": "€928,95",
-      "url": "https://eu.capsuline.com/products/colored-empty-gelatin-capsules-size-3-box-of-200-000",
-      "documents": {
-        "certifications": [
-          {
-            "title": "COA Sample",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/SAMPLE_COA_00E_GEL_1.pdf?v=1752513780",
-            "local_path": "assets/documents/capsuline/COA_Sample_d0a3993b.pdf"
-          },
-          {
-            "title": "Kosher Certificate",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Kosher_Certificate_5e21da42.pdf"
-          },
-          {
-            "title": "Halal Certificate",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Halal_Certificate_dbd5f706.pdf"
-          },
-          {
-            "title": "Allergen Free",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
-            "local_path": "assets/documents/capsuline/Allergen_Free_5c8b0d76.pdf"
-          }
-        ],
-        "technical_sheet": {
-          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_-_Gelatin_-_Capsuline_2023.pdf?v=1678912151",
-          "local_path": "assets/documents/capsuline/Technical_Sheet_d6741d3c.pdf"
-        }
-      }
-    },
-    {
-      "product_id": "clear-gelatin-capsules-size-1-box-of-125-000",
-      "name": "Clear Gelatin Capsules Size 1 (Box of 125,000)",
-      "price": "€638,95",
-      "url": "https://eu.capsuline.com/products/clear-gelatin-capsules-size-1-box-of-125-000",
-      "documents": {
-        "certifications": [
-          {
-            "title": "COA Sample",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/SAMPLE_COA_00E_GEL_1.pdf?v=1752513780",
-            "local_path": "assets/documents/capsuline/COA_Sample_e7810f0d.pdf"
-          },
-          {
-            "title": "Kosher Certificate",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Kosher_Certificate_ac120b08.pdf"
-          },
-          {
-            "title": "Halal Certificate",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Halal_Certificate_673c4721.pdf"
-          },
-          {
-            "title": "Allergen Free",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
-            "local_path": "assets/documents/capsuline/Allergen_Free_8d0221ad.pdf"
-          }
-        ],
-        "technical_sheet": {
-          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_-_Gelatin_-_Capsuline_2023.pdf?v=1678912151",
-          "local_path": "assets/documents/capsuline/Technical_Sheet_aebaf9df.pdf"
-        }
-      }
-    },
-    {
-      "product_id": "joined-flavored-gelatin-capsules-for-pets-size-1-box-of-125-000",
-      "name": "Joined Flavored Gelatin Capsules for Pets Size 1 (Box of 125,000)",
-      "price": "€1.033,95",
-      "url": "https://eu.capsuline.com/products/joined-flavored-gelatin-capsules-for-pets-size-1-box-of-125-000",
-      "documents": {
-        "certifications": [
-          {
-            "title": "COA Sample",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Petcaps_coa.pdf?v=1659122475",
-            "local_path": "assets/documents/capsuline/COA_Sample_230f0720.pdf"
-          },
-          {
-            "title": "Kosher Certificate",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/KoKosher_FSA_2022.pdf?v=1656447513",
-            "local_path": "assets/documents/capsuline/Kosher_Certificate_ac420c91.pdf"
-          },
-          {
-            "title": "Halal Certificate",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Halal_Gelatin_Certificate_2022.pdf?v=1656446766",
-            "local_path": "assets/documents/capsuline/Halal_Certificate_cd44cb59.pdf"
-          },
-          {
-            "title": "Allergen Free",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Allergen_Free_-_Gelatin_-_Capsuline.pdf?v=1656446870",
-            "local_path": "assets/documents/capsuline/Allergen_Free_9abd3b19.pdf"
-          }
-        ],
-        "technical_sheet": {
-          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Cats_Palatability_Study.pdf?v=1657917610",
-          "local_path": "assets/documents/capsuline/Technical_Sheet_31f05a3c.pdf"
-        }
-      }
-    },
-    {
-      "product_id": "clear-gelatin-capsules-size-0-box-of-100-000-f00043",
-      "name": "Clear Gelatin Capsules Size 0 (Box of 100,000)",
-      "price": "€372,95",
-      "url": "https://eu.capsuline.com/products/clear-gelatin-capsules-size-0-box-of-100-000-f00043",
-      "documents": {
-        "certifications": [
-          {
-            "title": "COA Sample",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/SAMPLE_COA_00E_GEL_1.pdf?v=1752513780",
-            "local_path": "assets/documents/capsuline/COA_Sample_c7905c20.pdf"
-          },
-          {
-            "title": "Kosher Certificate",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Kosher_Certificate_2a6ccdc3.pdf"
-          },
-          {
-            "title": "Halal Certificate",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Halal_Certificate_a5fa7a55.pdf"
-          },
-          {
-            "title": "Allergen Free",
-            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
-            "local_path": "assets/documents/capsuline/Allergen_Free_e2ec0477.pdf"
-          }
-        ],
-        "technical_sheet": {
-          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_-_Gelatin_-_Capsuline_2023.pdf?v=1678912151",
-          "local_path": "assets/documents/capsuline/Technical_Sheet_a9ece1c7.pdf"
+          "local_path": "assets/documents/capsuline/Technical_Sheet_64ed5537.pdf"
         }
       }
     },
@@ -451,25 +493,724 @@
           {
             "title": "COA Sample",
             "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/F2202000360_1.pdf?v=1656446578",
-            "local_path": "assets/documents/capsuline/COA_Sample_741d40c5.pdf"
+            "local_path": "assets/documents/capsuline/COA_Sample_a411829d.pdf"
           },
           {
             "title": "Kosher Certificate",
             "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Kosher_Certificate_011af6b2.pdf"
+            "local_path": "assets/documents/capsuline/Kosher_Certificate_1764510a.pdf"
           },
           {
             "title": "Halal Certificate",
             "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Halal_Certificate_d56d40d3.pdf"
+            "local_path": "assets/documents/capsuline/Halal_Certificate_dc2aaf2f.pdf"
           },
           {
             "title": "Allergen Free",
             "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
-            "local_path": "assets/documents/capsuline/Allergen_Free_2949c723.pdf"
+            "local_path": "assets/documents/capsuline/Allergen_Free_c478071f.pdf"
           }
         ],
         "technical_sheet": null
+      }
+    },
+    {
+      "product_id": "vegetarian-acid-resistant-enteric-empty-capsules-size-00-box-of-75-000",
+      "name": "Veggie Acid-Resistant Enteric Capsules Size 00 (Box 75,000)",
+      "price": "Add to cart",
+      "url": "https://eu.capsuline.com/products/vegetarian-acid-resistant-enteric-empty-capsules-size-00-box-of-75-000",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/K2202001655_1.pdf?v=1656425235",
+            "local_path": "assets/documents/capsuline/COA_Sample_9a3e285b.pdf"
+          },
+          {
+            "title": "Ko Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Ko_Kosher_Certificate_54e014e2.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_2aaf6eec.pdf"
+          },
+          {
+            "title": "Vegan Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/vegan.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Vegan_Certificate_bedb9188.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/veg-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_1aa5c796.pdf"
+          },
+          {
+            "title": "Request a quote",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_AR_Caps_-_Capsuline_2023.pdf?v=1682104534",
+            "local_path": "assets/documents/capsuline/Request_a_quote_295532d1.pdf"
+          }
+        ],
+        "technical_sheet": {
+          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_AR_Caps_-_Capsuline_2023.pdf?v=1682104534",
+          "local_path": "assets/documents/capsuline/Technical_Sheet_16ffafb2.pdf"
+        }
+      }
+    },
+    {
+      "product_id": "colored-vegetarian-capsules-size-00-blue-blue-free-tio2",
+      "name": "Capsuline Spirulina Natural Colorant Empty Vegetarian Capsules Size 00",
+      "price": "€847,95",
+      "url": "https://eu.capsuline.com/products/colored-vegetarian-capsules-size-00-blue-blue-free-tio2",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/K2202001655_1.pdf?v=1656425235",
+            "local_path": "assets/documents/capsuline/COA_Sample_6f4434f8.pdf"
+          },
+          {
+            "title": "Ko Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Ko_Kosher_Certificate_f2381600.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_ab4acc50.pdf"
+          },
+          {
+            "title": "Vegan Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/vegan.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Vegan_Certificate_a98f8658.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/veg-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_45464071.pdf"
+          }
+        ],
+        "technical_sheet": null
+      }
+    },
+    {
+      "product_id": "colored-empty-gelatin-capsules-size-3-box-of-200-000",
+      "name": "Colored Empty Gelatin Capsules Size 3 (Box of 200,000)",
+      "price": "€928,95",
+      "url": "https://eu.capsuline.com/products/colored-empty-gelatin-capsules-size-3-box-of-200-000",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/SAMPLE_COA_00E_GEL_1.pdf?v=1752513780",
+            "local_path": "assets/documents/capsuline/COA_Sample_66ebf665.pdf"
+          },
+          {
+            "title": "Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Kosher_Certificate_7c6f284c.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_bbaae24a.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_1c2c85e9.pdf"
+          }
+        ],
+        "technical_sheet": {
+          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_-_Gelatin_-_Capsuline_2023.pdf?v=1678912151",
+          "local_path": "assets/documents/capsuline/Technical_Sheet_e8279de4.pdf"
+        }
+      }
+    },
+    {
+      "product_id": "clear-gelatin-capsules-size-3-box-of-200-000",
+      "name": "Clear Gelatin Capsules Size 3 (Box of 200,000)",
+      "price": "€1.034,95",
+      "url": "https://eu.capsuline.com/products/clear-gelatin-capsules-size-3-box-of-200-000",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/SAMPLE_COA_00E_GEL_1.pdf?v=1752513780",
+            "local_path": "assets/documents/capsuline/COA_Sample_e5b7b896.pdf"
+          },
+          {
+            "title": "Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Kosher_Certificate_f00fad7c.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_cf7bf2cc.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_48b3cb30.pdf"
+          }
+        ],
+        "technical_sheet": {
+          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_-_Gelatin_-_Capsuline_2023.pdf?v=1678912151",
+          "local_path": "assets/documents/capsuline/Technical_Sheet_3e060102.pdf"
+        }
+      }
+    },
+    {
+      "product_id": "chlorophyll-vegetarian-capsules-size-00-green-green",
+      "name": "Size 00 Chlorophyll Empty Vegetarian Capsules by Capsuline - Green/Gre",
+      "price": "€922,95",
+      "url": "https://eu.capsuline.com/products/chlorophyll-vegetarian-capsules-size-00-green-green",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/K2202001655_1.pdf?v=1656425235",
+            "local_path": "assets/documents/capsuline/COA_Sample_8a9b9a69.pdf"
+          },
+          {
+            "title": "Ko Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Ko_Kosher_Certificate_5a56ba4b.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_241f4dcd.pdf"
+          },
+          {
+            "title": "Vegan Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/vegan.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Vegan_Certificate_e756b18c.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/veg-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_fe47d0c7.pdf"
+          }
+        ],
+        "technical_sheet": null
+      }
+    },
+    {
+      "product_id": "clear-gelatin-capsules-size-000-box-of-50-000",
+      "name": "Clear Gelatin Capsules Size 000 (Box of 50,000)",
+      "price": "€776,95",
+      "url": "https://eu.capsuline.com/products/clear-gelatin-capsules-size-000-box-of-50-000",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/SAMPLE_COA_00E_GEL_1.pdf?v=1752513780",
+            "local_path": "assets/documents/capsuline/COA_Sample_ab6d3040.pdf"
+          },
+          {
+            "title": "Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Kosher_Certificate_ead95f7e.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_ede5729b.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_0a05f20f.pdf"
+          }
+        ],
+        "technical_sheet": {
+          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_-_Gelatin_-_Capsuline_2023.pdf?v=1678912151",
+          "local_path": "assets/documents/capsuline/Technical_Sheet_90f93a25.pdf"
+        }
+      }
+    },
+    {
+      "product_id": "clear-gelatin-capsules-size-1-box-of-125-000",
+      "name": "Clear Gelatin Capsules Size 1 (Box of 125,000)",
+      "price": "€638,95",
+      "url": "https://eu.capsuline.com/products/clear-gelatin-capsules-size-1-box-of-125-000",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/SAMPLE_COA_00E_GEL_1.pdf?v=1752513780",
+            "local_path": "assets/documents/capsuline/COA_Sample_ef16e93f.pdf"
+          },
+          {
+            "title": "Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Kosher_Certificate_d5227bda.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_bf1a321c.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_a3a053a1.pdf"
+          }
+        ],
+        "technical_sheet": {
+          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_-_Gelatin_-_Capsuline_2023.pdf?v=1678912151",
+          "local_path": "assets/documents/capsuline/Technical_Sheet_54233df5.pdf"
+        }
+      }
+    },
+    {
+      "product_id": "joined-flavored-gelatin-capsules-for-pets-size-1-box-of-125-000",
+      "name": "Joined Flavored Gelatin Capsules for Pets Size 1 (Box of 125,000)",
+      "price": "€1.033,95",
+      "url": "https://eu.capsuline.com/products/joined-flavored-gelatin-capsules-for-pets-size-1-box-of-125-000",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Petcaps_coa.pdf?v=1659122475",
+            "local_path": "assets/documents/capsuline/COA_Sample_712dad86.pdf"
+          },
+          {
+            "title": "Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/KoKosher_FSA_2022.pdf?v=1656447513",
+            "local_path": "assets/documents/capsuline/Kosher_Certificate_03d80be4.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Halal_Gelatin_Certificate_2022.pdf?v=1656446766",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_d1787e88.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Allergen_Free_-_Gelatin_-_Capsuline.pdf?v=1656446870",
+            "local_path": "assets/documents/capsuline/Allergen_Free_4f292991.pdf"
+          }
+        ],
+        "technical_sheet": {
+          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Cats_Palatability_Study.pdf?v=1657917610",
+          "local_path": "assets/documents/capsuline/Technical_Sheet_ada95454.pdf"
+        }
+      }
+    },
+    {
+      "product_id": "colored-empty-gelatin-capsules-size-0-free-tio2-box-of-100-000",
+      "name": "Titanium Dioxide (TiO2) Free - Colored Empty Gelatin Capsules Size 0 (",
+      "price": "€612,95",
+      "url": "https://eu.capsuline.com/products/colored-empty-gelatin-capsules-size-0-free-tio2-box-of-100-000",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/SAMPLE_COA_00E_GEL_1.pdf?v=1752513780",
+            "local_path": "assets/documents/capsuline/COA_Sample_48efefbc.pdf"
+          },
+          {
+            "title": "Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Kosher_Certificate_d307dcc8.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_eced79c2.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_0a0d0fe3.pdf"
+          }
+        ],
+        "technical_sheet": {
+          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_-_Gelatin_-_Capsuline_2023.pdf?v=1678912151",
+          "local_path": "assets/documents/capsuline/Technical_Sheet_f20c5714.pdf"
+        }
+      }
+    },
+    {
+      "product_id": "chlorophyll-vegetarian-capsules-size-0-green-green-box-of-100-000",
+      "name": "Size 0 Chlorophyll Empty Vegetarian Capsules by Capsuline - Green/Gree",
+      "price": "€1.030,95",
+      "url": "https://eu.capsuline.com/products/chlorophyll-vegetarian-capsules-size-0-green-green-box-of-100-000",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/K2202001655_1.pdf?v=1656425235",
+            "local_path": "assets/documents/capsuline/COA_Sample_aea62986.pdf"
+          },
+          {
+            "title": "Ko Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Ko_Kosher_Certificate_05fd0467.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_e54e2dd5.pdf"
+          },
+          {
+            "title": "Vegan Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/vegan.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Vegan_Certificate_e9152e5d.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/veg-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_a9b4bc60.pdf"
+          }
+        ],
+        "technical_sheet": null
+      }
+    },
+    {
+      "product_id": "clear-size-4-empty-gelatin-capsules-by-capsuline",
+      "name": "Clear empty Capsules Size 4 | Small Dose - Capsuline",
+      "price": "€16,95",
+      "url": "https://eu.capsuline.com/products/clear-size-4-empty-gelatin-capsules-by-capsuline",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/F2202000360_1.pdf?v=1656446578",
+            "local_path": "assets/documents/capsuline/COA_Sample_41610892.pdf"
+          },
+          {
+            "title": "Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Kosher_Certificate_cfce898e.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_01d93578.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_7dd457cc.pdf"
+          }
+        ],
+        "technical_sheet": null
+      }
+    },
+    {
+      "product_id": "clear-vegetarian-capsules-size-0-box-of-100-000",
+      "name": "Clear Vegetarian Capsules Size 0 (Box of 100,000)",
+      "price": "€750,95",
+      "url": "https://eu.capsuline.com/products/clear-vegetarian-capsules-size-0-box-of-100-000",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/K2202001655_1.pdf?v=1656425235",
+            "local_path": "assets/documents/capsuline/COA_Sample_77ab8aa1.pdf"
+          },
+          {
+            "title": "Ko Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Ko_Kosher_Certificate_dd791036.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_f4835f52.pdf"
+          },
+          {
+            "title": "Vegan Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/vegan.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Vegan_Certificate_455cf61d.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/veg-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_83f5c42f.pdf"
+          }
+        ],
+        "technical_sheet": null
+      }
+    },
+    {
+      "product_id": "clear-gelatin-capsules-size-0-box-of-100-000-f00043",
+      "name": "Clear Gelatin Capsules Size 0 (Box of 100,000)",
+      "price": "€372,95",
+      "url": "https://eu.capsuline.com/products/clear-gelatin-capsules-size-0-box-of-100-000-f00043",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/SAMPLE_COA_00E_GEL_1.pdf?v=1752513780",
+            "local_path": "assets/documents/capsuline/COA_Sample_518dac49.pdf"
+          },
+          {
+            "title": "Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Kosher_Certificate_3e550ec1.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_f4c7c6e2.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_4edffd7e.pdf"
+          }
+        ],
+        "technical_sheet": {
+          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_-_Gelatin_-_Capsuline_2023.pdf?v=1678912151",
+          "local_path": "assets/documents/capsuline/Technical_Sheet_7d0029aa.pdf"
+        }
+      }
+    },
+    {
+      "product_id": "clear-gelatin-capsules-size-4-box-of-250-000",
+      "name": "Clear Gelatin Capsules Size 4 (Box of 250,000)",
+      "price": "€1.293,95",
+      "url": "https://eu.capsuline.com/products/clear-gelatin-capsules-size-4-box-of-250-000",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/SAMPLE_COA_00E_GEL_1.pdf?v=1752513780",
+            "local_path": "assets/documents/capsuline/COA_Sample_8fef716c.pdf"
+          },
+          {
+            "title": "Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Kosher_Certificate_6e3d1558.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_98834d9c.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_05720110.pdf"
+          }
+        ],
+        "technical_sheet": {
+          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_-_Gelatin_-_Capsuline_2023.pdf?v=1678912151",
+          "local_path": "assets/documents/capsuline/Technical_Sheet_84126f02.pdf"
+        }
+      }
+    },
+    {
+      "product_id": "clear-gelatin-capsules-size-2-box-of-175-000",
+      "name": "Clear Gelatin Capsules Size 2 (Box of 175,000)",
+      "price": "€743,95",
+      "url": "https://eu.capsuline.com/products/clear-gelatin-capsules-size-2-box-of-175-000",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/SAMPLE_COA_00E_GEL_1.pdf?v=1752513780",
+            "local_path": "assets/documents/capsuline/COA_Sample_ceee1882.pdf"
+          },
+          {
+            "title": "Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Kosher_Certificate_27c2a1d2.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_dbbdb912.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_0e7baa09.pdf"
+          }
+        ],
+        "technical_sheet": {
+          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_-_Gelatin_-_Capsuline_2023.pdf?v=1678912151",
+          "local_path": "assets/documents/capsuline/Technical_Sheet_e0700fd4.pdf"
+        }
+      }
+    },
+    {
+      "product_id": "copy-of-colored-empty-gelatin-capsules-size-00-box-of-75-2",
+      "name": "Colored Empty Gelatin Capsules Size 00 (Box of 75,000)",
+      "price": "€621,95",
+      "url": "https://eu.capsuline.com/products/copy-of-colored-empty-gelatin-capsules-size-00-box-of-75-2",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/SAMPLE_COA_00E_GEL_1.pdf?v=1752513780",
+            "local_path": "assets/documents/capsuline/COA_Sample_631e2ebb.pdf"
+          },
+          {
+            "title": "Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Kosher_Certificate_c2ff7463.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_6244b8af.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_bc3588b0.pdf"
+          }
+        ],
+        "technical_sheet": {
+          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_-_Gelatin_-_Capsuline_2023.pdf?v=1678912151",
+          "local_path": "assets/documents/capsuline/Technical_Sheet_37cd7035.pdf"
+        }
+      }
+    },
+    {
+      "product_id": "clear-gelatin-capsules-size-00-box-of-70-000",
+      "name": "Clear Empty Gelatin Capsules Size 00 (Box of 70,000)",
+      "price": "€362,95",
+      "url": "https://eu.capsuline.com/products/clear-gelatin-capsules-size-00-box-of-70-000",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/SAMPLE_COA_00E_GEL_1.pdf?v=1752513780",
+            "local_path": "assets/documents/capsuline/COA_Sample_8df83732.pdf"
+          },
+          {
+            "title": "Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Kosher_Certificate_347ec0cf.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_68db264d.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_e03015fb.pdf"
+          }
+        ],
+        "technical_sheet": {
+          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_-_Gelatin_-_Capsuline_2023.pdf?v=1678912151",
+          "local_path": "assets/documents/capsuline/Technical_Sheet_6ffcd36c.pdf"
+        }
+      }
+    },
+    {
+      "product_id": "clear-size-3-empty-vegetarian-capsules-by-capsuline",
+      "name": "Clear Size 3 Empty Vegetarian Capsules by Capsuline",
+      "price": "€18,95",
+      "url": "https://eu.capsuline.com/products/clear-size-3-empty-vegetarian-capsules-by-capsuline",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/K2202001655_1.pdf?v=1656425235",
+            "local_path": "assets/documents/capsuline/COA_Sample_c63721bf.pdf"
+          },
+          {
+            "title": "Ko Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Ko_Kosher_Certificate_8ce04e44.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_85f9329d.pdf"
+          },
+          {
+            "title": "Vegan Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/vegan.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Vegan_Certificate_07f41b6d.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/veg-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_2bbed9f3.pdf"
+          }
+        ],
+        "technical_sheet": null
+      }
+    },
+    {
+      "product_id": "clear-size-0-empty-vegetarian-capsules-by-capsuline",
+      "name": "Clear Size 0 Empty Vegetarian Capsules by Capsuline",
+      "price": "€11,95",
+      "url": "https://eu.capsuline.com/products/clear-size-0-empty-vegetarian-capsules-by-capsuline",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/K2202001655_1.pdf?v=1656425235",
+            "local_path": "assets/documents/capsuline/COA_Sample_c625c478.pdf"
+          },
+          {
+            "title": "Ko Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Ko_Kosher_Certificate_b0847578.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_599dbf81.pdf"
+          },
+          {
+            "title": "Vegan Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/vegan.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Vegan_Certificate_fc9739a4.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/veg-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_b391555c.pdf"
+          }
+        ],
+        "technical_sheet": null
+      }
+    },
+    {
+      "product_id": "titanium-dioxide-tio2-free-colored-empty-gelatin-capsules-size-00-box-of-75-000",
+      "name": "Titanium Dioxide (TiO2) Free - Colored Empty Gelatin Capsules Size 00",
+      "price": "€700,95",
+      "url": "https://eu.capsuline.com/products/titanium-dioxide-tio2-free-colored-empty-gelatin-capsules-size-00-box-of-75-000",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/SAMPLE_COA_00E_GEL_1.pdf?v=1752513780",
+            "local_path": "assets/documents/capsuline/COA_Sample_95524dd6.pdf"
+          },
+          {
+            "title": "Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Kosher_Certificate_c47113dd.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_097c94c6.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_9822c01a.pdf"
+          }
+        ],
+        "technical_sheet": {
+          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_-_Gelatin_-_Capsuline_2023.pdf?v=1678912151",
+          "local_path": "assets/documents/capsuline/Technical_Sheet_7e372da2.pdf"
+        }
       }
     },
     {
@@ -482,27 +1223,304 @@
           {
             "title": "COA Sample",
             "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/SAMPLE_COA_00E_GEL_1.pdf?v=1752513780",
-            "local_path": "assets/documents/capsuline/COA_Sample_06bf79a2.pdf"
+            "local_path": "assets/documents/capsuline/COA_Sample_b107aa67.pdf"
           },
           {
             "title": "Kosher Certificate",
             "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Kosher_Certificate_0157fb34.pdf"
+            "local_path": "assets/documents/capsuline/Kosher_Certificate_b909ff7f.pdf"
           },
           {
             "title": "Halal Certificate",
             "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
-            "local_path": "assets/documents/capsuline/Halal_Certificate_dd778123.pdf"
+            "local_path": "assets/documents/capsuline/Halal_Certificate_e53106fd.pdf"
           },
           {
             "title": "Allergen Free",
             "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
-            "local_path": "assets/documents/capsuline/Allergen_Free_966fb7d6.pdf"
+            "local_path": "assets/documents/capsuline/Allergen_Free_1197c478.pdf"
           }
         ],
         "technical_sheet": {
           "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_-_Gelatin_-_Capsuline_2023.pdf?v=1678912151",
-          "local_path": "assets/documents/capsuline/Technical_Sheet_6b9dbdb2.pdf"
+          "local_path": "assets/documents/capsuline/Technical_Sheet_b675b0ce.pdf"
+        }
+      }
+    },
+    {
+      "product_id": "clear-size-0-empty-gelatin-capsules-by-capsuline",
+      "name": "Clear Empty Capsules Size 0 | Capsuline",
+      "price": "€9,95",
+      "url": "https://eu.capsuline.com/products/clear-size-0-empty-gelatin-capsules-by-capsuline",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/F2202000360_1.pdf?v=1656446578",
+            "local_path": "assets/documents/capsuline/COA_Sample_cb4a2923.pdf"
+          },
+          {
+            "title": "Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Kosher_Certificate_18a7683d.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_cf90b788.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_8609018f.pdf"
+          }
+        ],
+        "technical_sheet": null
+      }
+    },
+    {
+      "product_id": "capsuline-separated-size-00-clear-vegetarian-empty-capsules",
+      "name": "Capsuline Separated Size 00 Clear Vegetarian Empty Capsules",
+      "price": "€35,95",
+      "url": "https://eu.capsuline.com/products/capsuline-separated-size-00-clear-vegetarian-empty-capsules",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/K2202001655_1.pdf?v=1656425235",
+            "local_path": "assets/documents/capsuline/COA_Sample_b622cc46.pdf"
+          },
+          {
+            "title": "Ko Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Ko_Kosher_Certificate_34b08991.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_bbd62c12.pdf"
+          },
+          {
+            "title": "Vegan Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/vegan.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Vegan_Certificate_f1fba45f.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/veg-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_d6d66567.pdf"
+          }
+        ],
+        "technical_sheet": null
+      }
+    },
+    {
+      "product_id": "clear-vegetarian-delayed-release-capsules-size-0-box-of-100-000",
+      "name": "Capsuline Clear Vegetarian Delayed Release Empty Capsules Size 0 - Box",
+      "price": "€1.267,95",
+      "url": "https://eu.capsuline.com/products/clear-vegetarian-delayed-release-capsules-size-0-box-of-100-000",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/F2202000360_1.pdf?v=1656446578",
+            "local_path": "assets/documents/capsuline/COA_Sample_8fc0625c.pdf"
+          },
+          {
+            "title": "Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Kosher_Certificate_f4ddb6c8.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_d8e1b968.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_b6d68f0f.pdf"
+          }
+        ],
+        "technical_sheet": {
+          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Delayed_Release.pdf?v=1701366044",
+          "local_path": "assets/documents/capsuline/Technical_Sheet_e9fadde4.pdf"
+        }
+      }
+    },
+    {
+      "product_id": "separated-empty-vegetarian-capsules-size-0-box-of-100-000",
+      "name": "Separated Empty Vegetarian Capsules Size 0 (Box of 100,000)",
+      "price": "€939,95",
+      "url": "https://eu.capsuline.com/products/separated-empty-vegetarian-capsules-size-0-box-of-100-000",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/K2202001655_1.pdf?v=1656425235",
+            "local_path": "assets/documents/capsuline/COA_Sample_3396c145.pdf"
+          },
+          {
+            "title": "Ko Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Ko_Kosher_Certificate_5a6fe31d.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_dbde749b.pdf"
+          },
+          {
+            "title": "Vegan Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/vegan.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Vegan_Certificate_39163bd0.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/veg-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_a21be2ac.pdf"
+          }
+        ],
+        "technical_sheet": null
+      }
+    },
+    {
+      "product_id": "separated-empty-gelatin-capsules-size-00-box-of-75-000-f05592-sep",
+      "name": "Separated Empty Gelatin Capsules Size 00 (Box of 75,000)",
+      "price": "€904,95",
+      "url": "https://eu.capsuline.com/products/separated-empty-gelatin-capsules-size-00-box-of-75-000-f05592-sep",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/SAMPLE_COA_00E_GEL_1.pdf?v=1752513780",
+            "local_path": "assets/documents/capsuline/COA_Sample_bd22f707.pdf"
+          },
+          {
+            "title": "Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Kosher_Certificate_9cb8a8d0.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_ca34cf47.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_857dbb21.pdf"
+          }
+        ],
+        "technical_sheet": {
+          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Technical_Data_Sheet_-_Gelatin_-_Capsuline_2023.pdf?v=1678912151",
+          "local_path": "assets/documents/capsuline/Technical_Sheet_b9229263.pdf"
+        }
+      }
+    },
+    {
+      "product_id": "colored-vegetarian-capsules-size-00-yellow-yellow-free-tio2",
+      "name": "Titanium Dioxide (TiO2) Free - Colored Empty Vegetarian Capsules Size",
+      "price": "€640,95",
+      "url": "https://eu.capsuline.com/products/colored-vegetarian-capsules-size-00-yellow-yellow-free-tio2",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/K2202001655_1.pdf?v=1656425235",
+            "local_path": "assets/documents/capsuline/COA_Sample_373ce7f2.pdf"
+          },
+          {
+            "title": "Ko Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Ko_Kosher_Certificate_447352bd.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_8721cd37.pdf"
+          },
+          {
+            "title": "Vegan Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/vegan.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Vegan_Certificate_99889ed8.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/veg-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_efa927bd.pdf"
+          }
+        ],
+        "technical_sheet": null
+      }
+    },
+    {
+      "product_id": "clear-vegetarian-capsules-size-00",
+      "name": "Clear Vegetarian Capsules Size 00 (Box of 75,000)",
+      "price": "€693,95",
+      "url": "https://eu.capsuline.com/products/clear-vegetarian-capsules-size-00",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/K2202001655_1.pdf?v=1656425235",
+            "local_path": "assets/documents/capsuline/COA_Sample_b10d73d9.pdf"
+          },
+          {
+            "title": "Ko Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Ko_Kosher_Certificate_33de4757.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-vegetarian.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_40743cfe.pdf"
+          },
+          {
+            "title": "Vegan Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/vegan.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Vegan_Certificate_a26cd251.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/veg-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_f767f07b.pdf"
+          }
+        ],
+        "technical_sheet": null
+      }
+    },
+    {
+      "product_id": "clear-vegetarian-pullulan-capsules-size-00",
+      "name": "Clear Pullulan Vegetarian Capsules Size 00 (Box of 70,000) - Clear",
+      "price": "€993,95",
+      "url": "https://eu.capsuline.com/products/clear-vegetarian-pullulan-capsules-size-00",
+      "documents": {
+        "certifications": [
+          {
+            "title": "COA Sample",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/F2202000360_1.pdf?v=1656446578",
+            "local_path": "assets/documents/capsuline/COA_Sample_19e7a3d6.pdf"
+          },
+          {
+            "title": "Kosher Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/kosher-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Kosher_Certificate_1d0a5d98.pdf"
+          },
+          {
+            "title": "Halal Certificate",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/halal-gelatin.pdf?v=1741966741",
+            "local_path": "assets/documents/capsuline/Halal_Certificate_01c838da.pdf"
+          },
+          {
+            "title": "Allergen Free",
+            "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/gel-allergen-free.pdf?v=1741966947",
+            "local_path": "assets/documents/capsuline/Allergen_Free_d1bc0b13.pdf"
+          }
+        ],
+        "technical_sheet": {
+          "url": "https://cdn.shopify.com/s/files/1/2622/1362/files/Pullulan_-_Technical_Data_Sheet.pdf?v=1679587768",
+          "local_path": "assets/documents/capsuline/Technical_Sheet_4baf89da.pdf"
         }
       }
     }
