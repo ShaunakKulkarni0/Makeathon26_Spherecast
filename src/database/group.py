@@ -4,7 +4,7 @@ group.py
 Reads all raw-material Products from the SQLite database, uses the OpenAI
 o4-mini API to assign each compound to a canonical ingredient group
 (e.g. "ascorbic acid" → "Vitamin C"), and writes the results to
-compound_groups.csv with columns: group_name, product_id.
+compound_groups.csv with columns: group_name, product_id, supplier_ids, supplier_names.
 
 Usage:
     python group.py --db path/to/db.sqlite [--out compound_groups.csv] [--batch 20]
@@ -77,16 +77,61 @@ def extract_compound_name(sku: str) -> str:
 
 
 def load_products(db_path: str) -> list[dict]:
-    """Return all raw-material products as list of {id, sku, compound_name}."""
+    """Return all raw-material products plus supplier links for the CSV output."""
     conn = sqlite3.connect(db_path)
     cur = conn.cursor()
-    cur.execute("SELECT Id, SKU FROM Product WHERE Type = 'raw-material'")
+    cur.execute(
+        """
+        SELECT p.Id, p.SKU, sp.SupplierId, s.Name
+        FROM Product p
+        LEFT JOIN Supplier_Product sp ON p.Id = sp.ProductId
+        LEFT JOIN Supplier s ON s.Id = sp.SupplierId
+        WHERE p.Type = 'raw-material'
+        """
+    )
     rows = cur.fetchall()
     conn.close()
-    return [
-        {"id": row[0], "sku": row[1], "compound_name": extract_compound_name(row[1])}
-        for row in rows
-    ]
+
+    products: dict[int, dict] = {}
+    for product_id, sku, supplier_id, supplier_name in rows:
+        if product_id not in products:
+            products[product_id] = {
+                "id": product_id,
+                "sku": sku,
+                "compound_name": extract_compound_name(sku),
+                "supplier_ids": [],
+                "supplier_names": [],
+            }
+        if supplier_id is not None:
+            products[product_id]["supplier_ids"].append(str(supplier_id))
+        if supplier_name:
+            products[product_id]["supplier_names"].append(supplier_name)
+
+    for product in products.values():
+        product["supplier_ids"] = ";".join(sorted(set(product["supplier_ids"]), key=int))
+        # Preserve insertion order for supplier names while removing duplicates
+        seen: set[str] = set()
+        unique_names: list[str] = []
+        for name in product["supplier_names"]:
+            if name not in seen:
+                seen.add(name)
+                unique_names.append(name)
+        product["supplier_names"] = ";".join(unique_names)
+
+    return list(products.values())
+
+
+def annotate_with_suppliers(results: list[dict], product_map: dict[int, dict]) -> None:
+    """Attach supplier IDs and names to result rows based on product_id."""
+    for row in results:
+        product_id_value = row.get("product_id")
+        try:
+            product_id = int(product_id_value)
+        except (TypeError, ValueError):
+            product_id = 0
+        product = product_map.get(product_id)
+        row["supplier_ids"] = product["supplier_ids"] if product else ""
+        row["supplier_names"] = product["supplier_names"] if product else ""
 
 
 def batch_classify(client: OpenAI, products: list[dict], model: str = "o4-mini") -> list[dict]:
@@ -115,13 +160,31 @@ def batch_classify(client: OpenAI, products: list[dict], model: str = "o4-mini")
     return json.loads(raw)
 
 
-def write_csv(results: list[dict], out_path: str) -> None:
-    """Write group_name, product_id CSV sorted by group_name."""
-    results_sorted = sorted(results, key=lambda r: (r["group_name"].lower(), r["product_id"]))
+def read_existing_csv(input_path: str) -> list[dict]:
+    """Read an existing grouped CSV and preserve its row order."""
+    with open(input_path, newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        return [dict(row) for row in reader]
+
+
+def write_csv(results: list[dict], out_path: str, sort_by_group: bool = True) -> None:
+    """Write CSV and optionally sort by group_name; preserve input order if requested."""
+    if sort_by_group:
+        results = sorted(results, key=lambda r: (r.get("group_name", "").lower(), int(r.get("product_id", 0))))
+
+    if results:
+        fieldnames = list(results[0].keys())
+        if "supplier_ids" not in fieldnames:
+            fieldnames.append("supplier_ids")
+        if "supplier_names" not in fieldnames:
+            fieldnames.append("supplier_names")
+    else:
+        fieldnames = ["group_name", "product_id", "supplier_ids", "supplier_names"]
+
     with open(out_path, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=["group_name", "product_id"])
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
-        writer.writerows(results_sorted)
+        writer.writerows(results)
 
 
 # ---------------------------------------------------------------------------
@@ -131,6 +194,8 @@ def write_csv(results: list[dict], out_path: str) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Group DB compounds via o4-mini.")
     parser.add_argument("--db", default="db.sqlite", help="Path to SQLite database")
+    parser.add_argument("--input", "--in", dest="input_csv", default=None,
+                        help="Existing grouped CSV path to annotate")
     parser.add_argument("--out", default="compound_groups.csv", help="Output CSV path")
     parser.add_argument(
         "--batch", type=int, default=20,
@@ -140,7 +205,30 @@ def main() -> None:
         "--model", default="o4-mini",
         help="OpenAI model to use (default: o4-mini)"
     )
+    parser.add_argument(
+        "--annotate-only", action="store_true",
+        help="Only annotate an existing CSV with supplier data; do not call OpenAI."
+    )
+    parser.add_argument(
+        "--preserve-order", action="store_true",
+        help="Preserve input CSV order instead of sorting by group."
+    )
     args = parser.parse_args()
+
+    if args.annotate_only:
+        print(f"Loading products from {args.db} …")
+        products = load_products(args.db)
+        print(f"  Found {len(products)} raw-material products.")
+        product_map = {product["id"]: product for product in products}
+
+        if not args.input_csv:
+            sys.exit("ERROR: --annotate-only requires --input <existing CSV>")
+        print(f"Reading existing CSV from {args.input_csv} …")
+        all_results = read_existing_csv(args.input_csv)
+        annotate_with_suppliers(all_results, product_map)
+        print(f"\nWriting {len(all_results)} rows to {args.out} …")
+        write_csv(all_results, args.out, sort_by_group=not args.preserve_order)
+        return
 
     api_key = os.getenv("OpenAIAPI")
     if not api_key:
@@ -151,6 +239,7 @@ def main() -> None:
     print(f"Loading products from {args.db} …")
     products = load_products(args.db)
     print(f"  Found {len(products)} raw-material products.")
+    product_map = {product["id"]: product for product in products}
 
     all_results: list[dict] = []
     total_batches = (len(products) + args.batch - 1) // args.batch
@@ -183,6 +272,11 @@ def main() -> None:
         # Small pause between batches to respect rate limits
         if batch_num < total_batches:
             time.sleep(0.5)
+
+    for result in all_results:
+        product = product_map.get(result["product_id"])
+        result["supplier_ids"] = product["supplier_ids"] if product else ""
+        result["supplier_names"] = product["supplier_names"] if product else ""
 
     print(f"\nWriting {len(all_results)} rows to {args.out} …")
     write_csv(all_results, args.out)
