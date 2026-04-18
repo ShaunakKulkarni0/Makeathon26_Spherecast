@@ -1,14 +1,13 @@
-# src/database/shared/check_similarity.py
+# src/database/legacy/shared/check_similarity.py
 import sqlite3
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent.parent.parent
-sys.path.insert(0, str(ROOT / "src/database/layers"))
-sys.path.insert(0, str(ROOT / "src/database/shared"))
+ROOT = Path(__file__).resolve().parents[4]
+sys.path.insert(0, str(ROOT))
 
-from embedder import load_all_embeddings
-from matcher import _cosine_similarity
+from src.database.legacy.embedder import load_all_embeddings
+from src.database.legacy.matcher import _cosine_similarity
 
 conn = sqlite3.connect(ROOT / "db.sqlite")
 names = dict(conn.execute("SELECT Id, SKU FROM Product").fetchall())
@@ -96,6 +95,7 @@ for i, members in enumerate(multi, 1):
 full_output = "\n".join(output_lines)
 print(full_output)
 
-out_path = ROOT / "similarity_groups.txt"
+out_path = ROOT / "_archive" / "outputs" / "legacy" / "similarity_groups.txt"
+out_path.parent.mkdir(parents=True, exist_ok=True)
 out_path.write_text(full_output, encoding="utf-8")
 print(f"\n→ Gespeichert in: {out_path}")

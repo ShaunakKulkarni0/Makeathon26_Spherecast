@@ -1,10 +1,16 @@
 import sqlite3
 from pathlib import Path
-from matcher import judge_pair
 
-def parse_similarity_groups(filepath: str) -> list[dict]:
+from src.database.legacy.matcher import judge_pair
+
+
+ROOT = Path(__file__).resolve().parents[3]
+LEGACY_OUTPUT_DIR = ROOT / "_archive" / "outputs" / "legacy"
+
+
+def parse_similarity_groups(filepath: Path) -> list[dict]:
     """Parst die Datei und entfernt direkte A->B / B->A Duplikate."""
-    with open(filepath, 'r', encoding='utf-8') as f:
+    with filepath.open('r', encoding='utf-8') as f:
         lines = f.readlines()
 
     pairs = []
@@ -46,14 +52,15 @@ def parse_similarity_groups(filepath: str) -> list[dict]:
 
 
 if __name__ == "__main__":
-    # ---------------------------------------------------------
-    # PFADE ANPASSEN (relativ zum Ort, von dem du das Skript startest)
-    # ---------------------------------------------------------
-    DB_PATH = "../../db.sqlite" 
-    TEXT_FILE_PATH = "../../similarity_groups.txt"
-    OUTPUT_FILE = "../../new_groups.txt"
+    DB_PATH = ROOT / "db.sqlite"
+    TEXT_FILE_PATH = LEGACY_OUTPUT_DIR / "similarity_groups.txt"
+    OUTPUT_FILE = LEGACY_OUTPUT_DIR / "new_groups.txt"
 
-    print("\n🚀 Lese similarity_groups.txt ein...")
+    LEGACY_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    if not TEXT_FILE_PATH.exists():
+        raise FileNotFoundError(f"Missing input file: {TEXT_FILE_PATH}")
+
+    print(f"\n🚀 Lese Similarity-Gruppen aus {TEXT_FILE_PATH} ...")
     pairs_to_judge = parse_similarity_groups(TEXT_FILE_PATH)
     print(f"✅ {len(pairs_to_judge)} einzigartige Vektor-Paare gefunden.\n")
 
@@ -124,7 +131,7 @@ if __name__ == "__main__":
     print("\n" + "="*50)
     print(f"💾 Speichere saubere Gruppen in {OUTPUT_FILE}...")
     
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+    with OUTPUT_FILE.open("w", encoding="utf-8") as f:
         f.write("=== AGNES AI: CONSOLIDATED SOURCING GROUPS ===\n")
         f.write("Generiert durch Vector Search + LLM Verification\n\n")
         
@@ -138,4 +145,4 @@ if __name__ == "__main__":
                 f.write(f"  ● {sku}\n")
             f.write("\n")
 
-    print("✅ Fertig! Schau dir deine new_groups.txt an!")
+    print(f"✅ Fertig! Ausgabe gespeichert unter: {OUTPUT_FILE}")
