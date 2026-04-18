@@ -47,6 +47,7 @@ def mock_llm_normalization(model, system_prompt, user_content, **kwargs):
         cat = "Botanical"
         cas = None
         text = "Sunflower lecithin. Plant-derived emulsifier."
+        
 
     return json.dumps({
         "category": cat,

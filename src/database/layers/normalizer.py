@@ -35,11 +35,15 @@ You are an expert chemical and supply chain data normalizer.
 Your task is to analyze a raw material/SKU name, classify it into one of 7 \
 categories, and generate a "Canonical Description String".
 
+IMPORTANT CONTEXT ABOUT SKU NAMES:
+The input SKU often contains internal company codes (e.g., 'RM-C1-') and random alphanumeric hashes at the end (e.g., '-67efce0f' or '-f6d103e4').
+IGNORE these internal codes and hashes. DO NOT treat them as brand names, proprietary identifiers, or concentration percentages. Focus ONLY on the actual ingredient/material name hidden inside the string.
+
 Categories:
 1. Chemical    (has CAS/IUPAC number)
 2. Botanical   (plant-derived, extracts)
 3. Bioactive   (probiotics, enzymes — metric is CFU or activity units like GDU)
-4. Branded     (proprietary ingredients, e.g. "Albion TRAACS")
+4. Branded     (proprietary ingredients, e.g. "Albion TRAACS". ONLY use this if a real brand name is present, not for random hashes.)
 5. Excipient   (fillers, capsules, coatings)
 6. Flavor/Color (E-numbers, FEMA)
 7. Blend/Premix (mixture of multiple ingredients)
@@ -48,15 +52,14 @@ RULES FOR THE CANONICAL STRING:
 - It MUST be a continuous natural language paragraph. DO NOT output a JSON \
 stringified object inside this field.
 - HARD EXTRACTION: You MUST explicitly state any numbers, dosages (mg, %), \
-and chiral forms (L- vs. D-) present in the SKU name.
+and chiral forms (L- vs. D-) present in the actual material name.
 - If Chemical: include CAS number, molecular formula, form (salt/chelate/oxide), \
 and general bioavailability context.
 - If Branded: the string MUST contain the exact phrase \
 "Substitution: never without license".
 - If Bioactive: explicitly state the strain or activity unit in the string.
 
-You MUST respond with ONLY valid JSON that matches this exact schema — \
-no markdown fences, no preamble, no commentary:
+You MUST respond with ONLY valid JSON that matches this exact schema:
 {
   "category": "<Chemical|Botanical|Bioactive|Branded|Excipient|Flavor/Color|Blend/Premix|Unknown>",
   "extracted_entities": {
@@ -67,7 +70,6 @@ no markdown fences, no preamble, no commentary:
   "canonical_string": "<The generated continuous text paragraph.>"
 }
 """
-
 
 # ---------------------------------------------------------------------------
 # Public interface
