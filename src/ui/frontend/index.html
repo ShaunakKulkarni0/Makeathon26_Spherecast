@@ -99,7 +99,9 @@
                 // Initialize results containers
                 this.resultsList = new ResultsList(
                     document.getElementById('top-candidates-container'),
-                    this.handleCandidateSelect.bind(this)
+                    this.handleCandidateSelect.bind(this),
+                    this.api,
+                    () => this.currentRequirementsOverride || {},
                 );
 
                 this.rejectedList = new RejectedList(
@@ -184,8 +186,12 @@
                 this.resultsList.setCandidates(result.top_candidates);
                 this.resultsList.displayCandidates(result.top_candidates);
 
-                // Display rejected candidates
-                this.rejectedList.displayRejected(result.rejected);
+                // Display rejected candidates (supports legacy/new payload keys)
+                const rejectedItems = result.rejected
+                    ?? result.rejected_candidates
+                    ?? result.knockout_rejected
+                    ?? [];
+                this.rejectedList.displayRejected(rejectedItems);
 
                 // Update weight sliders with current weights
                 const activeWeights = result.metadata?.weights ?? this.currentWeights;

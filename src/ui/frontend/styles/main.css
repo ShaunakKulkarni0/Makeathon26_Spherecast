@@ -713,6 +713,21 @@ body {
     margin-top: 5px;
 }
 
+.detail-contact-actions {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.detail-contact-hint {
+    font-size: 0.76rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
 .status-pill {
     display: inline-flex;
     padding: 2px 7px;
@@ -1182,6 +1197,12 @@ body {
     margin-top: 6px;
 }
 
+.rejected-header-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .rejected-list {
     display: grid;
     gap: 8px;
@@ -1292,6 +1313,16 @@ body {
     color: var(--muted);
 }
 
+.rejected-empty {
+    margin-top: 8px;
+    border: 1px dashed var(--line);
+    border-radius: var(--radius-sm);
+    padding: 10px;
+    color: var(--muted);
+    font-size: 0.82rem;
+    background: #fbfcfd;
+}
+
 .bulk-controls {
     display: inline-flex;
     gap: 6px;
@@ -1354,6 +1385,66 @@ body {
     margin-top: 6px;
     font-size: 0.78rem;
     color: var(--muted);
+}
+
+.email-draft-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+}
+
+.email-draft-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(14, 19, 26, 0.45);
+}
+
+.email-draft-card {
+    position: relative;
+    width: min(760px, calc(100vw - 24px));
+    margin: 6vh auto 0;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: #fff;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 14px 38px rgba(9, 13, 18, 0.18);
+}
+
+.email-draft-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.email-draft-header h4 {
+    font-size: 0.94rem;
+}
+
+.email-draft-subject {
+    font-size: 0.82rem;
+}
+
+.email-draft-textarea {
+    width: 100%;
+    min-height: 320px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    padding: 10px;
+    resize: vertical;
+    background: #fcfdfd;
+    color: var(--text);
+}
+
+.email-draft-footer {
+    display: flex;
+    justify-content: flex-end;
 }
 
 .hidden {

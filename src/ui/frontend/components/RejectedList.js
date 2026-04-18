@@ -9,24 +9,37 @@ export class RejectedList {
     }
 
     displayRejected(rejected) {
-        if (!rejected || rejected.length === 0) {
-            this.container.innerHTML = '';
-            return;
-        }
+        const items = Array.isArray(rejected) ? rejected : [];
+        const hasItems = items.length > 0;
 
         this.container.innerHTML = `
             <section class="rejected-section">
-                <h3>Rejected Candidates (${rejected.length})</h3>
-                <div class="rejected-list">
-                    ${rejected.map((candidate) => this.renderRejectedCandidate(candidate)).join('')}
+                <div class="rejected-header-row">
+                    <h3>K.O. Filter Failed Items (${items.length})</h3>
                 </div>
-                <div class="rejected-summary">
-                    <p>Filtered by knockout criteria or insufficient final score for substitution safety.</p>
-                </div>
+                ${
+                    hasItems
+                        ? `
+                            <div class="rejected-list">
+                                ${items.map((candidate) => this.renderRejectedCandidate(candidate)).join('')}
+                            </div>
+                            <div class="rejected-summary">
+                                <p>These items failed hard exclusion criteria or did not meet minimum viability constraints.</p>
+                            </div>
+                        `
+                        : `
+                            <div class="rejected-empty">
+                                <p>No items failed the K.O. filter for this run.</p>
+                            </div>
+                        `
+                }
             </section>
         `;
 
         this.attachEventListeners();
+        if (items.length > 1) {
+            this.addBulkControls();
+        }
     }
 
     renderRejectedCandidate(candidate) {

@@ -1,2 +1,2 @@
 max_quantity,destination_country,critical_certs_json,prohibited_allergens_json,allergen_policy,max_lead_time_days,max_price_multiplier
-200,DE,"[""ISO9001""]","[]",hybrid,30,1.5
+200,DE,"[]","[]",hybrid,30,1.5

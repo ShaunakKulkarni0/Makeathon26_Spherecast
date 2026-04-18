@@ -48,6 +48,9 @@ Im Browser:
 `http://localhost:8000`
 
 ## Hinweis zu den CSV-Daten
-Die UI lädt für das Scoring aktuell aus:
+Die UI lädt Scoring-Daten bevorzugt aus:
+- `data/scoring_capsuline_materials.csv`
+
+Falls diese Runtime-Datei fehlt, wird auf das Test-Fallback zurückgegriffen:
 - `tests/scoring/data/gesamt_materials.csv`
 - `tests/scoring/data/gesamt_requirements.csv`
