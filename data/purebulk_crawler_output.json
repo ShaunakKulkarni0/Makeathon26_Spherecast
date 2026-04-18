@@ -1,0 +1,2662 @@
+{
+  "timestamp": "2026-04-18T18:19:24Z",
+  "supplier": "PureBulk",
+  "products": [
+    {
+      "product_id": "zinc-sulfate-monohydrate-bulk",
+      "name": "Zinc Sulfate Monohydrate Bulk 25kg",
+      "starting_price": 528.75,
+      "size_in_grams": 25000.0,
+      "price": 0.0211,
+      "currency": "USD",
+      "items_left": 3,
+      "url": "https://purebulk.com/products/zinc-sulfate-monohydrate-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "quercetin-dihydrate-pure",
+      "name": "Quercetin Pure",
+      "starting_price": 8.75,
+      "size_in_grams": 25.0,
+      "price": 0.35,
+      "currency": "USD",
+      "items_left": 101,
+      "url": "https://purebulk.com/products/quercetin-dihydrate-pure",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "l-valine",
+      "name": "L-Valine",
+      "starting_price": 5.75,
+      "size_in_grams": 100.0,
+      "price": 0.0575,
+      "currency": "USD",
+      "items_left": 3,
+      "url": "https://purebulk.com/products/l-valine",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "bhb-magnesium",
+      "name": "BHB Magnesium Powder",
+      "starting_price": 9.75,
+      "size_in_grams": 100.0,
+      "price": 0.0975,
+      "currency": "USD",
+      "items_left": 33,
+      "url": "https://purebulk.com/products/bhb-magnesium",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "SUGAR-FREE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "l-lysine-hcl",
+      "name": "L-Lysine HCl",
+      "starting_price": 8.25,
+      "size_in_grams": 250.0,
+      "price": 0.033,
+      "currency": "USD",
+      "items_left": 100,
+      "url": "https://purebulk.com/products/l-lysine-hcl",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "bhb-sodium-beta-hydroxybutyrate-bulk",
+      "name": "BHB Sodium (Beta Hydroxybutyrate) Powder Bulk",
+      "starting_price": 1094.5,
+      "size_in_grams": 25000.0,
+      "price": 0.0438,
+      "currency": "USD",
+      "items_left": 1,
+      "url": "https://purebulk.com/products/bhb-sodium-beta-hydroxybutyrate-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "essential-amino-acids-eaa-bulk",
+      "name": "EAA (9 Essential Amino Acids) Bulk 25kg",
+      "starting_price": 796.25,
+      "size_in_grams": 25000.0,
+      "price": 0.0319,
+      "currency": "USD",
+      "items_left": 16,
+      "url": "https://purebulk.com/products/essential-amino-acids-eaa-bulk",
+      "certification_tags": [
+        "NO-FILLERS",
+        "PURE"
+      ]
+    },
+    {
+      "product_id": "essential-amino-acids-eaa",
+      "name": "EAA (9 Essential Amino Acids)",
+      "starting_price": 13.95,
+      "size_in_grams": 250.0,
+      "price": 0.0558,
+      "currency": "USD",
+      "items_left": 103,
+      "url": "https://purebulk.com/products/essential-amino-acids-eaa",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "NON-ESSENTIAL",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "betaine-anhydrous-tmg",
+      "name": "Betaine Anhydrous (TMG) Powder",
+      "starting_price": 9.25,
+      "size_in_grams": 250.0,
+      "price": 0.037,
+      "currency": "USD",
+      "items_left": 50,
+      "url": "https://purebulk.com/products/betaine-anhydrous-tmg",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "NON-RESPONDERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "magnesium-ascorbate",
+      "name": "Magnesium Ascorbate",
+      "starting_price": 12.95,
+      "size_in_grams": 100.0,
+      "price": 0.1295,
+      "currency": "USD",
+      "items_left": 24,
+      "url": "https://purebulk.com/products/magnesium-ascorbate",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "selenium-bulk",
+      "name": "Selenium Bulk 10kg",
+      "starting_price": 472.5,
+      "size_in_grams": 10000.0,
+      "price": 0.0473,
+      "currency": "USD",
+      "items_left": 3849,
+      "url": "https://purebulk.com/products/selenium-bulk",
+      "certification_tags": [
+        "NO-FILLERS",
+        "PURE"
+      ]
+    },
+    {
+      "product_id": "d-alpha-tocopheryl-acetate-powder-vitamin-e-700-iu",
+      "name": "D-Alpha Tocopheryl Acetate (Vitamin E) (700 IU)  Powder",
+      "starting_price": 7.25,
+      "size_in_grams": 25.0,
+      "price": 0.29,
+      "currency": "USD",
+      "items_left": 37,
+      "url": "https://purebulk.com/products/d-alpha-tocopheryl-acetate-powder-vitamin-e-700-iu",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "hydrolyzed-collagen-bovine",
+      "name": "Hydrolyzed Collagen Peptides (Bovine) (Type I, III) Powder",
+      "starting_price": 15.5,
+      "size_in_grams": 250.0,
+      "price": 0.062,
+      "currency": "USD",
+      "items_left": 128,
+      "url": "https://purebulk.com/products/hydrolyzed-collagen-bovine",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "potassium-citrate-bulk",
+      "name": "Potassium Citrate Bulk",
+      "starting_price": 607.5,
+      "size_in_grams": 25000.0,
+      "price": 0.0268,
+      "currency": "USD",
+      "items_left": 1,
+      "url": "https://purebulk.com/products/potassium-citrate-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "ascorbyl-palmitate-vitamin-c-ester-bulk",
+      "name": "Ascorbyl Palmitate (Vitamin C Ester) Powder Bulk",
+      "starting_price": 1417.5,
+      "size_in_grams": 25000.0,
+      "price": 0.0567,
+      "currency": "USD",
+      "items_left": 2,
+      "url": "https://purebulk.com/products/ascorbyl-palmitate-vitamin-c-ester-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "coral-calcium",
+      "name": "Coral Calcium (Okinawa) Powder",
+      "starting_price": 8.0,
+      "size_in_grams": 100.0,
+      "price": 0.08,
+      "currency": "USD",
+      "items_left": 76,
+      "url": "https://purebulk.com/products/coral-calcium",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "citric-acid",
+      "name": "Citric Acid Powder",
+      "starting_price": 19.25,
+      "size_in_grams": 1000.0,
+      "price": 0.0192,
+      "currency": "USD",
+      "items_left": 34,
+      "url": "https://purebulk.com/products/citric-acid",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "magnesium-citrate-bulk",
+      "name": "Magnesium Citrate Bulk 25kg",
+      "starting_price": 472.5,
+      "size_in_grams": 25000.0,
+      "price": 0.0189,
+      "currency": "USD",
+      "items_left": 23,
+      "url": "https://purebulk.com/products/magnesium-citrate-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "vitamin-d3-5000iu-vitamin-k2-mct-oil-soy-free-softgels",
+      "name": "Vitamin D3 (5000IU) + Vitamin K2 MCT Oil (Soy Free) Softgels (Qty: 300)",
+      "starting_price": 35.95,
+      "size_in_grams": 100.0,
+      "price": 0.3595,
+      "currency": "USD",
+      "items_left": 105,
+      "url": "https://purebulk.com/products/vitamin-d3-5000iu-vitamin-k2-mct-oil-soy-free-softgels",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "whey-protein-isolate-90-bulk",
+      "name": "Whey Protein Isolate 90% (USA) Bulk 20kg",
+      "starting_price": 944.95,
+      "size_in_grams": 20000.0,
+      "price": 0.0472,
+      "currency": "USD",
+      "items_left": 24,
+      "url": "https://purebulk.com/products/whey-protein-isolate-90-bulk",
+      "certification_tags": [
+        "NO-FILLERS",
+        "PURE"
+      ]
+    },
+    {
+      "product_id": "folic-acid-pure-vitamin-b9-bulk",
+      "name": "Folic Acid Pure (Vitamin B9) Powder Bulk 20kg",
+      "starting_price": 1945.95,
+      "size_in_grams": 20000.0,
+      "price": 0.0973,
+      "currency": "USD",
+      "items_left": 1,
+      "url": "https://purebulk.com/products/folic-acid-pure-vitamin-b9-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "gamma-aminobutyric-acid-gaba",
+      "name": "Gamma Aminobutyric Acid (GABA) Powder",
+      "starting_price": 5.75,
+      "size_in_grams": 100.0,
+      "price": 0.0575,
+      "currency": "USD",
+      "items_left": 82,
+      "url": "https://purebulk.com/products/gamma-aminobutyric-acid-gaba",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "inositol-vitamin-b8-bulk",
+      "name": "Myo-Inositol Powder (Vitamin B8) Bulk",
+      "starting_price": 669.5,
+      "size_in_grams": 25000.0,
+      "price": 0.0268,
+      "currency": "USD",
+      "items_left": 2,
+      "url": "https://purebulk.com/products/inositol-vitamin-b8-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "selenium",
+      "name": "Selenium",
+      "starting_price": 25.5,
+      "size_in_grams": 100.0,
+      "price": 0.255,
+      "currency": "USD",
+      "items_left": 28,
+      "url": "https://purebulk.com/products/selenium",
+      "certification_tags": [
+        "NO-FILLERS",
+        "PURE"
+      ]
+    },
+    {
+      "product_id": "fursultiamine-ttfd",
+      "name": "Fursultiamine (TTFD)",
+      "starting_price": 35.5,
+      "size_in_grams": 50.0,
+      "price": 0.71,
+      "currency": "USD",
+      "items_left": 80,
+      "url": "https://purebulk.com/products/fursultiamine-ttfd",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "calcium-ascorbate-vitamin-c",
+      "name": "Calcium Ascorbate (Vitamin C) Powder",
+      "starting_price": 5.75,
+      "size_in_grams": 100.0,
+      "price": 0.0575,
+      "currency": "USD",
+      "items_left": 35,
+      "url": "https://purebulk.com/products/calcium-ascorbate-vitamin-c",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "methylcobalamin-1",
+      "name": "Methylcobalamin 1%",
+      "starting_price": 5.95,
+      "size_in_grams": 25.0,
+      "price": 0.238,
+      "currency": "USD",
+      "items_left": 32,
+      "url": "https://purebulk.com/products/methylcobalamin-1",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "magnesium-lactate-dihydrate-bulk",
+      "name": "Magnesium Lactate Dihydrate Bulk",
+      "starting_price": 796.25,
+      "size_in_grams": 25000.0,
+      "price": 0.0319,
+      "currency": "USD",
+      "items_left": 4,
+      "url": "https://purebulk.com/products/magnesium-lactate-dihydrate-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "l-tyrosine",
+      "name": "L-Tyrosine",
+      "starting_price": 5.75,
+      "size_in_grams": 100.0,
+      "price": 0.0575,
+      "currency": "USD",
+      "items_left": 59,
+      "url": "https://purebulk.com/products/l-tyrosine",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "tudca-tauroursodeoxycholic-acid",
+      "name": "TUDCA (Tauroursodeoxycholic Acid)",
+      "starting_price": 21.75,
+      "size_in_grams": 10.0,
+      "price": 2.175,
+      "currency": "USD",
+      "items_left": 61,
+      "url": "https://purebulk.com/products/tudca-tauroursodeoxycholic-acid",
+      "certification_tags": [
+        "NO-FILLERS",
+        "PURE"
+      ]
+    },
+    {
+      "product_id": "choline-l-bitartrate",
+      "name": "Choline L-Bitartrate",
+      "starting_price": 6.95,
+      "size_in_grams": 100.0,
+      "price": 0.0695,
+      "currency": "USD",
+      "items_left": 81,
+      "url": "https://purebulk.com/products/choline-l-bitartrate",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "pantothenic-acid-vitamin-b5-bulk",
+      "name": "Pantothenic Acid (Vitamin B5) Bulk",
+      "starting_price": 1067.5,
+      "size_in_grams": 25000.0,
+      "price": 0.0427,
+      "currency": "USD",
+      "items_left": 6,
+      "url": "https://purebulk.com/products/pantothenic-acid-vitamin-b5-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "magnesium-citrate",
+      "name": "Magnesium Citrate",
+      "starting_price": 14.95,
+      "size_in_grams": 500.0,
+      "price": 0.0299,
+      "currency": "USD",
+      "items_left": 143,
+      "url": "https://purebulk.com/products/magnesium-citrate",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "l-carnosine",
+      "name": "L-Carnosine Powder",
+      "starting_price": 17.25,
+      "size_in_grams": 25.0,
+      "price": 0.69,
+      "currency": "USD",
+      "items_left": 18,
+      "url": "https://purebulk.com/products/l-carnosine",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "calcium-gluconate",
+      "name": "Calcium Gluconate (USA)",
+      "starting_price": 40.7,
+      "size_in_grams": 500.0,
+      "price": 0.0814,
+      "currency": "USD",
+      "items_left": 2,
+      "url": "https://purebulk.com/products/calcium-gluconate",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "ascorbyl-palmitate-vitamin-c-ester",
+      "name": "Ascorbyl Palmitate (Vitamin C Ester) Powder",
+      "starting_price": 11.5,
+      "size_in_grams": 100.0,
+      "price": 0.115,
+      "currency": "USD",
+      "items_left": 17,
+      "url": "https://purebulk.com/products/ascorbyl-palmitate-vitamin-c-ester",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "beta-alanine-powder-bulk",
+      "name": "Beta Alanine Powder Bulk",
+      "starting_price": 757.5,
+      "size_in_grams": 25000.0,
+      "price": 0.0303,
+      "currency": "USD",
+      "items_left": 1,
+      "url": "https://purebulk.com/products/beta-alanine-powder-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "SUGAR-FREE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "zinc-picolinate-20-bulk",
+      "name": "Zinc Picolinate 20% Bulk 25kg",
+      "starting_price": 1382.5,
+      "size_in_grams": 25000.0,
+      "price": 0.0553,
+      "currency": "USD",
+      "items_left": 6,
+      "url": "https://purebulk.com/products/zinc-picolinate-20-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "zinc-bis-glycinate-bulk",
+      "name": "Zinc Bis-Glycinate Bulk",
+      "starting_price": 1172.5,
+      "size_in_grams": 25000.0,
+      "price": 0.0469,
+      "currency": "USD",
+      "items_left": 1,
+      "url": "https://purebulk.com/products/zinc-bis-glycinate-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "potassium-gluconate",
+      "name": "Potassium Gluconate (USA)",
+      "starting_price": 18.95,
+      "size_in_grams": 250.0,
+      "price": 0.0758,
+      "currency": "USD",
+      "items_left": 28,
+      "url": "https://purebulk.com/products/potassium-gluconate",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "coenzyme-q10-coq10",
+      "name": "Coenzyme Q10 (CoQ10) Powder",
+      "starting_price": 9.25,
+      "size_in_grams": 10.0,
+      "price": 0.925,
+      "currency": "USD",
+      "items_left": 41,
+      "url": "https://purebulk.com/products/coenzyme-q10-coq10",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "branched-chain-amino-acids-bcaa-instantized-bulk",
+      "name": "Branched Chain Amino Acids (BCAA) Instantized Powder Bulk 25kg",
+      "starting_price": 883.75,
+      "size_in_grams": 25000.0,
+      "price": 0.0353,
+      "currency": "USD",
+      "items_left": 5,
+      "url": "https://purebulk.com/products/branched-chain-amino-acids-bcaa-instantized-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "whey-protein-isolate-90",
+      "name": "Whey Protein Isolate 90% (USA)",
+      "starting_price": 37.5,
+      "size_in_grams": 500.0,
+      "price": 0.075,
+      "currency": "USD",
+      "items_left": 79,
+      "url": "https://purebulk.com/products/whey-protein-isolate-90",
+      "certification_tags": [
+        "NO-FILLERS",
+        "PURE",
+        "SUGAR-FREE"
+      ]
+    },
+    {
+      "product_id": "bhb-sodium-beta-hydroxybutyrate",
+      "name": "BHB Sodium (Beta Hydroxybutyrate) Powder",
+      "starting_price": 9.5,
+      "size_in_grams": 100.0,
+      "price": 0.095,
+      "currency": "USD",
+      "items_left": 40,
+      "url": "https://purebulk.com/products/bhb-sodium-beta-hydroxybutyrate",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "SUGAR-FREE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "pyridoxal-5-phosphate-p5p-p-5-p-vitamin-b6-bulk",
+      "name": "Pyridoxal-5-Phosphate (P5P) (P-5-P) (Vitamin B6) Bulk 5kg",
+      "starting_price": 1455.95,
+      "size_in_grams": 5000.0,
+      "price": 0.2912,
+      "currency": "USD",
+      "items_left": 3,
+      "url": "https://purebulk.com/products/pyridoxal-5-phosphate-p5p-p-5-p-vitamin-b6-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "bhb-sodium-bulk",
+      "name": "BHB Potassium Bulk 25kg",
+      "starting_price": 1067.5,
+      "size_in_grams": 25000.0,
+      "price": 0.0427,
+      "currency": "USD",
+      "items_left": 1,
+      "url": "https://purebulk.com/products/bhb-sodium-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "bhb-calcium",
+      "name": "BHB Calcium Powder",
+      "starting_price": 12.5,
+      "size_in_grams": 100.0,
+      "price": 0.125,
+      "currency": "USD",
+      "items_left": 33,
+      "url": "https://purebulk.com/products/bhb-calcium",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "biotin-1-vitamin-b7-bulk",
+      "name": "Biotin 1% (Vitamin B7) Powder Bulk",
+      "starting_price": 389.95,
+      "size_in_grams": 25000.0,
+      "price": 0.049,
+      "currency": "USD",
+      "items_left": 1,
+      "url": "https://purebulk.com/products/biotin-1-vitamin-b7-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "zinc-oxide-bulk",
+      "name": "Zinc Oxide Bulk 50lb",
+      "starting_price": 642.97,
+      "size_in_grams": null,
+      "price": null,
+      "currency": "USD",
+      "items_left": 2,
+      "url": "https://purebulk.com/products/zinc-oxide-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "pyridoxine-hcl-vitamin-b6-bulk",
+      "name": "Pyridoxine HCl (Vitamin B6) Bulk 25kg",
+      "starting_price": 1496.25,
+      "size_in_grams": 25000.0,
+      "price": 0.0599,
+      "currency": "USD",
+      "items_left": 1,
+      "url": "https://purebulk.com/products/pyridoxine-hcl-vitamin-b6-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "calcium-pyruvate",
+      "name": "Calcium Pyruvate Powder",
+      "starting_price": 12.95,
+      "size_in_grams": 100.0,
+      "price": 0.1295,
+      "currency": "USD",
+      "items_left": 17,
+      "url": "https://purebulk.com/products/calcium-pyruvate",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "NON-CARBOHYDRATE",
+        "NON-OXYGEN",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN",
+        "WHEAT-FREE"
+      ]
+    },
+    {
+      "product_id": "thiamine-hcl-vitamin-b1-bulk",
+      "name": "Thiamine HCl (Vitamin B1) Bulk 25kg",
+      "starting_price": 2117.5,
+      "size_in_grams": 25000.0,
+      "price": 0.0847,
+      "currency": "USD",
+      "items_left": 1,
+      "url": "https://purebulk.com/products/thiamine-hcl-vitamin-b1-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "potassium-iodide",
+      "name": "Potassium Iodide",
+      "starting_price": 14.5,
+      "size_in_grams": 25.0,
+      "price": 0.58,
+      "currency": "USD",
+      "items_left": 74,
+      "url": "https://purebulk.com/products/potassium-iodide",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "l-histidine-hcl",
+      "name": "L-Histidine HCl",
+      "starting_price": 6.5,
+      "size_in_grams": 25.0,
+      "price": 0.26,
+      "currency": "USD",
+      "items_left": 35,
+      "url": "https://purebulk.com/products/l-histidine-hcl",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "calcium-d-glucarate",
+      "name": "Calcium D-Glucarate",
+      "starting_price": 10.5,
+      "size_in_grams": 25.0,
+      "price": 0.42,
+      "currency": "USD",
+      "items_left": 13,
+      "url": "https://purebulk.com/products/calcium-d-glucarate",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "potassium-bicarbonate-bulk",
+      "name": "Potassium Bicarbonate (USA) Bulk 50lb",
+      "starting_price": 499.95,
+      "size_in_grams": null,
+      "price": null,
+      "currency": "USD",
+      "items_left": 6,
+      "url": "https://purebulk.com/products/potassium-bicarbonate-bulk",
+      "certification_tags": [
+        "NO-FILLERS",
+        "PURE"
+      ]
+    },
+    {
+      "product_id": "niacin-vitamin-b3-immediate-release-bulk",
+      "name": "Niacin (Vitamin B3) Immediate Release Bulk",
+      "starting_price": 505.45,
+      "size_in_grams": 20000.0,
+      "price": 0.0253,
+      "currency": "USD",
+      "items_left": 33,
+      "url": "https://purebulk.com/products/niacin-vitamin-b3-immediate-release-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "cyanocobalamin-1-mannitol-99-vitamin-b12",
+      "name": "Cyanocobalamin 1% (Mannitol 99%) (Vitamin B12)",
+      "starting_price": 2.5,
+      "size_in_grams": 10.0,
+      "price": 0.25,
+      "currency": "USD",
+      "items_left": 6,
+      "url": "https://purebulk.com/products/cyanocobalamin-1-mannitol-99-vitamin-b12",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "thiamine-hcl-vitamin-b1",
+      "name": "Thiamine HCl (Vitamin B1)",
+      "starting_price": 5.25,
+      "size_in_grams": 25.0,
+      "price": 0.21,
+      "currency": "USD",
+      "items_left": 68,
+      "url": "https://purebulk.com/products/thiamine-hcl-vitamin-b1",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "zinc-gluconate-bulk",
+      "name": "Zinc Gluconate Bulk 25kg",
+      "starting_price": 701.25,
+      "size_in_grams": 25000.0,
+      "price": 0.028,
+      "currency": "USD",
+      "items_left": 4,
+      "url": "https://purebulk.com/products/zinc-gluconate-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "riboflavin-5-phosphate-vitamin-b2",
+      "name": "Riboflavin 5 Phosphate (Vitamin B2)",
+      "starting_price": 5.95,
+      "size_in_grams": 10.0,
+      "price": 0.595,
+      "currency": "USD",
+      "items_left": 25,
+      "url": "https://purebulk.com/products/riboflavin-5-phosphate-vitamin-b2",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "magnesium-malate",
+      "name": "Magnesium Malate",
+      "starting_price": 4.95,
+      "size_in_grams": 100.0,
+      "price": 0.0495,
+      "currency": "USD",
+      "items_left": 169,
+      "url": "https://purebulk.com/products/magnesium-malate",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "cyanocobalamin-pure-vitamin-b12-bulk",
+      "name": "Cyanocobalamin Pure (Vitamin B12) Powder Bulk",
+      "starting_price": 4609.95,
+      "size_in_grams": 1000.0,
+      "price": 4.6099,
+      "currency": "USD",
+      "items_left": 1,
+      "url": "https://purebulk.com/products/cyanocobalamin-pure-vitamin-b12-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "calcium-citrate-usa",
+      "name": "Calcium Citrate (USA) Powder",
+      "starting_price": 27.75,
+      "size_in_grams": 500.0,
+      "price": 0.0555,
+      "currency": "USD",
+      "items_left": 78,
+      "url": "https://purebulk.com/products/calcium-citrate-usa",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "calcium-carbonate-mineral",
+      "name": "Calcium Carbonate (Mineral) Powder",
+      "starting_price": 10.5,
+      "size_in_grams": 500.0,
+      "price": 0.021,
+      "currency": "USD",
+      "items_left": 62,
+      "url": "https://purebulk.com/products/calcium-carbonate-mineral",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "niacinamide-powder-vitamin-b3",
+      "name": "Niacinamide Powder (Vitamin B3)",
+      "starting_price": 4.25,
+      "size_in_grams": 100.0,
+      "price": 0.0425,
+      "currency": "USD",
+      "items_left": 121,
+      "url": "https://purebulk.com/products/niacinamide-powder-vitamin-b3",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "l-leucine",
+      "name": "L-Leucine",
+      "starting_price": 7.75,
+      "size_in_grams": 100.0,
+      "price": 0.0775,
+      "currency": "USD",
+      "items_left": 42,
+      "url": "https://purebulk.com/products/l-leucine",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "n-acetyl-l-glutamine",
+      "name": "N-Acetyl L-Glutamine",
+      "starting_price": 4.25,
+      "size_in_grams": 100.0,
+      "price": 0.0425,
+      "currency": "USD",
+      "items_left": 172,
+      "url": "https://purebulk.com/products/n-acetyl-l-glutamine",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "FAT-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "immune-support-blend",
+      "name": "Immune Support Blend",
+      "starting_price": 16.5,
+      "size_in_grams": 100.0,
+      "price": 0.165,
+      "currency": "USD",
+      "items_left": 298,
+      "url": "https://purebulk.com/products/immune-support-blend",
+      "certification_tags": [
+        "NO-FILLERS",
+        "PURE"
+      ]
+    },
+    {
+      "product_id": "pantothenic-acid-vitamin-b5",
+      "name": "Pantothenic Acid (Vitamin B5)",
+      "starting_price": 8.75,
+      "size_in_grams": 100.0,
+      "price": 0.0875,
+      "currency": "USD",
+      "items_left": 80,
+      "url": "https://purebulk.com/products/pantothenic-acid-vitamin-b5",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "pyridoxal-5-phosphate-p5p-p-5-p-vitamin-b6",
+      "name": "Pyridoxal-5-Phosphate (P5P) (P-5-P) (Vitamin B6)",
+      "starting_price": 8.5,
+      "size_in_grams": 10.0,
+      "price": 0.85,
+      "currency": "USD",
+      "items_left": 87,
+      "url": "https://purebulk.com/products/pyridoxal-5-phosphate-p5p-p-5-p-vitamin-b6",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "thiamine-mononitrate-vitamin-b1",
+      "name": "Thiamine Mononitrate (Vitamin B1)",
+      "starting_price": 13.95,
+      "size_in_grams": 100.0,
+      "price": 0.1395,
+      "currency": "USD",
+      "items_left": 50,
+      "url": "https://purebulk.com/products/thiamine-mononitrate-vitamin-b1",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "potassium-bicarbonate",
+      "name": "Potassium Bicarbonate (USA)",
+      "starting_price": 17.5,
+      "size_in_grams": 500.0,
+      "price": 0.035,
+      "currency": "USD",
+      "items_left": 23,
+      "url": "https://purebulk.com/products/potassium-bicarbonate",
+      "certification_tags": [
+        "NO-FILLERS",
+        "PURE"
+      ]
+    },
+    {
+      "product_id": "nicotinamide-ribose-chloride",
+      "name": "Nicotinamide Riboside Chloride (NRC)",
+      "starting_price": 14.5,
+      "size_in_grams": 10.0,
+      "price": 1.45,
+      "currency": "USD",
+      "items_left": 57,
+      "url": "https://purebulk.com/products/nicotinamide-ribose-chloride",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "hydrolyzed-collagen-chicken",
+      "name": "Hydrolyzed Collagen Peptides (Chicken) (Type II) Powder",
+      "starting_price": 8.95,
+      "size_in_grams": 100.0,
+      "price": 0.0895,
+      "currency": "USD",
+      "items_left": 9,
+      "url": "https://purebulk.com/products/hydrolyzed-collagen-chicken",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN",
+        "WHEAT-FREE"
+      ]
+    },
+    {
+      "product_id": "acid-succinate-vitamin-e",
+      "name": "Acid Succinate (Vitamin E) Powder",
+      "starting_price": 9.95,
+      "size_in_grams": 25.0,
+      "price": 0.398,
+      "currency": "USD",
+      "items_left": 53,
+      "url": "https://purebulk.com/products/acid-succinate-vitamin-e",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "zinc-oxide",
+      "name": "Zinc Oxide",
+      "starting_price": 12.5,
+      "size_in_grams": 250.0,
+      "price": 0.05,
+      "currency": "USD",
+      "items_left": 12,
+      "url": "https://purebulk.com/products/zinc-oxide",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN",
+        "WHEAT-FREE"
+      ]
+    },
+    {
+      "product_id": "zinc-gluconate",
+      "name": "Zinc Gluconate",
+      "starting_price": 6.6,
+      "size_in_grams": 100.0,
+      "price": 0.066,
+      "currency": "USD",
+      "items_left": 88,
+      "url": "https://purebulk.com/products/zinc-gluconate",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "d-aspartic-acid-daa",
+      "name": "D-Aspartic Acid (DAA) Powder",
+      "starting_price": 9.75,
+      "size_in_grams": 100.0,
+      "price": 0.0975,
+      "currency": "USD",
+      "items_left": 8,
+      "url": "https://purebulk.com/products/d-aspartic-acid-daa",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "zinc-sulfate-monohydrate",
+      "name": "Zinc Sulfate Monohydrate",
+      "starting_price": 8.5,
+      "size_in_grams": 100.0,
+      "price": 0.085,
+      "currency": "USD",
+      "items_left": 13,
+      "url": "https://purebulk.com/products/zinc-sulfate-monohydrate",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN",
+        "WHEAT-FREE"
+      ]
+    },
+    {
+      "product_id": "calcium-hmb",
+      "name": "Calcium HMB Powder",
+      "starting_price": 11.95,
+      "size_in_grams": 100.0,
+      "price": 0.1195,
+      "currency": "USD",
+      "items_left": 37,
+      "url": "https://purebulk.com/products/calcium-hmb",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "pyridoxine-hcl-vitamin-b6",
+      "name": "Pyridoxine HCl (Vitamin B6)",
+      "starting_price": 3.75,
+      "size_in_grams": 25.0,
+      "price": 0.15,
+      "currency": "USD",
+      "items_left": 57,
+      "url": "https://purebulk.com/products/pyridoxine-hcl-vitamin-b6",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "NON-CARBOHYDRATE",
+        "NON-PREGNANCY",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "citicoline-sodium",
+      "name": "Citicoline Sodium Powder",
+      "starting_price": 9.95,
+      "size_in_grams": 10.0,
+      "price": 0.995,
+      "currency": "USD",
+      "items_left": 8,
+      "url": "https://purebulk.com/products/citicoline-sodium",
+      "certification_tags": [
+        "NO-FILLERS",
+        "PURE"
+      ]
+    },
+    {
+      "product_id": "magnesium-glycinate",
+      "name": "Magnesium Bis-Glycinate Powder",
+      "starting_price": 7.25,
+      "size_in_grams": 100.0,
+      "price": 0.0725,
+      "currency": "USD",
+      "items_left": 478,
+      "url": "https://purebulk.com/products/magnesium-glycinate",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "citric-acid-bulk",
+      "name": "Citric Acid Powder Bulk 50lb",
+      "starting_price": 392.95,
+      "size_in_grams": null,
+      "price": null,
+      "currency": "USD",
+      "items_left": 12,
+      "url": "https://purebulk.com/products/citric-acid-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "magnesium-lactate-dihydrate",
+      "name": "Magnesium Lactate Dihydrate",
+      "starting_price": 6.5,
+      "size_in_grams": 100.0,
+      "price": 0.065,
+      "currency": "USD",
+      "items_left": 28,
+      "url": "https://purebulk.com/products/magnesium-lactate-dihydrate",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "oil-of-oregano-carvacrol",
+      "name": "Oil of Oregano (Carvacrol) 30ml (1oz)",
+      "starting_price": 17.05,
+      "size_in_grams": 25.0,
+      "price": 0.682,
+      "currency": "USD",
+      "items_left": 18,
+      "url": "https://purebulk.com/products/oil-of-oregano-carvacrol",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "FILLERS-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "acerola-cherry",
+      "name": "Acerola Cherry Extract (25% Vitamin C) Powder",
+      "starting_price": 5.25,
+      "size_in_grams": 50.0,
+      "price": 0.105,
+      "currency": "USD",
+      "items_left": 16,
+      "url": "https://purebulk.com/products/acerola-cherry",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "d-alpha-tocopherol-oil-vitamin-e-1000-iu-bulk",
+      "name": "D-Alpha Tocopherol Oil (Vitamin E) (1000 IU) Bulk 20kg",
+      "starting_price": 2310.0,
+      "size_in_grams": 20000.0,
+      "price": 0.1155,
+      "currency": "USD",
+      "items_left": 1,
+      "url": "https://purebulk.com/products/d-alpha-tocopherol-oil-vitamin-e-1000-iu-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "l-leucine-bulk",
+      "name": "L-Leucine Bulk 25kg",
+      "starting_price": 953.75,
+      "size_in_grams": 25000.0,
+      "price": 0.0382,
+      "currency": "USD",
+      "items_left": 4,
+      "url": "https://purebulk.com/products/l-leucine-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "thiamine-mononitrate-vitamin-b1-bulk",
+      "name": "Thiamine Mononitrate (Vitamin B1) Bulk 25kg",
+      "starting_price": 1706.25,
+      "size_in_grams": 25000.0,
+      "price": 0.0683,
+      "currency": "USD",
+      "items_left": 4,
+      "url": "https://purebulk.com/products/thiamine-mononitrate-vitamin-b1-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "methylcobalamin",
+      "name": "Methylcobalamin Pure",
+      "starting_price": 62.25,
+      "size_in_grams": 5.0,
+      "price": 12.45,
+      "currency": "USD",
+      "items_left": 71,
+      "url": "https://purebulk.com/products/methylcobalamin",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "vitamin-d3-5000iu-softgels",
+      "name": "Vitamin D3 5000IU Olive Oil (Soy Free) Softgels",
+      "starting_price": 30.25,
+      "size_in_grams": 250.0,
+      "price": 0.121,
+      "currency": "USD",
+      "items_left": 101,
+      "url": "https://purebulk.com/products/vitamin-d3-5000iu-softgels",
+      "certification_tags": [
+        "NO-FILLERS",
+        "PURE",
+        "SOY-FREE"
+      ]
+    },
+    {
+      "product_id": "calcium-lactate-gluconate-bulk",
+      "name": "Calcium Lactate Gluconate Bulk",
+      "starting_price": 1224.95,
+      "size_in_grams": 25000.0,
+      "price": 0.049,
+      "currency": "USD",
+      "items_left": 5,
+      "url": "https://purebulk.com/products/calcium-lactate-gluconate-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "piperine-95-black-pepper-extract",
+      "name": "Piperine 95% (Black Pepper Extract)",
+      "starting_price": 10.75,
+      "size_in_grams": 10.0,
+      "price": 1.075,
+      "currency": "USD",
+      "items_left": 53,
+      "url": "https://purebulk.com/products/piperine-95-black-pepper-extract",
+      "certification_tags": [
+        "NO-FILLERS",
+        "PURE"
+      ]
+    },
+    {
+      "product_id": "l-glutamine",
+      "name": "L-Glutamine",
+      "starting_price": 3.5,
+      "size_in_grams": 50.0,
+      "price": 0.07,
+      "currency": "USD",
+      "items_left": 38,
+      "url": "https://purebulk.com/products/l-glutamine",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "magnesium-hydroxide",
+      "name": "Magnesium Hydroxide (USA)",
+      "starting_price": 8.75,
+      "size_in_grams": 250.0,
+      "price": 0.035,
+      "currency": "USD",
+      "items_left": 34,
+      "url": "https://purebulk.com/products/magnesium-hydroxide",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "potassium-l-aspartate",
+      "name": "Potassium L-Aspartate",
+      "starting_price": 10.25,
+      "size_in_grams": 100.0,
+      "price": 0.1025,
+      "currency": "USD",
+      "items_left": 12,
+      "url": "https://purebulk.com/products/potassium-l-aspartate",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE"
+      ]
+    },
+    {
+      "product_id": "calcium-citrate-usa-bulk",
+      "name": "Calcium Citrate (USA) Powder Bulk 25kg",
+      "starting_price": 874.95,
+      "size_in_grams": 25000.0,
+      "price": 0.035,
+      "currency": "USD",
+      "items_left": 6,
+      "url": "https://purebulk.com/products/calcium-citrate-usa-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "copper-gluconate-pure",
+      "name": "Copper Gluconate Powder Pure",
+      "starting_price": 5.5,
+      "size_in_grams": 50.0,
+      "price": 0.11,
+      "currency": "USD",
+      "items_left": 70,
+      "url": "https://purebulk.com/products/copper-gluconate-pure",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "magnesium-gluconate",
+      "name": "Magnesium Gluconate",
+      "starting_price": 8.95,
+      "size_in_grams": 100.0,
+      "price": 0.0895,
+      "currency": "USD",
+      "items_left": 54,
+      "url": "https://purebulk.com/products/magnesium-gluconate",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "ascorbic-acid-vitamin-c",
+      "name": "Ascorbic Acid (Vitamin C) Powder",
+      "starting_price": 14.95,
+      "size_in_grams": 500.0,
+      "price": 0.0299,
+      "currency": "USD",
+      "items_left": 145,
+      "url": "https://purebulk.com/products/ascorbic-acid-vitamin-c",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "NON-GMO",
+        "NON-HEME",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "pea-protein-powder",
+      "name": "Pea Protein 80%",
+      "starting_price": 20.25,
+      "size_in_grams": 500.0,
+      "price": 0.0405,
+      "currency": "USD",
+      "items_left": 39,
+      "url": "https://purebulk.com/products/pea-protein-powder",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "GLUTEN-FREE",
+        "NO-FILLERS",
+        "NON-DAIRY",
+        "NON-ESSENTIAL",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "coenzyme-q10-coq10-bulk",
+      "name": "Coenzyme Q10 (CoQ10) Powder Bulk 5kg",
+      "starting_price": 1574.95,
+      "size_in_grams": 5000.0,
+      "price": 0.315,
+      "currency": "USD",
+      "items_left": 3,
+      "url": "https://purebulk.com/products/coenzyme-q10-coq10-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "niacinamide-powder-vitamin-b3-bulk",
+      "name": "Niacinamide Powder (Vitamin B3) Bulk",
+      "starting_price": 529.5,
+      "size_in_grams": 25000.0,
+      "price": 0.0212,
+      "currency": "USD",
+      "items_left": 17,
+      "url": "https://purebulk.com/products/niacinamide-powder-vitamin-b3-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "l-citrulline-dl-malate-2-1",
+      "name": "L-Citrulline DL-Malate (2:1) Powder",
+      "starting_price": 6.5,
+      "size_in_grams": 100.0,
+      "price": 0.065,
+      "currency": "USD",
+      "items_left": 101,
+      "url": "https://purebulk.com/products/l-citrulline-dl-malate-2-1",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "l-methionine",
+      "name": "L-Methionine",
+      "starting_price": 6.5,
+      "size_in_grams": 100.0,
+      "price": 0.065,
+      "currency": "USD",
+      "items_left": 71,
+      "url": "https://purebulk.com/products/l-methionine",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "para-amino-benzoic-acid-paba-vitamin-b10-bulk",
+      "name": "Para-Amino Benzoic Acid (PABA) (Vitamin B10) Bulk 25kg",
+      "starting_price": 1312.5,
+      "size_in_grams": 25000.0,
+      "price": 0.0525,
+      "currency": "USD",
+      "items_left": 3,
+      "url": "https://purebulk.com/products/para-amino-benzoic-acid-paba-vitamin-b10-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "branched-chain-amino-acids-bcaa-instantized",
+      "name": "Branched Chain Amino Acids (BCAA) Instantized Powder",
+      "starting_price": 7.25,
+      "size_in_grams": 100.0,
+      "price": 0.0725,
+      "currency": "USD",
+      "items_left": 37,
+      "url": "https://purebulk.com/products/branched-chain-amino-acids-bcaa-instantized",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "zinc-bis-glycinate",
+      "name": "Zinc Bis-Glycinate",
+      "starting_price": 5.25,
+      "size_in_grams": 50.0,
+      "price": 0.105,
+      "currency": "USD",
+      "items_left": 50,
+      "url": "https://purebulk.com/products/zinc-bis-glycinate",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "casein-protein-100-micellar",
+      "name": "Casein Protein - 100% Micellar (USA) Powder",
+      "starting_price": 16.75,
+      "size_in_grams": 500.0,
+      "price": 0.0335,
+      "currency": "USD",
+      "items_left": 37,
+      "url": "https://purebulk.com/products/casein-protein-100-micellar",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "potassium-citrate",
+      "name": "Potassium Citrate",
+      "starting_price": 5.5,
+      "size_in_grams": 100.0,
+      "price": 0.055,
+      "currency": "USD",
+      "items_left": 57,
+      "url": "https://purebulk.com/products/potassium-citrate",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "para-amino-benzoic-acid-paba-vitamin-b10",
+      "name": "Para-Amino Benzoic Acid (PABA) (Vitamin B10)",
+      "starting_price": 10.75,
+      "size_in_grams": 100.0,
+      "price": 0.1075,
+      "currency": "USD",
+      "items_left": 10,
+      "url": "https://purebulk.com/products/para-amino-benzoic-acid-paba-vitamin-b10",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "NON-PROTEIN",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "inositol-hexanicotinate-bulk",
+      "name": "Inositol Hexanicotinate Powder Bulk 25kg",
+      "starting_price": 3342.5,
+      "size_in_grams": 25000.0,
+      "price": 0.1337,
+      "currency": "USD",
+      "items_left": 1,
+      "url": "https://purebulk.com/products/inositol-hexanicotinate-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "calcium-lactate-gluconate",
+      "name": "Calcium Lactate Gluconate",
+      "starting_price": 9.95,
+      "size_in_grams": 100.0,
+      "price": 0.0995,
+      "currency": "USD",
+      "items_left": 38,
+      "url": "https://purebulk.com/products/calcium-lactate-gluconate",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "bhb-potassium",
+      "name": "BHB Potassium Powder",
+      "starting_price": 8.75,
+      "size_in_grams": 100.0,
+      "price": 0.0875,
+      "currency": "USD",
+      "items_left": 24,
+      "url": "https://purebulk.com/products/bhb-potassium",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "zinc-ascorbate",
+      "name": "Zinc Ascorbate",
+      "starting_price": 12.75,
+      "size_in_grams": 100.0,
+      "price": 0.1275,
+      "currency": "USD",
+      "items_left": 34,
+      "url": "https://purebulk.com/products/zinc-ascorbate",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "potassium-l-aspartate-bulk",
+      "name": "Potassium L-Aspartate Bulk 25kg",
+      "starting_price": 1259.95,
+      "size_in_grams": 25000.0,
+      "price": 0.0504,
+      "currency": "USD",
+      "items_left": 3,
+      "url": "https://purebulk.com/products/potassium-l-aspartate-bulk",
+      "certification_tags": [
+        "NO-FILLERS",
+        "PURE"
+      ]
+    },
+    {
+      "product_id": "l-malic-acid",
+      "name": "L-Malic Acid",
+      "starting_price": 2.95,
+      "size_in_grams": 100.0,
+      "price": 0.0295,
+      "currency": "USD",
+      "items_left": 32,
+      "url": "https://purebulk.com/products/l-malic-acid",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "d-alpha-tocopherol-oil-vitamin-e-1000-iu",
+      "name": "D-Alpha Tocopherol Oil (Vitamin E) (1000 IU) 250ml",
+      "starting_price": 76.95,
+      "size_in_grams": 100.0,
+      "price": 0.7695,
+      "currency": "USD",
+      "items_left": 82,
+      "url": "https://purebulk.com/products/d-alpha-tocopherol-oil-vitamin-e-1000-iu",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "biotin-pure-vitamin-b7-bulk",
+      "name": "Biotin Pure (Vitamin B7) Powder Bulk",
+      "starting_price": 1700.95,
+      "size_in_grams": 5000.0,
+      "price": 0.3402,
+      "currency": "USD",
+      "items_left": 3849,
+      "url": "https://purebulk.com/products/biotin-pure-vitamin-b7-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "niacin-vitamin-b3-immediate-release",
+      "name": "Niacin (Vitamin B3) Immediate Release",
+      "starting_price": 6.05,
+      "size_in_grams": 100.0,
+      "price": 0.0424,
+      "currency": "USD",
+      "items_left": 59,
+      "url": "https://purebulk.com/products/niacin-vitamin-b3-immediate-release",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "potassium-chloride",
+      "name": "Potassium Chloride (USA)",
+      "starting_price": 9.25,
+      "size_in_grams": 250.0,
+      "price": 0.037,
+      "currency": "USD",
+      "items_left": 162,
+      "url": "https://purebulk.com/products/potassium-chloride",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "nutmeg",
+      "name": "Nutmeg",
+      "starting_price": 8.25,
+      "size_in_grams": 50.0,
+      "price": 0.165,
+      "currency": "USD",
+      "items_left": 52,
+      "url": "https://purebulk.com/products/nutmeg",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "nmn-nicotinamide-mononucleotide",
+      "name": "NMN (Nicotinamide Mononucleotide)",
+      "starting_price": 10.5,
+      "size_in_grams": 5.0,
+      "price": 2.1,
+      "currency": "USD",
+      "items_left": 24,
+      "url": "https://purebulk.com/products/nmn-nicotinamide-mononucleotide",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "coenzyme-q10-coq10-with-mct-oil",
+      "name": "Coenzyme Q10 (COQ10) with MCT Oil",
+      "starting_price": 48.95,
+      "size_in_grams": 50.0,
+      "price": 0.979,
+      "currency": "USD",
+      "items_left": 74,
+      "url": "https://purebulk.com/products/coenzyme-q10-coq10-with-mct-oil",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "copper-gluconate-pure-bulk",
+      "name": "Copper Gluconate Powder Pure Bulk 25kg",
+      "starting_price": 1224.95,
+      "size_in_grams": 25000.0,
+      "price": 0.049,
+      "currency": "USD",
+      "items_left": 19,
+      "url": "https://purebulk.com/products/copper-gluconate-pure-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "potassium-iodide-bulk",
+      "name": "Potassium Iodide Bulk 25kg",
+      "starting_price": 5739.95,
+      "size_in_grams": 25000.0,
+      "price": 0.2296,
+      "currency": "USD",
+      "items_left": 1,
+      "url": "https://purebulk.com/products/potassium-iodide-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "l-isoleucine",
+      "name": "L-Isoleucine",
+      "starting_price": 7.25,
+      "size_in_grams": 100.0,
+      "price": 0.0725,
+      "currency": "USD",
+      "items_left": 38,
+      "url": "https://purebulk.com/products/l-isoleucine",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "glycine",
+      "name": "Glycine Powder",
+      "starting_price": 9.25,
+      "size_in_grams": 250.0,
+      "price": 0.037,
+      "currency": "USD",
+      "items_left": 76,
+      "url": "https://purebulk.com/products/glycine",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "coenzyme-q10-coq10-with-mct-oil-bulk",
+      "name": "Coenzyme Q10 (COQ10) with MCT Oil Bulk",
+      "starting_price": 1378.95,
+      "size_in_grams": null,
+      "price": null,
+      "currency": "USD",
+      "items_left": 40,
+      "url": "https://purebulk.com/products/coenzyme-q10-coq10-with-mct-oil-bulk",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "hydrolyzed-collagen-fish",
+      "name": "Hydrolyzed Collagen Peptides (Fish) (Type I) Powder",
+      "starting_price": 9.95,
+      "size_in_grams": 100.0,
+      "price": 0.0995,
+      "currency": "USD",
+      "items_left": 20,
+      "url": "https://purebulk.com/products/hydrolyzed-collagen-fish",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN",
+        "WHEAT-FREE"
+      ]
+    },
+    {
+      "product_id": "cyanocobalamin-pure-vitamin-b12",
+      "name": "Cyanocobalamin Pure (Vitamin B12) Powder",
+      "starting_price": 57.25,
+      "size_in_grams": 5.0,
+      "price": 11.45,
+      "currency": "USD",
+      "items_left": 116,
+      "url": "https://purebulk.com/products/cyanocobalamin-pure-vitamin-b12",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "vitamin-e-400iu-softgels-qty-250",
+      "name": "Vitamin E 400IU Softgels in MCT Oil (Qty: 250)",
+      "starting_price": 32.5,
+      "size_in_grams": 100.0,
+      "price": 0.325,
+      "currency": "USD",
+      "items_left": 75,
+      "url": "https://purebulk.com/products/vitamin-e-400iu-softgels-qty-250",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "cholecalciferol-vitamin-d3",
+      "name": "Cholecalciferol (Vitamin D3) Powder",
+      "starting_price": 2.95,
+      "size_in_grams": 25.0,
+      "price": 0.118,
+      "currency": "USD",
+      "items_left": 36,
+      "url": "https://purebulk.com/products/cholecalciferol-vitamin-d3",
+      "certification_tags": [
+        "NO-FILLERS",
+        "PURE"
+      ]
+    },
+    {
+      "product_id": "biotin-pure-vitamin-b7",
+      "name": "Biotin Pure (Vitamin B7) Powder",
+      "starting_price": 9.95,
+      "size_in_grams": 10.0,
+      "price": 0.995,
+      "currency": "USD",
+      "items_left": 108,
+      "url": "https://purebulk.com/products/biotin-pure-vitamin-b7",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "NON-DESTRUCTIVE",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "fucoidan-75-kelp-extract",
+      "name": "Fucoidan 75% (Kelp Extract)",
+      "starting_price": 11.95,
+      "size_in_grams": 25.0,
+      "price": 0.478,
+      "currency": "USD",
+      "items_left": 34,
+      "url": "https://purebulk.com/products/fucoidan-75-kelp-extract",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "benfotiamine",
+      "name": "Benfotiamine Powder",
+      "starting_price": 15.95,
+      "size_in_grams": 50.0,
+      "price": 0.319,
+      "currency": "USD",
+      "items_left": 58,
+      "url": "https://purebulk.com/products/benfotiamine",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "folic-acid-pure-vitamin-b9",
+      "name": "Folic Acid Pure (Vitamin B9) Powder",
+      "starting_price": 2.75,
+      "size_in_grams": 10.0,
+      "price": 0.275,
+      "currency": "USD",
+      "items_left": 31,
+      "url": "https://purebulk.com/products/folic-acid-pure-vitamin-b9",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "chlorella-broken-cell-wall",
+      "name": "Chlorella (Broken Cell Wall)",
+      "starting_price": 12.5,
+      "size_in_grams": 100.0,
+      "price": 0.125,
+      "currency": "USD",
+      "items_left": 40,
+      "url": "https://purebulk.com/products/chlorella-broken-cell-wall",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "NON-ANIMAL",
+        "NON-ESSENTIAL",
+        "NON-MEAT",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "shiitake-mushroom-50",
+      "name": "Shiitake Mushroom  Extract 50%",
+      "starting_price": 8.75,
+      "size_in_grams": 100.0,
+      "price": 0.0875,
+      "currency": "USD",
+      "items_left": 28,
+      "url": "https://purebulk.com/products/shiitake-mushroom-50",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "zinc-picolinate-20",
+      "name": "Zinc Picolinate 20%",
+      "starting_price": 6.25,
+      "size_in_grams": 50.0,
+      "price": 0.125,
+      "currency": "USD",
+      "items_left": 73,
+      "url": "https://purebulk.com/products/zinc-picolinate-20",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "magnesium-orotate",
+      "name": "Magnesium Orotate",
+      "starting_price": 12.75,
+      "size_in_grams": 50.0,
+      "price": 0.255,
+      "currency": "USD",
+      "items_left": 2,
+      "url": "https://purebulk.com/products/magnesium-orotate",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "electrolytes-tasty-clear",
+      "name": "Tasty Clear Electrolytes",
+      "starting_price": 30.0,
+      "size_in_grams": 250.0,
+      "price": 0.12,
+      "currency": "USD",
+      "items_left": 162,
+      "url": "https://purebulk.com/products/electrolytes-tasty-clear",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "zinc-l-aspartate",
+      "name": "Zinc L-Aspartate (USA)",
+      "starting_price": 6.88,
+      "size_in_grams": 100.0,
+      "price": 0.0688,
+      "currency": "USD",
+      "items_left": 25,
+      "url": "https://purebulk.com/products/zinc-l-aspartate",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "NON-HEALING",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "l-arginine-a-ketoglutarate-aakg",
+      "name": "L-Arginine a-Ketoglutarate Powder (AAKG)",
+      "starting_price": 8.25,
+      "size_in_grams": 100.0,
+      "price": 0.0825,
+      "currency": "USD",
+      "items_left": 48,
+      "url": "https://purebulk.com/products/l-arginine-a-ketoglutarate-aakg",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "riboflavin-vitamin-b2",
+      "name": "Riboflavin (Vitamin B2)",
+      "starting_price": 11.75,
+      "size_in_grams": 50.0,
+      "price": 0.235,
+      "currency": "USD",
+      "items_left": 57,
+      "url": "https://purebulk.com/products/riboflavin-vitamin-b2",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "l-citrulline",
+      "name": "L-Citrulline Powder",
+      "starting_price": 5.5,
+      "size_in_grams": 100.0,
+      "price": 0.055,
+      "currency": "USD",
+      "items_left": 106,
+      "url": "https://purebulk.com/products/l-citrulline",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "inositol-vitamin-b8",
+      "name": "Myo-Inositol Powder (Vitamin B8)",
+      "starting_price": 5.5,
+      "size_in_grams": 100.0,
+      "price": 0.055,
+      "currency": "USD",
+      "items_left": 51,
+      "url": "https://purebulk.com/products/inositol-vitamin-b8",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "inositol-hexanicotinate",
+      "name": "Inositol Hexanicotinate Powder",
+      "starting_price": 27.25,
+      "size_in_grams": 100.0,
+      "price": 0.1771,
+      "currency": "USD",
+      "items_left": 30,
+      "url": "https://purebulk.com/products/inositol-hexanicotinate",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "FLUSH-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "magnesium-carbonate",
+      "name": "Magnesium Carbonate",
+      "starting_price": 7.75,
+      "size_in_grams": 250.0,
+      "price": 0.031,
+      "currency": "USD",
+      "items_left": 20,
+      "url": "https://purebulk.com/products/magnesium-carbonate",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "alcar-ala-powder",
+      "name": "ALCAR/ALA",
+      "starting_price": 9.25,
+      "size_in_grams": 50.0,
+      "price": 0.185,
+      "currency": "USD",
+      "items_left": 27,
+      "url": "https://purebulk.com/products/alcar-ala-powder",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "biotin-1-vitamin-b7",
+      "name": "Biotin 1% (Vitamin B7) Powder",
+      "starting_price": 9.95,
+      "size_in_grams": 100.0,
+      "price": 0.0995,
+      "currency": "USD",
+      "items_left": 88,
+      "url": "https://purebulk.com/products/biotin-1-vitamin-b7",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "edta-calcium-disodium",
+      "name": "EDTA Calcium Disodium Powder",
+      "starting_price": 8.95,
+      "size_in_grams": 100.0,
+      "price": 0.0895,
+      "currency": "USD",
+      "items_left": 10,
+      "url": "https://purebulk.com/products/edta-calcium-disodium",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "spirulina",
+      "name": "Spirulina",
+      "starting_price": 13.95,
+      "size_in_grams": 250.0,
+      "price": 0.0558,
+      "currency": "USD",
+      "items_left": 2,
+      "url": "https://purebulk.com/products/spirulina",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "l-histidine-base",
+      "name": "L-Histidine Base",
+      "starting_price": 25.3,
+      "size_in_grams": 100.0,
+      "price": 0.253,
+      "currency": "USD",
+      "items_left": 14,
+      "url": "https://purebulk.com/products/l-histidine-base",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    },
+    {
+      "product_id": "clif-highs-pure-sleep",
+      "name": "Clif High's Pure Sleep (Generation 2)",
+      "starting_price": 44.5,
+      "size_in_grams": 132.0,
+      "price": 0.3371,
+      "currency": "USD",
+      "items_left": 389,
+      "url": "https://purebulk.com/products/clif-highs-pure-sleep",
+      "certification_tags": [
+        "BSE-TSE-FREE",
+        "NO-FILLERS",
+        "NON-HABIT",
+        "PURE",
+        "VEGAN",
+        "VEGETARIAN"
+      ]
+    }
+  ]
+}
