@@ -40,18 +40,6 @@ export class ComparisonView {
                     <h3>Detailed Comparison</h3>
                     ${this.renderDetailedComparison(original, candidate)}
                 </div>
-
-                <div class="approval-diff">
-                    <div class="diff-state current-state">
-                        <h4>Current State</h4>
-                        <p>Existing sourcing setup with current supplier constraints.</p>
-                    </div>
-                    <div class="diff-state proposed-state">
-                        <h4>Proposed State</h4>
-                        <p>Candidate substitution with updated score and risk profile.</p>
-                    </div>
-                    <button type="button" class="btn btn-ai approve-sync-btn">Approve and Sync to ERP</button>
-                </div>
             </section>
         `;
 
