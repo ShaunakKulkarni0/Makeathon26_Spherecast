@@ -35,7 +35,7 @@ export class SearchForm {
                 </div>
 
                 <div class="form-group">
-                    <h4>K.O.-Filter (harte Ausschlusskriterien)</h4>
+                    <h4>K.O. Filters (Hard Exclusion Criteria)</h4>
                 </div>
 
                 <div class="form-row">

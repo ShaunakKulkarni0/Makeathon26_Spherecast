@@ -27,7 +27,7 @@
             <div id="results-section" class="results-section hidden">
                 <div class="results-header">
                     <h2>Substitution Results</h2>
-                    <button id="back-to-menu-btn" class="btn btn-secondary">Zurück zum Hauptmenü</button>
+                    <button id="back-to-menu-btn" class="btn btn-secondary">Back to Main Menu</button>
                 </div>
 
                 <div class="results-content">
@@ -80,6 +80,8 @@
                     lead_time: 0.10,
                     quality: 0.10
                 };
+                this.loadingInterval = null;
+                this.loadingProgress = 0;
                 this.initializeComponents();
             }
 
@@ -226,16 +228,61 @@
             }
 
             showLoading() {
-                // Add loading overlay
+                // Avoid duplicate overlays
+                if (document.querySelector('.loading-overlay')) return;
+
+                this.loadingProgress = 5;
+
                 const overlay = document.createElement('div');
                 overlay.className = 'loading-overlay';
-                overlay.innerHTML = '<div class="spinner"></div><p>Analyzing materials...</p>';
+                overlay.innerHTML = `
+                    <div class="loading-card">
+                        <h3>Analyzing materials...</h3>
+                        <div class="loading-progress-track">
+                            <div class="loading-progress-fill" style="width: 5%"></div>
+                        </div>
+                        <p class="loading-progress-label">5%</p>
+                    </div>
+                `;
                 document.body.appendChild(overlay);
+
+                const startedAt = Date.now();
+                this.loadingInterval = window.setInterval(() => {
+                    const elapsed = Date.now() - startedAt;
+                    const target = Math.min(95, 5 + Math.floor((elapsed / 5000) * 90));
+                    if (target > this.loadingProgress) {
+                        this.loadingProgress = target;
+                        this.updateLoadingProgress(this.loadingProgress);
+                    }
+                }, 120);
             }
 
             hideLoading() {
                 const overlay = document.querySelector('.loading-overlay');
-                if (overlay) overlay.remove();
+                if (!overlay) return;
+
+                if (this.loadingInterval) {
+                    window.clearInterval(this.loadingInterval);
+                    this.loadingInterval = null;
+                }
+
+                this.loadingProgress = 100;
+                this.updateLoadingProgress(100);
+
+                window.setTimeout(() => {
+                    overlay.remove();
+                }, 220);
+            }
+
+            updateLoadingProgress(value) {
+                const overlay = document.querySelector('.loading-overlay');
+                if (!overlay) return;
+
+                const fill = overlay.querySelector('.loading-progress-fill');
+                const label = overlay.querySelector('.loading-progress-label');
+
+                if (fill) fill.style.width = `${value}%`;
+                if (label) label.textContent = `${value}%`;
             }
 
             showError(message) {
