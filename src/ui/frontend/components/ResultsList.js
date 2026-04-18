@@ -1,169 +1,111 @@
 /**
  * ResultsList Component
- * Displays the list of top material candidates
+ * Dense, table-first candidate view with drill-down details.
  */
 
 import { ScoreBreakdown } from './ScoreBreakdown.js';
 
 export class ResultsList {
-    constructor(container, onCandidateSelect, api, getRequirementsContext = null) {
+    constructor(container, onCandidateSelect) {
         this.container = container;
         this.onCandidateSelect = onCandidateSelect;
-        this.api = api;
-        this.getRequirementsContext = getRequirementsContext;
         this.scoreBreakdown = new ScoreBreakdown(document.createElement('div'));
-        this.activeDraftCandidateId = null;
-        this.createModal();
+        this.candidates = [];
     }
 
     displayCandidates(candidates) {
-        if (!candidates || candidates.length === 0) {
+        this.candidates = Array.isArray(candidates) ? candidates : [];
+
+        if (!this.candidates.length) {
             this.container.innerHTML = `
-                <div class="no-results">
+                <section class="no-results">
                     <h3>No suitable candidates found</h3>
                     <p>Try adjusting K.O. filters or scoring priorities.</p>
-                </div>
+                </section>
             `;
             return;
         }
 
         this.container.innerHTML = `
-            <div class="candidates-section">
-                <h3>Top Material Candidates</h3>
-                <div class="candidates-list">
-                    ${candidates.map((candidate, index) => this.renderCandidate(candidate, index + 1)).join('')}
+            <section class="candidates-section">
+                <div class="section-headline-row">
+                    <h3>Top Material Candidates</h3>
+                    <p class="section-meta">Sorted by composite match</p>
                 </div>
-            </div>
+
+                <div class="results-table-wrap">
+                    <table class="results-table" role="table" aria-label="Top candidates">
+                        <thead>
+                            <tr>
+                                <th class="col-expand" aria-label="Expand"></th>
+                                <th>Rank</th>
+                                <th>Material</th>
+                                <th>Price</th>
+                                <th>Lead Time</th>
+                                <th>MOQ</th>
+                                <th>Origin</th>
+                                <th>Match</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${this.candidates.map((candidate, index) => this.renderCandidateRows(candidate, index + 1)).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
         `;
 
         this.attachEventListeners();
     }
 
-    createModal() {
-        if (document.getElementById('email-draft-modal')) return;
-
-        const modal = document.createElement('div');
-        modal.id = 'email-draft-modal';
-        modal.className = 'email-draft-modal hidden';
-        modal.innerHTML = `
-            <div class="email-draft-backdrop" data-close-email-draft="true"></div>
-            <div class="email-draft-card" role="dialog" aria-modal="true" aria-labelledby="email-draft-title">
-                <div class="email-draft-header">
-                    <h4 id="email-draft-title">Email Draft</h4>
-                    <button class="btn btn-secondary btn-sm" data-close-email-draft="true" type="button">Close</button>
-                </div>
-                <p class="email-draft-subject"><strong>Subject:</strong> <span id="email-draft-subject"></span></p>
-                <textarea id="email-draft-body" class="email-draft-textarea" readonly></textarea>
-                <div class="email-draft-footer">
-                    <button class="btn btn-secondary" id="email-draft-copy-btn" type="button">Copy Draft</button>
-                </div>
-            </div>
-        `;
-        document.body.appendChild(modal);
-
-        modal.addEventListener('click', (event) => {
-            if (event.target?.dataset?.closeEmailDraft === 'true') {
-                this.closeDraftModal();
-            }
-        });
-
-        const copyButton = modal.querySelector('#email-draft-copy-btn');
-        copyButton?.addEventListener('click', async () => {
-            const subject = modal.querySelector('#email-draft-subject')?.textContent || '';
-            const body = modal.querySelector('#email-draft-body')?.value || '';
-            const draft = `Subject: ${subject}\n\n${body}`;
-
-            try {
-                await navigator.clipboard.writeText(draft);
-                copyButton.textContent = 'Copied';
-                window.setTimeout(() => {
-                    copyButton.textContent = 'Copy Draft';
-                }, 1200);
-            } catch (error) {
-                console.error('Clipboard copy failed', error);
-            }
-        });
-    }
-
-    renderCandidate(candidate, rank) {
+    renderCandidateRows(candidate, rank) {
         const material = candidate.kandidat;
-        const compositeScore = (candidate.composite_score * 100).toFixed(1);
-        const uncertainty = candidate.uncertainty_report || null;
+        const score = Number(candidate.composite_score || 0);
+        const compositeScore = (score * 100).toFixed(1);
+        const safeId = String(material.id).replace(/[^a-zA-Z0-9_-]/g, '-');
+        const detailId = `candidate-detail-${safeId}`;
 
         return `
-            <article class="candidate-item" data-candidate-id="${material.id}">
-                <div class="candidate-header">
-                    <div class="candidate-rank">#${rank}</div>
-                    <div class="candidate-name-wrap">
-                        <h4 class="candidate-name">${material.name}</h4>
-                        <p class="candidate-raw-id">Raw ID: ${material.id}</p>
-                    </div>
-                    <div class="candidate-score">${compositeScore}% match</div>
-                </div>
-
-                <div class="candidate-details">
-                    <div class="candidate-metrics">
-                        <div class="metric">
-                            <span class="metric-label">Price</span>
-                            <span class="metric-value">${this.formatPrice(material.price)}</span>
+            <tr class="candidate-row" data-candidate-id="${material.id}" data-detail-id="${detailId}">
+                <td class="col-expand">
+                    <button class="row-expand-btn" data-expanded="false" aria-label="Expand candidate details">▸</button>
+                </td>
+                <td class="mono">#${rank}</td>
+                <td>
+                    <div class="cell-primary">${material.name}</div>
+                    <div class="cell-secondary mono">${material.id}</div>
+                </td>
+                <td class="mono">${this.formatPrice(material.price)}</td>
+                <td class="mono">${material.lead_time.days} days</td>
+                <td class="mono">${material.moq}</td>
+                <td>${material.country_of_origin || 'N/A'}</td>
+                <td><span class="match-pill ${this.getMatchClass(score)}">${compositeScore}%</span></td>
+                <td>
+                    <button class="btn btn-primary btn-sm compare-btn" data-candidate-id="${material.id}">Compare</button>
+                </td>
+            </tr>
+            <tr class="candidate-detail-row hidden" id="${detailId}">
+                <td colspan="9">
+                    <div class="candidate-detail-layout">
+                        <div class="candidate-detail-block">
+                            ${this.renderScoreBreakdown(candidate)}
                         </div>
-                        <div class="metric">
-                            <span class="metric-label">Lead Time</span>
-                            <span class="metric-value">${material.lead_time.days} days</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-label">MOQ</span>
-                            <span class="metric-value">${material.moq}</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-label">Origin</span>
-                            <span class="metric-value">${material.country_of_origin || 'N/A'}</span>
+                        <div class="candidate-detail-block ai-accent-panel">
+                            ${this.renderExplanation(candidate)}
+                            ${this.renderUncertainty(candidate?.uncertainty_report || null)}
                         </div>
                     </div>
-
-                    <div class="candidate-score-breakdown">
-                        ${this.renderMiniScoreBreakdown(candidate)}
-                    </div>
-                </div>
-
-                <div class="candidate-actions">
-                    <button class="btn btn-primary compare-btn" data-candidate-id="${material.id}">
-                        Compare Details
-                    </button>
-                </div>
-
-                <details class="candidate-detail-panel ai-accent-panel">
-                    <summary>View Structured Explanation</summary>
-                    <div class="candidate-detail-body">
-                        ${this.renderExplanation(candidate)}
-                        ${this.renderUncertainty(uncertainty)}
-                    </div>
-                </details>
-            </article>
+                </td>
+            </tr>
         `;
     }
 
-    renderMiniScoreBreakdown(candidate) {
-        const scores = candidate.scores;
-        const dimensions = ['spec', 'compliance', 'price', 'lead_time', 'quality'];
-
-        return `
-            <div class="mini-scores">
-                ${dimensions.map((dim) => {
-                    const score = scores[dim] || 0;
-                    const percentage = (score * 100).toFixed(0);
-                    return `
-                        <div class="mini-score-item" title="${dim.replace('_', ' ')}: ${percentage}%">
-                            <span class="mini-score-label">${dim}</span>
-                            <div class="mini-score-bar">
-                                <div class="mini-score-fill" style="width: ${percentage}%"></div>
-                            </div>
-                            <span class="mini-score-value">${percentage}%</span>
-                        </div>
-                    `;
-                }).join('')}
-            </div>
-        `;
+    renderScoreBreakdown(candidate) {
+        const tempContainer = document.createElement('div');
+        this.scoreBreakdown.container = tempContainer;
+        this.scoreBreakdown.render(candidate, true);
+        return tempContainer.innerHTML;
     }
 
     renderExplanation(candidate) {
@@ -173,9 +115,7 @@ export class ResultsList {
 
         const sellerEmail = String(material.seller_email || '').trim();
         const sellerWebsite = String(material.seller_website || material.source_url || '').trim();
-        const prohibited = Array.isArray(allergenRisk.prohibited_allergens)
-            ? allergenRisk.prohibited_allergens
-            : [];
+        const prohibited = Array.isArray(allergenRisk.prohibited_allergens) ? allergenRisk.prohibited_allergens : [];
         const containsHits = Array.isArray(allergenRisk.contains_hits) ? allergenRisk.contains_hits : [];
         const mayContainHits = Array.isArray(allergenRisk.may_contain_hits) ? allergenRisk.may_contain_hits : [];
         const hasAllergenData = Boolean(allergenRisk.has_allergen_data);
@@ -185,9 +125,8 @@ export class ResultsList {
         const risks = explanation
             ? (explanation.risks || []).map((r) => (typeof r === 'string' ? r : r?.text)).filter(Boolean)
             : [];
+
         const allergenState = this.getAllergenState(containsHits, mayContainHits, hasAllergenData);
-        const supplierName = this.extractSupplierName(material);
-        const needsSellerContact = allergenState.needsContact;
 
         return `
             <div class="candidate-detail-grid">
@@ -208,26 +147,6 @@ export class ResultsList {
                     <h5>Contact</h5>
                     <div class="detail-kv"><span>Sales Email</span><span>${sellerEmail || 'Not available'}</span></div>
                     <div class="detail-kv"><span>Website</span><span>${sellerWebsite || 'Not available'}</span></div>
-                    ${needsSellerContact ? `
-                    <div class="detail-contact-actions">
-                        <span class="detail-contact-hint">Contact seller</span>
-                        <button
-                            class="btn btn-sm btn-primary create-email-draft-btn"
-                            type="button"
-                            data-candidate-id="${material.id}"
-                            data-supplier-name="${this.escapeHtml(supplierName)}"
-                            data-seller-email="${this.escapeHtml(sellerEmail)}"
-                            data-seller-website="${this.escapeHtml(sellerWebsite)}"
-                            data-material-name="${this.escapeHtml(material.name || '')}"
-                            data-material-id="${this.escapeHtml(material.id || '')}"
-                            data-issue-summary="${this.escapeHtml(allergenState.text)}"
-                            data-missing-information="${this.escapeHtml(allergenState.missingInformation.join('||'))}"
-                            data-prohibited-allergens="${this.escapeHtml(prohibited.join('||'))}"
-                        >
-                            Create Email Draft
-                        </button>
-                    </div>
-                    ` : ''}
                 </section>
 
                 <section class="detail-card">
@@ -241,47 +160,6 @@ export class ResultsList {
                 </section>
             </div>
         `;
-    }
-
-    getAllergenState(containsHits, mayContainHits, hasAllergenData) {
-        if (!hasAllergenData) {
-            return {
-                className: 'status-warning',
-                label: 'Limited Data',
-                text: 'Contact seller for additional allergen information.',
-                needsContact: true,
-                missingInformation: [
-                    'Complete allergen declaration',
-                    'Cross-contamination / may-contain statement',
-                    'Most recent specification sheet or CoA',
-                ],
-            };
-        }
-        if (containsHits.length) {
-            return {
-                className: 'status-danger',
-                label: 'Contains Prohibited',
-                text: `Contains prohibited allergens: ${containsHits.join(', ')}`,
-                needsContact: false,
-                missingInformation: [],
-            };
-        }
-        if (mayContainHits.length) {
-            return {
-                className: 'status-warning',
-                label: 'Potential Match',
-                text: `May contain prohibited allergens: ${mayContainHits.join(', ')}`,
-                needsContact: false,
-                missingInformation: [],
-            };
-        }
-        return {
-            className: 'status-ok',
-            label: 'No Match Found',
-            text: 'No prohibited allergen matches found in available data.',
-            needsContact: false,
-            missingInformation: [],
-        };
     }
 
     renderUncertainty(uncertainty) {
@@ -304,6 +182,35 @@ export class ResultsList {
                 ${this.renderSimpleList(suggestions, 'No verification suggestions')}
             </section>
         `;
+    }
+
+    getAllergenState(containsHits, mayContainHits, hasAllergenData) {
+        if (!hasAllergenData) {
+            return {
+                className: 'status-warning',
+                label: 'Limited Data',
+                text: 'Contact seller for additional allergen information.'
+            };
+        }
+        if (containsHits.length) {
+            return {
+                className: 'status-danger',
+                label: 'Contains Prohibited',
+                text: `Contains prohibited allergens: ${containsHits.join(', ')}`
+            };
+        }
+        if (mayContainHits.length) {
+            return {
+                className: 'status-warning',
+                label: 'Potential Match',
+                text: `May contain prohibited allergens: ${mayContainHits.join(', ')}`
+            };
+        }
+        return {
+            className: 'status-ok',
+            label: 'No Match Found',
+            text: 'No prohibited allergen matches found in available data.'
+        };
     }
 
     renderListCard(title, items, emptyText) {
@@ -334,29 +241,33 @@ export class ResultsList {
         return `${value} ${unit}`;
     }
 
-    attachEventListeners() {
-        const candidateItems = this.container.querySelectorAll('.candidate-item');
-        const compareButtons = this.container.querySelectorAll('.compare-btn');
-        const draftButtons = this.container.querySelectorAll('.create-email-draft-btn');
+    getMatchClass(score) {
+        if (score >= 0.8) return 'match-ok';
+        if (score >= 0.6) return 'match-warning';
+        return 'match-danger';
+    }
 
-        candidateItems.forEach((item) => {
-            item.addEventListener('click', (e) => {
-                if (e.target.closest('.candidate-detail-panel')) {
+    attachEventListeners() {
+        const rows = this.container.querySelectorAll('.candidate-row');
+        const compareButtons = this.container.querySelectorAll('.compare-btn');
+        const expandButtons = this.container.querySelectorAll('.row-expand-btn');
+
+        rows.forEach((row) => {
+            row.addEventListener('click', (event) => {
+                if (event.target.closest('button')) {
                     return;
                 }
-                if (!e.target.classList.contains('compare-btn')) {
-                    const candidateId = item.dataset.candidateId;
-                    const candidate = this.findCandidateById(candidateId);
-                    if (candidate && this.onCandidateSelect) {
-                        this.onCandidateSelect(candidate);
-                    }
+                const candidateId = row.dataset.candidateId;
+                const candidate = this.findCandidateById(candidateId);
+                if (candidate && this.onCandidateSelect) {
+                    this.onCandidateSelect(candidate);
                 }
             });
         });
 
         compareButtons.forEach((button) => {
-            button.addEventListener('click', (e) => {
-                e.stopPropagation();
+            button.addEventListener('click', (event) => {
+                event.stopPropagation();
                 const candidateId = button.dataset.candidateId;
                 const candidate = this.findCandidateById(candidateId);
                 if (candidate && this.onCandidateSelect) {
@@ -365,100 +276,33 @@ export class ResultsList {
             });
         });
 
-        draftButtons.forEach((button) => {
-            button.addEventListener('click', async (e) => {
-                e.stopPropagation();
-                await this.handleEmailDraftRequest(button);
+        expandButtons.forEach((button) => {
+            button.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const row = button.closest('.candidate-row');
+                const detailId = row?.dataset?.detailId;
+                const detailRow = detailId ? this.container.querySelector(`#${detailId}`) : null;
+                if (!detailRow) return;
+
+                const isExpanded = button.dataset.expanded === 'true';
+                if (isExpanded) {
+                    detailRow.classList.add('hidden');
+                    button.dataset.expanded = 'false';
+                    button.textContent = '▸';
+                } else {
+                    detailRow.classList.remove('hidden');
+                    button.dataset.expanded = 'true';
+                    button.textContent = '▾';
+                }
             });
         });
     }
 
     setCandidates(candidates) {
-        this.candidates = candidates;
+        this.candidates = Array.isArray(candidates) ? candidates : [];
     }
 
     findCandidateById(id) {
-        return this.candidates?.find((candidate) => candidate.kandidat.id === id) || null;
-    }
-
-    async handleEmailDraftRequest(button) {
-        if (!this.api) return;
-
-        const candidateId = button.dataset.candidateId || '';
-        const missingInformation = (button.dataset.missingInformation || '')
-            .split('||')
-            .map((item) => item.trim())
-            .filter(Boolean);
-        const prohibitedAllergens = (button.dataset.prohibitedAllergens || '')
-            .split('||')
-            .map((item) => item.trim())
-            .filter(Boolean);
-        const requirementsContext = typeof this.getRequirementsContext === 'function'
-            ? (this.getRequirementsContext() || {})
-            : {};
-        const destinationCountry = String(requirementsContext.destination_country || 'Germany').trim() || 'Germany';
-
-        const payload = {
-            supplier_name: button.dataset.supplierName || '',
-            seller_email: button.dataset.sellerEmail || '',
-            seller_website: button.dataset.sellerWebsite || '',
-            material_name: button.dataset.materialName || '',
-            material_id: button.dataset.materialId || '',
-            issue_summary: button.dataset.issueSummary || 'Missing allergen information',
-            missing_information: missingInformation,
-            prohibited_allergens: prohibitedAllergens,
-            destination_country: destinationCountry,
-        };
-
-        try {
-            this.activeDraftCandidateId = candidateId;
-            button.disabled = true;
-            button.textContent = 'Creating...';
-            const draft = await this.api.createEmailDraft(payload);
-            this.openDraftModal(draft.subject || '', draft.body || '');
-        } catch (error) {
-            console.error('Email draft creation failed:', error);
-            window.alert(`Failed to create email draft: ${error.message}`);
-        } finally {
-            button.disabled = false;
-            button.textContent = 'Create Email Draft';
-            this.activeDraftCandidateId = null;
-        }
-    }
-
-    openDraftModal(subject, body) {
-        const modal = document.getElementById('email-draft-modal');
-        if (!modal) return;
-        const subjectEl = modal.querySelector('#email-draft-subject');
-        const bodyEl = modal.querySelector('#email-draft-body');
-        if (subjectEl) subjectEl.textContent = subject || 'Supplier Information Request';
-        if (bodyEl) bodyEl.value = body || '';
-        modal.classList.remove('hidden');
-    }
-
-    closeDraftModal() {
-        const modal = document.getElementById('email-draft-modal');
-        if (!modal) return;
-        modal.classList.add('hidden');
-    }
-
-    extractSupplierName(material) {
-        if (!material) return '';
-        const candidates = [
-            material.supplier_name,
-            material.seller_name,
-            material.brand,
-            material.manufacturer,
-        ];
-        return candidates.find((value) => String(value || '').trim()) || '';
-    }
-
-    escapeHtml(value) {
-        return String(value || '')
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;');
+        return this.candidates.find((candidate) => candidate?.kandidat?.id === id) || null;
     }
 }
