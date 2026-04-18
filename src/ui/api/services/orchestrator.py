@@ -16,6 +16,7 @@ from tests.scoring.csv_loader import load_requirements_csv, material_from_row
 
 
 _ROOT = Path(__file__).resolve().parents[4]
+_RUNTIME_MATERIALS_CSV = _ROOT / "data" / "scoring_capsuline_materials.csv"
 _MATERIALS_CSV = _ROOT / "tests" / "scoring" / "data" / "gesamt_materials.csv"
 _REQUIREMENTS_CSV = _ROOT / "tests" / "scoring" / "data" / "gesamt_requirements.csv"
 
@@ -36,11 +37,18 @@ def _serialize(value: Any) -> Any:
     return value
 
 
-def _load_material_rows() -> list[dict[str, str]]:
-    if not _MATERIALS_CSV.exists():
-        raise HTTPException(status_code=500, detail=f"Missing CSV: {_MATERIALS_CSV}")
+def _resolve_materials_csv_path() -> Path:
+    if _RUNTIME_MATERIALS_CSV.exists():
+        return _RUNTIME_MATERIALS_CSV
+    return _MATERIALS_CSV
 
-    with _MATERIALS_CSV.open(newline="", encoding="utf-8") as f:
+
+def _load_material_rows() -> list[dict[str, str]]:
+    materials_csv = _resolve_materials_csv_path()
+    if not materials_csv.exists():
+        raise HTTPException(status_code=500, detail=f"Missing CSV: {materials_csv}")
+
+    with materials_csv.open(newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         rows = list(reader)
 
@@ -81,6 +89,8 @@ def _merge_requirements(
         max_quantity=base.max_quantity,
         destination_country=base.destination_country,
         critical_certs=list(base.critical_certs) if base.critical_certs else None,
+        prohibited_allergens=list(base.prohibited_allergens) if base.prohibited_allergens else None,
+        allergen_policy=base.allergen_policy,
         max_lead_time_days=base.max_lead_time_days,
         max_price_multiplier=base.max_price_multiplier,
     )
@@ -92,6 +102,11 @@ def _merge_requirements(
     if "critical_certs" in override:
         critical = override["critical_certs"]
         merged.critical_certs = list(critical) if critical else None
+    if "prohibited_allergens" in override:
+        prohibited = override["prohibited_allergens"]
+        merged.prohibited_allergens = list(prohibited) if prohibited else None
+    if "allergen_policy" in override and override["allergen_policy"]:
+        merged.allergen_policy = str(override["allergen_policy"])
     if "max_lead_time_days" in override:
         merged.max_lead_time_days = override["max_lead_time_days"]
     if "max_price_multiplier" in override:
