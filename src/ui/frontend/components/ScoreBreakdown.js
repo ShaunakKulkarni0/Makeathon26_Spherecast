@@ -45,8 +45,12 @@ export class ScoreBreakdown {
      * @param {Object} candidate - ScoredCandidate object
      * @param {boolean} showWeights - Whether to show dimension weights
      */
-    render(candidate, showWeights = false) {
+    render(candidate, showWeights = false, weights = null) {
         const { scores, composite_score, confidences } = candidate;
+
+        if (weights) {
+            this.updateWeights(weights);
+        }
 
         this.container.innerHTML = `
             <div class="score-breakdown">

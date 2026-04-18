@@ -14,15 +14,19 @@
         </header>
 
         <main class="main-content">
-            <div id="search-section" class="search-section">
-                <h2>Find Material Substitutes</h2>
-                <div id="search-form-container"></div>
+            <div id="search-section" class="search-section search-with-panel">
+                <div class="search-panel">
+                    <h2>Find Material Substitutes</h2>
+                    <div id="search-form-container"></div>
+                </div>
+                <aside class="weight-panel-wrapper">
+                    <div id="weight-controls-container"></div>
+                </aside>
             </div>
 
             <div id="results-section" class="results-section hidden">
                 <div class="results-header">
                     <h2>Substitution Results</h2>
-                    <div id="weight-controls-container"></div>
                 </div>
 
                 <div class="results-content">
@@ -65,6 +69,13 @@
             constructor() {
                 this.api = new API();
                 this.currentResult = null;
+                this.currentWeights = {
+                    spec_similarity: 0.40,
+                    compliance: 0.25,
+                    price_delta: 0.15,
+                    lead_time: 0.10,
+                    quality_signals: 0.10
+                };
                 this.initializeComponents();
             }
 
@@ -97,6 +108,7 @@
                     this.showLoading();
                     const result = await this.api.searchMaterials(query);
                     this.currentResult = result;
+                    this.currentWeights = result.metadata?.weights ?? this.currentWeights;
                     this.displayResults(result);
                 } catch (error) {
                     this.showError(error.message);
@@ -108,11 +120,12 @@
             async handleWeightsChange(weights) {
                 if (!this.currentResult) return;
 
+                this.currentWeights = { ...weights };
                 try {
                     this.showLoading();
-                    const result = await this.api.rescoreWithWeights(this.currentResult.original.id, weights);
-                    this.currentResult = result;
-                    this.displayResults(result);
+                    const rescoredResult = this.rescoreCurrentResults(weights);
+                    this.currentResult = rescoredResult;
+                    this.displayResults(rescoredResult);
                 } catch (error) {
                     this.showError(error.message);
                 } finally {
@@ -121,7 +134,7 @@
             }
 
             handleCandidateSelect(candidate) {
-                this.comparisonView.showComparison(this.currentResult.original, candidate);
+                this.comparisonView.showComparison(this.currentResult.original, candidate, this.currentWeights);
                 this.showComparisonSection();
             }
 
@@ -130,15 +143,48 @@
                 this.displayOriginalMaterial(result.original);
 
                 // Display top candidates
+                this.resultsList.setCandidates(result.top_candidates);
                 this.resultsList.displayCandidates(result.top_candidates);
 
                 // Display rejected candidates
                 this.rejectedList.displayRejected(result.rejected);
 
                 // Update weight sliders with current weights
-                this.weightSliders.setWeights(result.metadata.weights);
+                const activeWeights = result.metadata?.weights ?? this.currentWeights;
+                this.weightSliders.setWeights(activeWeights);
 
                 this.showResultsSection();
+            }
+
+            rescoreCurrentResults(weights) {
+                const topCandidates = (this.currentResult?.top_candidates || []).map(candidate => {
+                    const scores = candidate.scores || {};
+                    const compositeScore = Object.entries(weights).reduce((sum, [key, weight]) => {
+                        return sum + (scores[key] || 0) * weight;
+                    }, 0);
+
+                    return {
+                        ...candidate,
+                        composite_score: compositeScore,
+                        rank: 0
+                    };
+                });
+
+                topCandidates.sort((a, b) => b.composite_score - a.composite_score);
+                topCandidates.forEach((candidate, index) => {
+                    candidate.rank = index + 1;
+                });
+
+                const updatedMetadata = {
+                    ...this.currentResult.metadata,
+                    weights: { ...weights }
+                };
+
+                return {
+                    ...this.currentResult,
+                    top_candidates: topCandidates,
+                    metadata: updatedMetadata
+                };
             }
 
             displayOriginalMaterial(material) {

@@ -32,16 +32,24 @@ export class WeightSliders {
      */
     render() {
         this.container.innerHTML = `
-            <div class="weight-controls">
-                <h4>Adjust Scoring Weights</h4>
+            <div class="weight-panel">
+                <div class="weight-panel-header">
+                    <h4>Adjust Weights</h4>
+                </div>
+                <p class="weight-help">Drag the sliders to increase or decrease the importance of each scoring dimension.</p>
                 <div class="weight-sliders">
                     ${Object.entries(this.weights).map(([key, weight]) =>
                         this.renderWeightSlider(key, weight)
                     ).join('')}
                 </div>
+                <div class="weight-presets">
+                    <button class="btn btn-secondary preset-btn" data-preset="default">Default</button>
+                    <button class="btn btn-secondary preset-btn" data-preset="cost">Cost-Focused</button>
+                    <button class="btn btn-secondary preset-btn" data-preset="availability">Time-Sensitive</button>
+                </div>
                 <div class="weight-actions">
                     <button class="btn btn-secondary reset-weights">Reset to Default</button>
-                    <button class="btn btn-primary apply-weights">Apply Changes</button>
+                    <button class="btn btn-primary apply-weights">Recalculate</button>
                 </div>
                 <div class="weight-total">
                     <span>Total: <span class="total-value">${this.getTotalWeight()}%</span></span>
@@ -108,6 +116,14 @@ export class WeightSliders {
         applyBtn.addEventListener('click', () => {
             this.applyWeights();
         });
+
+        // Preset buttons
+        const presetButtons = this.container.querySelectorAll('.preset-btn');
+        presetButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                this.applyPreset(button.dataset.preset);
+            });
+        });
     }
 
     /**
@@ -117,13 +133,33 @@ export class WeightSliders {
         const dimension = slider.dataset.dimension;
         const newValue = parseFloat(slider.value);
 
+        const otherDimensions = Object.keys(this.weights).filter((key) => key !== dimension);
+        const remainingTotal = 1 - newValue;
+        const currentRemainingSum = otherDimensions.reduce((sum, key) => sum + this.weights[key], 0);
+
         this.weights[dimension] = newValue;
 
-        // Update display
-        const valueDisplay = slider.closest('.weight-slider').querySelector('.weight-value');
-        valueDisplay.textContent = `${(newValue * 100).toFixed(1)}%`;
+        if (currentRemainingSum > 0) {
+            const scale = remainingTotal / currentRemainingSum;
+            otherDimensions.forEach((key) => {
+                this.weights[key] = Math.max(0, this.weights[key] * scale);
+            });
+        } else {
+            otherDimensions.forEach((key) => {
+                this.weights[key] = remainingTotal / otherDimensions.length;
+            });
+        }
 
-        this.updateTotalDisplay();
+        const normalizedTotal = Object.values(this.weights).reduce((sum, weight) => sum + weight, 0);
+        if (normalizedTotal > 0) {
+            const adjustFactor = 1 / normalizedTotal;
+            Object.keys(this.weights).forEach((key) => {
+                this.weights[key] *= adjustFactor;
+            });
+        }
+
+        this.render();
+        this.attachEventListeners();
     }
 
     /**
@@ -150,16 +186,44 @@ export class WeightSliders {
      * Reset weights to default values
      */
     resetToDefault() {
-        this.weights = {
-            spec_similarity: 0.40,
-            compliance: 0.25,
-            price_delta: 0.15,
-            lead_time: 0.10,
-            quality_signals: 0.10
+        this.setPreset('default');
+    }
+
+    /**
+     * Apply a preset distribution
+     */
+    setPreset(preset) {
+        const presets = {
+            default: {
+                spec_similarity: 0.40,
+                compliance: 0.25,
+                price_delta: 0.15,
+                lead_time: 0.10,
+                quality_signals: 0.10
+            },
+            cost: {
+                spec_similarity: 0.25,
+                compliance: 0.20,
+                price_delta: 0.30,
+                lead_time: 0.15,
+                quality_signals: 0.10
+            },
+            availability: {
+                spec_similarity: 0.20,
+                compliance: 0.20,
+                price_delta: 0.15,
+                lead_time: 0.30,
+                quality_signals: 0.15
+            }
         };
 
+        this.weights = presets[preset] ?? { ...this.weights };
         this.render();
         this.attachEventListeners();
+    }
+
+    applyPreset(preset) {
+        this.setPreset(preset);
     }
 
     /**
