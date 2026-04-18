@@ -49,8 +49,10 @@ Categories:
 7. Blend/Premix (mixture of multiple ingredients)
 
 RULES FOR THE CANONICAL STRING:
-- It MUST be a continuous natural language paragraph. DO NOT output a JSON \
-stringified object inside this field.
+- It MUST be a structured list of key attributes separated by " | " (pipe characters).
+Include: ingredient name | CAS number (if known) | molecular formula | salt/chelate/oxide form | 
+dosage or concentration | chiral form (if applicable) | bioavailability notes (max 3 words) | category
+Omit any attribute that is unknown. Do NOT write full sentences.
 - HARD EXTRACTION: You MUST explicitly state any numbers, dosages (mg, %), \
 and chiral forms (L- vs. D-) present in the actual material name.
 - If Chemical: include CAS number, molecular formula, form (salt/chelate/oxide), \
