@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from .routes.search import router as csv_router
+from .routes.sales import router as sales_router
 
 
 app = FastAPI(
@@ -26,3 +27,4 @@ def health() -> dict[str, str]:
 
 
 app.include_router(csv_router, prefix="/api", tags=["csv-scoring"])
+app.include_router(sales_router, prefix="/api", tags=["sales"])
