@@ -133,12 +133,15 @@ def _scrape_detail_page(url: str, driver_or_session) -> Dict[str, Any]:
     }
 
 
-def run_capsuline_deep_crawl(search_queries: List[str], output_json_path: str):
+def run_capsuline_deep_crawl(search_queries: List[str], output_json_path: str, product_urls: List[str] = None):
     """Entry point for sweeping search terms, fetching detail pages, expanding to PDFs, and saving to JSON."""
     os.makedirs(PDF_STORAGE_DIR, exist_ok=True)
     os.makedirs(os.path.dirname(output_json_path) or ".", exist_ok=True)
     
     unique_urls = set()
+    if product_urls:
+        unique_urls.update(product_urls)
+        
     logger.info("Executing searches...")
     for query in search_queries:
         try:
