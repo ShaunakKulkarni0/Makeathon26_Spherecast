@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spherecast - Material Substitute Finder</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <h1>Spherecast Material Substitute Finder</h1>
+            <p>AI-powered material substitution with 5D scoring</p>
+        </header>
+
+        <main class="main-content">
+            <div id="search-section" class="search-section">
+                <h2>Find Material Substitutes</h2>
+                <div id="search-form-container"></div>
+            </div>
+
+            <div id="results-section" class="results-section hidden">
+                <div class="results-header">
+                    <h2>Substitution Results</h2>
+                    <div id="weight-controls-container"></div>
+                </div>
+
+                <div class="results-content">
+                    <div id="original-material-container"></div>
+                    <div id="top-candidates-container"></div>
+                    <div id="rejected-candidates-container"></div>
+                </div>
+            </div>
+
+            <div id="comparison-section" class="comparison-section hidden">
+                <div id="comparison-view-container"></div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2026 TUM.ai Makeathon - Spherecast Team</p>
+        </footer>
+    </div>
+
+    <!-- Load JavaScript modules -->
+    <script type="module" src="utils/api.js"></script>
+    <script type="module" src="components/SearchForm.js"></script>
+    <script type="module" src="components/WeightSliders.js"></script>
+    <script type="module" src="components/CandidateCard.js"></script>
+    <script type="module" src="components/ResultsList.js"></script>
+    <script type="module" src="components/ScoreBreakdown.js"></script>
+    <script type="module" src="components/ComparisonView.js"></script>
+    <script type="module" src="components/RejectedList.js"></script>
+
+    <!-- Main app script -->
+    <script type="module">
+        import { API } from './utils/api.js';
+        import { SearchForm } from './components/SearchForm.js';
+        import { WeightSliders } from './components/WeightSliders.js';
+        import { ResultsList } from './components/ResultsList.js';
+        import { ComparisonView } from './components/ComparisonView.js';
+        import { RejectedList } from './components/RejectedList.js';
+
+        class App {
+            constructor() {
+                this.api = new API();
+                this.currentResult = null;
+                this.initializeComponents();
+            }
+
+            initializeComponents() {
+                // Initialize search form
+                const searchContainer = document.getElementById('search-form-container');
+                this.searchForm = new SearchForm(searchContainer, this.handleSearch.bind(this));
+
+                // Initialize weight sliders
+                const weightContainer = document.getElementById('weight-controls-container');
+                this.weightSliders = new WeightSliders(weightContainer, this.handleWeightsChange.bind(this));
+
+                // Initialize results containers
+                this.resultsList = new ResultsList(
+                    document.getElementById('top-candidates-container'),
+                    this.handleCandidateSelect.bind(this)
+                );
+
+                this.rejectedList = new RejectedList(
+                    document.getElementById('rejected-candidates-container')
+                );
+
+                this.comparisonView = new ComparisonView(
+                    document.getElementById('comparison-view-container')
+                );
+            }
+
+            async handleSearch(query) {
+                try {
+                    this.showLoading();
+                    const result = await this.api.searchMaterials(query);
+                    this.currentResult = result;
+                    this.displayResults(result);
+                } catch (error) {
+                    this.showError(error.message);
+                } finally {
+                    this.hideLoading();
+                }
+            }
+
+            async handleWeightsChange(weights) {
+                if (!this.currentResult) return;
+
+                try {
+                    this.showLoading();
+                    const result = await this.api.rescoreWithWeights(this.currentResult.original.id, weights);
+                    this.currentResult = result;
+                    this.displayResults(result);
+                } catch (error) {
+                    this.showError(error.message);
+                } finally {
+                    this.hideLoading();
+                }
+            }
+
+            handleCandidateSelect(candidate) {
+                this.comparisonView.showComparison(this.currentResult.original, candidate);
+                this.showComparisonSection();
+            }
+
+            displayResults(result) {
+                // Display original material
+                this.displayOriginalMaterial(result.original);
+
+                // Display top candidates
+                this.resultsList.displayCandidates(result.top_candidates);
+
+                // Display rejected candidates
+                this.rejectedList.displayRejected(result.rejected);
+
+                // Update weight sliders with current weights
+                this.weightSliders.setWeights(result.metadata.weights);
+
+                this.showResultsSection();
+            }
+
+            displayOriginalMaterial(material) {
+                const container = document.getElementById('original-material-container');
+                container.innerHTML = `
+                    <div class="original-material">
+                        <h3>Original Material</h3>
+                        <div class="material-card original">
+                            <h4>${material.name}</h4>
+                            <div class="material-details">
+                                <p><strong>ID:</strong> ${material.id}</p>
+                                <p><strong>Price:</strong> ${material.price.value} ${material.price.unit}</p>
+                                <p><strong>Lead Time:</strong> ${material.lead_time.days} days</p>
+                                <p><strong>MOQ:</strong> ${material.moq}</p>
+                                <p><strong>Certifications:</strong> ${material.certifications.join(', ') || 'None'}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            showResultsSection() {
+                document.getElementById('search-section').classList.add('hidden');
+                document.getElementById('results-section').classList.remove('hidden');
+                document.getElementById('comparison-section').classList.add('hidden');
+            }
+
+            showComparisonSection() {
+                document.getElementById('comparison-section').classList.remove('hidden');
+            }
+
+            showLoading() {
+                // Add loading overlay
+                const overlay = document.createElement('div');
+                overlay.className = 'loading-overlay';
+                overlay.innerHTML = '<div class="spinner"></div><p>Analyzing materials...</p>';
+                document.body.appendChild(overlay);
+            }
+
+            hideLoading() {
+                const overlay = document.querySelector('.loading-overlay');
+                if (overlay) overlay.remove();
+            }
+
+            showError(message) {
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message';
+                errorDiv.innerHTML = `<p>Error: ${message}</p>`;
+                document.body.appendChild(errorDiv);
+                setTimeout(() => errorDiv.remove(), 5000);
+            }
+        }
+
+        // Initialize app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new App();
+        });
+    </script>
+</body>
+</html>
