@@ -11,11 +11,13 @@ from typing import Any
 from fastapi import HTTPException
 
 from shared.schemas import UserRequirements
+from src.crawling.data_transformer.scoring_csv_transform import transform_extracted_to_scoring_csv
 from src.scoring.pipeline import find_substitutes
 from tests.scoring.csv_loader import load_requirements_csv, material_from_row
 
 
 _ROOT = Path(__file__).resolve().parents[4]
+_EXTRACTED_MATERIALS_CSV = _ROOT / "data" / "extracted_capsuline_products.csv"
 _RUNTIME_MATERIALS_CSV = _ROOT / "data" / "scoring_capsuline_materials.csv"
 _MATERIALS_CSV = _ROOT / "tests" / "scoring" / "data" / "gesamt_materials.csv"
 _REQUIREMENTS_CSV = _ROOT / "tests" / "scoring" / "data" / "gesamt_requirements.csv"
@@ -38,9 +40,50 @@ def _serialize(value: Any) -> Any:
 
 
 def _resolve_materials_csv_path() -> Path:
+    _maybe_refresh_runtime_scoring_csv()
     if _RUNTIME_MATERIALS_CSV.exists():
         return _RUNTIME_MATERIALS_CSV
     return _MATERIALS_CSV
+
+
+def _count_data_rows(path: Path) -> int:
+    if not path.exists():
+        return 0
+    with path.open(newline="", encoding="utf-8") as f:
+        reader = csv.reader(f)
+        try:
+            next(reader)  # header
+        except StopIteration:
+            return 0
+        return sum(1 for _ in reader)
+
+
+def _maybe_refresh_runtime_scoring_csv() -> None:
+    """
+    Keep runtime scoring CSV in sync with latest extracted crawl CSV.
+    Regenerates scoring CSV when:
+    - runtime file does not exist,
+    - extracted CSV is newer, or
+    - extracted CSV has more rows than runtime scoring CSV.
+    """
+    if not _EXTRACTED_MATERIALS_CSV.exists():
+        return
+
+    runtime_exists = _RUNTIME_MATERIALS_CSV.exists()
+    runtime_rows = _count_data_rows(_RUNTIME_MATERIALS_CSV) if runtime_exists else 0
+    extracted_rows = _count_data_rows(_EXTRACTED_MATERIALS_CSV)
+    extracted_newer = (
+        not runtime_exists
+        or _EXTRACTED_MATERIALS_CSV.stat().st_mtime > _RUNTIME_MATERIALS_CSV.stat().st_mtime
+    )
+    extracted_larger = extracted_rows > runtime_rows
+
+    if not runtime_exists or extracted_newer or extracted_larger:
+        transform_extracted_to_scoring_csv(
+            input_path=_EXTRACTED_MATERIALS_CSV,
+            output_path=_RUNTIME_MATERIALS_CSV,
+            original_id=None,
+        )
 
 
 def _load_material_rows() -> list[dict[str, str]]:
