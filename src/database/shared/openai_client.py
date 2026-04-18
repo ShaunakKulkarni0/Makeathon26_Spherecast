@@ -17,9 +17,9 @@ from typing import Any
 
 import httpx
 from pathlib import Path
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 
-load_dotenv(Path(__file__).resolve().parent.parent.parent.parent / ".env")
+load_dotenv(find_dotenv())
 
 from .constants import (
     OPENAI_CHAT_URL,
@@ -57,10 +57,10 @@ class OpenAIAuthError(OpenAIError):
 # ---------------------------------------------------------------------------
 
 def _get_api_key() -> str:
-    key = os.environ.get("OPENAI_API_KEY", "")
+    key = os.environ.get("OpenAIAPI", "")
     if not key:
         raise EnvironmentError(
-            "OPENAI_API_KEY environment variable is not set. "
+            "OpenAIAPI environment variable is not set. "
             "Export it before running the pipeline."
         )
     return key
