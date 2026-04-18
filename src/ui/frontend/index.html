@@ -9,14 +9,16 @@
 <body>
     <div class="app">
         <header class="header">
-            <h1>Spherecast Material Substitute Finder</h1>
-            <p>AI-powered material substitution with 5D scoring</p>
+            <p class="header-kicker">Spherecast</p>
+            <h1>Material Substitution Console</h1>
+            <p>From unstructured supplier data to precise, auditable recommendations.</p>
         </header>
 
         <main class="main-content">
             <div id="search-section" class="search-section search-with-panel">
                 <div class="search-panel">
                     <h2>Find Material Substitutes</h2>
+                    <p class="section-intro">Select a source material and set hard constraints before running scoring.</p>
                     <div id="search-form-container"></div>
                 </div>
                 <aside class="weight-panel-wrapper">
@@ -43,7 +45,7 @@
         </main>
 
         <footer class="footer">
-            <p>&copy; 2026 TUM.ai Makeathon - Spherecast Team</p>
+            <p>&copy; 2026 Spherecast Team</p>
         </footer>
     </div>
 
@@ -200,7 +202,7 @@
                         <div class="material-card original">
                             <h4>${material.name}</h4>
                             <div class="material-details">
-                                <p><strong>ID:</strong> ${material.id}</p>
+                                <p><strong>ID:</strong> <span class="raw-code">${material.id}</span></p>
                                 <p><strong>Price:</strong> ${material.price.value} ${material.price.unit}</p>
                                 <p><strong>Lead Time:</strong> ${material.lead_time.days} days</p>
                                 <p><strong>MOQ:</strong> ${material.moq}</p>

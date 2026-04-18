@@ -25,52 +25,53 @@ export class SearchForm {
         this.container.innerHTML = `
             <form class="search-form" id="material-search-form">
                 <div class="form-group">
-                    <label for="selected-material-id">Original Material (from CSV)</label>
+                    <label for="selected-material-id">Original Material (CSV)</label>
                     <select id="selected-material-id" name="selected_material_id" required>
                         <option value="">Loading materials...</option>
                     </select>
+                    <p class="field-hint">The selected row becomes the reference for all score deltas.</p>
                 </div>
 
-                <div class="form-group">
-                    <label for="top-n">Top N Results</label>
-                    <input type="number" id="top-n" name="top_n" min="1" max="15" value="3">
-                </div>
-
-                <div class="form-group">
-                    <h4>K.O. Filters (Hard Exclusion Criteria)</h4>
-                </div>
-
-                <div class="form-row">
+                <div class="form-row form-row-compact">
+                    <div class="form-group">
+                        <label for="top-n">Top N Results</label>
+                        <input type="number" id="top-n" name="top_n" min="1" max="15" value="3">
+                    </div>
                     <div class="form-group">
                         <label for="destination-country">Destination Country</label>
                         <input type="text" id="destination-country" name="destination_country" value="DE" maxlength="8">
                     </div>
-                    <div class="form-group">
-                        <label for="max-quantity">Max Quantity (MOQ limit)</label>
-                        <input type="number" id="max-quantity" name="max_quantity" min="1" step="1" placeholder="e.g. 200">
-                    </div>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="max-lead-time-days">Max Lead Time (days)</label>
-                        <input type="number" id="max-lead-time-days" name="max_lead_time_days" min="1" step="1" placeholder="e.g. 30">
+                <fieldset class="ko-fieldset">
+                    <legend>K.O. Filters (Hard Exclusion)</legend>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="max-quantity">Max Quantity (MOQ limit)</label>
+                            <input type="number" id="max-quantity" name="max_quantity" min="1" step="1" placeholder="e.g. 200">
+                        </div>
+                        <div class="form-group">
+                            <label for="max-lead-time-days">Max Lead Time (days)</label>
+                            <input type="number" id="max-lead-time-days" name="max_lead_time_days" min="1" step="1" placeholder="e.g. 30">
+                        </div>
                     </div>
+
                     <div class="form-group">
                         <label for="max-price-multiplier">Max Price Multiplier</label>
                         <input type="number" id="max-price-multiplier" name="max_price_multiplier" min="0.1" step="0.01" value="2.0">
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label for="critical-certs">Critical Certifications (comma separated)</label>
-                    <input type="text" id="critical-certs" name="critical_certs" placeholder="ISO9001, HACCP">
-                </div>
+                    <div class="form-group">
+                        <label for="critical-certs">Critical Certifications (comma separated)</label>
+                        <input type="text" id="critical-certs" name="critical_certs" placeholder="ISO9001, HACCP">
+                    </div>
 
-                <div class="form-group">
-                    <label for="prohibited-allergens">Prohibited Allergens (comma separated)</label>
-                    <input type="text" id="prohibited-allergens" name="prohibited_allergens" placeholder="peanuts, tree_nuts">
-                </div>
+                    <div class="form-group">
+                        <label for="prohibited-allergens">Prohibited Allergens (comma separated)</label>
+                        <input type="text" id="prohibited-allergens" name="prohibited_allergens" placeholder="peanuts, tree_nuts">
+                    </div>
+                </fieldset>
 
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary search-btn">
@@ -115,6 +116,7 @@ export class SearchForm {
             ? this.requirementsDefaults.critical_certs
             : [];
         setValue('#critical-certs', certs.join(', '));
+
         const allergens = Array.isArray(this.requirementsDefaults.prohibited_allergens)
             ? this.requirementsDefaults.prohibited_allergens
             : [];

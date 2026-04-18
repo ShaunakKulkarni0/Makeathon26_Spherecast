@@ -12,16 +12,12 @@ export class ResultsList {
         this.scoreBreakdown = new ScoreBreakdown(document.createElement('div'));
     }
 
-    /**
-     * Display the list of top candidates
-     * @param {Array} candidates - Array of ScoredCandidate objects
-     */
     displayCandidates(candidates) {
         if (!candidates || candidates.length === 0) {
             this.container.innerHTML = `
                 <div class="no-results">
                     <h3>No suitable candidates found</h3>
-                    <p>Try adjusting your search criteria or material requirements.</p>
+                    <p>Try adjusting K.O. filters or scoring priorities.</p>
                 </div>
             `;
             return;
@@ -36,44 +32,42 @@ export class ResultsList {
             </div>
         `;
 
-        // Add click handlers
         this.attachEventListeners();
     }
 
-    /**
-     * Render a single candidate item
-     */
     renderCandidate(candidate, rank) {
         const material = candidate.kandidat;
         const compositeScore = (candidate.composite_score * 100).toFixed(1);
-        const explanation = candidate.explanation || null;
         const uncertainty = candidate.uncertainty_report || null;
 
         return `
-            <div class="candidate-item" data-candidate-id="${material.id}">
+            <article class="candidate-item" data-candidate-id="${material.id}">
                 <div class="candidate-header">
                     <div class="candidate-rank">#${rank}</div>
-                    <div class="candidate-name">${material.name}</div>
+                    <div class="candidate-name-wrap">
+                        <h4 class="candidate-name">${material.name}</h4>
+                        <p class="candidate-raw-id">Raw ID: ${material.id}</p>
+                    </div>
                     <div class="candidate-score">${compositeScore}% match</div>
                 </div>
 
                 <div class="candidate-details">
                     <div class="candidate-metrics">
                         <div class="metric">
-                            <span class="metric-label">Price:</span>
+                            <span class="metric-label">Price</span>
                             <span class="metric-value">${this.formatPrice(material.price)}</span>
                         </div>
                         <div class="metric">
-                            <span class="metric-label">Lead Time:</span>
+                            <span class="metric-label">Lead Time</span>
                             <span class="metric-value">${material.lead_time.days} days</span>
                         </div>
                         <div class="metric">
-                            <span class="metric-label">MOQ:</span>
+                            <span class="metric-label">MOQ</span>
                             <span class="metric-value">${material.moq}</span>
                         </div>
                         <div class="metric">
-                            <span class="metric-label">Origin:</span>
-                            <span class="metric-value">${material.country_of_origin}</span>
+                            <span class="metric-label">Origin</span>
+                            <span class="metric-value">${material.country_of_origin || 'N/A'}</span>
                         </div>
                     </div>
 
@@ -88,27 +82,24 @@ export class ResultsList {
                     </button>
                 </div>
 
-                <details class="candidate-detail-panel">
+                <details class="candidate-detail-panel ai-accent-panel">
                     <summary>View Structured Explanation</summary>
                     <div class="candidate-detail-body">
                         ${this.renderExplanation(candidate)}
                         ${this.renderUncertainty(uncertainty)}
                     </div>
                 </details>
-            </div>
+            </article>
         `;
     }
 
-    /**
-     * Render mini score breakdown for candidate preview
-     */
     renderMiniScoreBreakdown(candidate) {
         const scores = candidate.scores;
         const dimensions = ['spec', 'compliance', 'price', 'lead_time', 'quality'];
 
         return `
             <div class="mini-scores">
-                ${dimensions.map(dim => {
+                ${dimensions.map((dim) => {
                     const score = scores[dim] || 0;
                     const percentage = (score * 100).toFixed(0);
                     return `
@@ -149,7 +140,7 @@ export class ResultsList {
         return `
             <div class="candidate-detail-grid">
                 <section class="detail-card detail-card-highlight">
-                    <h5>Summary</h5>
+                    <h5>AI Summary</h5>
                     <p>${explanation?.summary || 'Not available'}</p>
                     <div class="detail-meta-row">
                         <span class="detail-chip">Recommendation: ${explanation?.recommendation || 'Not available'}</span>
@@ -251,9 +242,6 @@ export class ResultsList {
         `;
     }
 
-    /**
-     * Format price for display
-     */
     formatPrice(priceInfo) {
         const { value, unit } = priceInfo;
         if (value >= 1000) {
@@ -262,14 +250,11 @@ export class ResultsList {
         return `${value} ${unit}`;
     }
 
-    /**
-     * Attach event listeners to candidate items
-     */
     attachEventListeners() {
         const candidateItems = this.container.querySelectorAll('.candidate-item');
         const compareButtons = this.container.querySelectorAll('.compare-btn');
 
-        candidateItems.forEach(item => {
+        candidateItems.forEach((item) => {
             item.addEventListener('click', (e) => {
                 if (e.target.closest('.candidate-detail-panel')) {
                     return;
@@ -284,7 +269,7 @@ export class ResultsList {
             });
         });
 
-        compareButtons.forEach(button => {
+        compareButtons.forEach((button) => {
             button.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const candidateId = button.dataset.candidateId;
@@ -296,17 +281,11 @@ export class ResultsList {
         });
     }
 
-    /**
-     * Set candidates data for lookup
-     */
     setCandidates(candidates) {
         this.candidates = candidates;
     }
 
-    /**
-     * Find candidate by ID from stored candidates
-     */
     findCandidateById(id) {
-        return this.candidates?.find(candidate => candidate.kandidat.id === id) || null;
+        return this.candidates?.find((candidate) => candidate.kandidat.id === id) || null;
     }
 }

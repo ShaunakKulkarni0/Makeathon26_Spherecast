@@ -8,7 +8,6 @@ export class WeightSliders {
         this.container = container;
         this.onWeightsChange = onWeightsChange;
 
-        // Maps original default weights (40/25/15/10/10) to a simple 0-10 scale.
         this.importance = {
             spec: 4,
             compliance: 3,
@@ -33,19 +32,21 @@ export class WeightSliders {
         this.container.innerHTML = `
             <div class="weight-panel">
                 <div class="weight-panel-header">
-                    <h4>Adjust Priorities</h4>
+                    <h4>Scoring Priorities</h4>
+                    <span class="weight-total">Total: <strong>${this.getTotalPriority()}</strong></span>
                 </div>
-                <p class="weight-help">Set priority per dimension from 0 (ignore) to 10 (very important).</p>
+                <p class="weight-help">0 = ignore, 10 = critical. Weights are normalized before scoring.</p>
+
                 <div class="weight-sliders">
-                    ${Object.entries(this.importance).map(([key, value]) =>
-                        this.renderImportanceSlider(key, value)
-                    ).join('')}
+                    ${Object.entries(this.importance).map(([key, value]) => this.renderImportanceSlider(key, value)).join('')}
                 </div>
+
                 <div class="weight-presets">
-                    <button class="btn btn-secondary preset-btn" data-preset="default">Default</button>
-                    <button class="btn btn-secondary preset-btn" data-preset="cost">Cost</button>
-                    <button class="btn btn-secondary preset-btn" data-preset="availability">Time</button>
+                    <button class="btn btn-secondary preset-btn" data-preset="default">Balanced</button>
+                    <button class="btn btn-secondary preset-btn" data-preset="cost">Cost Focus</button>
+                    <button class="btn btn-secondary preset-btn" data-preset="availability">Time Focus</button>
                 </div>
+
                 <div class="weight-actions">
                     <button class="btn btn-secondary reset-weights">Reset</button>
                     <button class="btn btn-primary apply-weights">Recalculate</button>
@@ -110,7 +111,6 @@ export class WeightSliders {
     handleSliderChange(slider) {
         const dimension = slider.dataset.dimension;
         const newValue = Math.max(0, Math.min(10, parseInt(slider.value, 10) || 0));
-
         this.importance[dimension] = newValue;
         this.updateSliderDisplays();
     }
@@ -124,13 +124,16 @@ export class WeightSliders {
                 slider.style.setProperty('--slider-fill', `${percent}%`);
             }
 
-            const valueLabel = this.container.querySelector(
-                `.weight-slider[data-dimension="${key}"] .weight-value-badge`
-            );
+            const valueLabel = this.container.querySelector(`.weight-slider[data-dimension="${key}"] .weight-value-badge`);
             if (valueLabel) {
                 valueLabel.textContent = `${importanceValue}/10`;
             }
         });
+
+        const totalEl = this.container.querySelector('.weight-total strong');
+        if (totalEl) {
+            totalEl.textContent = String(this.getTotalPriority());
+        }
     }
 
     getTotalPriority() {
@@ -199,9 +202,6 @@ export class WeightSliders {
         }
     }
 
-    /**
-     * Set normalized weights programmatically and map them to priorities (0-10).
-     */
     setWeights(weights) {
         if (!weights || typeof weights !== 'object') return;
 
@@ -221,9 +221,6 @@ export class WeightSliders {
         this.attachEventListeners();
     }
 
-    /**
-     * Return normalized weights (sum = 1.0) for scoring API.
-     */
     getWeights() {
         return this.getNormalizedWeights();
     }

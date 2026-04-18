@@ -9,24 +9,20 @@ export class CandidateCard {
     constructor(container) {
         this.container = container;
         this.scoreBreakdown = new ScoreBreakdown(document.createElement('div'));
+        this.candidateId = null;
     }
 
-    /**
-     * Render a detailed candidate card
-     * @param {Object} candidate - ScoredCandidate object
-     * @param {Object} original - Original material for comparison
-     */
     render(candidate, original = null) {
         const material = candidate.kandidat;
-        const scores = candidate.scores;
         const compositeScore = (candidate.composite_score * 100).toFixed(1);
+        this.candidateId = material.id;
 
         this.container.innerHTML = `
-            <div class="candidate-card">
-                <div class="card-header">
+            <article class="candidate-card">
+                <header class="card-header">
                     <div class="candidate-title">
                         <h3>${material.name}</h3>
-                        <div class="candidate-id">ID: ${material.id}</div>
+                        <div class="candidate-id">ID: <span class="raw-code">${material.id}</span></div>
                     </div>
                     <div class="composite-score-display">
                         <div class="score-circle" style="background: ${this.getScoreColor(candidate.composite_score)}">
@@ -34,7 +30,7 @@ export class CandidateCard {
                             <span class="score-label">Match</span>
                         </div>
                     </div>
-                </div>
+                </header>
 
                 <div class="card-content">
                     <div class="material-overview">
@@ -47,32 +43,21 @@ export class CandidateCard {
                     </div>
 
                     ${original ? this.renderComparison(original, candidate) : ''}
-
-                    <div class="material-details">
-                        ${this.renderDetailedProperties(material)}
-                    </div>
-
+                    <div class="material-details">${this.renderDetailedProperties(material)}</div>
                     ${this.renderCertifications(material)}
                     ${this.renderQualitySignals(material)}
                 </div>
 
-                <div class="card-actions">
-                    <button class="btn btn-primary select-candidate" data-candidate-id="${material.id}">
-                        Select This Material
-                    </button>
-                    <button class="btn btn-secondary view-details" data-candidate-id="${material.id}">
-                        View Full Details
-                    </button>
-                </div>
-            </div>
+                <footer class="card-actions">
+                    <button class="btn btn-primary select-candidate" data-candidate-id="${material.id}">Select This Material</button>
+                    <button class="btn btn-secondary view-details" data-candidate-id="${material.id}">View Full Details</button>
+                </footer>
+            </article>
         `;
 
         this.attachEventListeners();
     }
 
-    /**
-     * Render material overview
-     */
     renderMaterialOverview(material) {
         return `
             <div class="overview-grid">
@@ -90,15 +75,12 @@ export class CandidateCard {
                 </div>
                 <div class="overview-item">
                     <span class="overview-label">Origin</span>
-                    <span class="overview-value">${material.country_of_origin}</span>
+                    <span class="overview-value">${material.country_of_origin || 'N/A'}</span>
                 </div>
             </div>
         `;
     }
 
-    /**
-     * Render score breakdown
-     */
     renderScoreBreakdown(candidate) {
         const tempContainer = document.createElement('div');
         this.scoreBreakdown.container = tempContainer;
@@ -106,27 +88,21 @@ export class CandidateCard {
         return tempContainer.innerHTML;
     }
 
-    /**
-     * Render comparison with original
-     */
     renderComparison(original, candidate) {
         const material = candidate.kandidat;
 
         return `
-            <div class="comparison-section">
+            <section class="comparison-section">
                 <h4>Comparison with Original</h4>
                 <div class="comparison-grid">
                     ${this.renderComparisonItem('Price', original.price.value, material.price.value, original.price.unit, false)}
                     ${this.renderComparisonItem('Lead Time', original.lead_time.days, material.lead_time.days, 'days', false)}
                     ${this.renderComparisonItem('MOQ', original.moq, material.moq, 'units', false)}
                 </div>
-            </div>
+            </section>
         `;
     }
 
-    /**
-     * Render a single comparison item
-     */
     renderComparisonItem(label, originalValue, candidateValue, unit, higherIsBetter) {
         let comparisonClass = 'neutral';
         let indicator = '→';
@@ -142,19 +118,14 @@ export class CandidateCard {
         return `
             <div class="comparison-item ${comparisonClass}">
                 <span class="comparison-label">${label}</span>
-                <span class="comparison-values">
-                    ${this.formatValue(originalValue)} → ${this.formatValue(candidateValue)} ${unit}
-                </span>
+                <span class="comparison-values">${this.formatValue(originalValue)} → ${this.formatValue(candidateValue)} ${unit}</span>
                 <span class="comparison-indicator">${indicator}</span>
             </div>
         `;
     }
 
-    /**
-     * Render detailed material properties
-     */
     renderDetailedProperties(material) {
-        const properties = Object.entries(material.properties);
+        const properties = Object.entries(material.properties || {});
 
         if (properties.length === 0) {
             return '<p class="no-properties">No detailed properties available</p>';
@@ -175,37 +146,31 @@ export class CandidateCard {
         `;
     }
 
-    /**
-     * Render certifications
-     */
     renderCertifications(material) {
         if (!material.certifications || material.certifications.length === 0) {
             return `
-                <div class="certifications-section">
+                <section class="certifications-section">
                     <h4>Certifications</h4>
                     <p class="no-certifications">No certifications listed</p>
-                </div>
+                </section>
             `;
         }
 
         return `
-            <div class="certifications-section">
+            <section class="certifications-section">
                 <h4>Certifications</h4>
                 <div class="certifications-list">
-                    ${material.certifications.map(cert => `<span class="certification-tag">${cert}</span>`).join('')}
+                    ${material.certifications.map((cert) => `<span class="certification-tag">${cert}</span>`).join('')}
                 </div>
-            </div>
+            </section>
         `;
     }
 
-    /**
-     * Render quality signals
-     */
     renderQualitySignals(material) {
-        const quality = material.quality;
+        const quality = material.quality || {};
 
         return `
-            <div class="quality-section">
+            <section class="quality-section ai-accent-panel">
                 <h4>Quality Indicators</h4>
                 <div class="quality-grid">
                     ${quality.supplier_rating ? `<div class="quality-item"><span>Supplier Rating:</span> <span>${JSON.stringify(quality.supplier_rating)}</span></div>` : ''}
@@ -214,23 +179,17 @@ export class CandidateCard {
                     ${quality.years_in_business ? `<div class="quality-item"><span>Years in Business:</span> <span>${quality.years_in_business}</span></div>` : ''}
                     ${quality.audit_score ? `<div class="quality-item"><span>Audit Score:</span> <span>${JSON.stringify(quality.audit_score)}</span></div>` : ''}
                 </div>
-            </div>
+            </section>
         `;
     }
 
-    /**
-     * Get color for score circle based on score value
-     */
     getScoreColor(score) {
-        if (score >= 0.8) return 'linear-gradient(135deg, #27ae60, #2ecc71)';
-        if (score >= 0.6) return 'linear-gradient(135deg, #f39c12, #e67e22)';
-        if (score >= 0.4) return 'linear-gradient(135deg, #e74c3c, #c0392b)';
-        return 'linear-gradient(135deg, #8b0000, #a00000)';
+        if (score >= 0.8) return 'linear-gradient(135deg, #2f6b4a, #4f8b67)';
+        if (score >= 0.6) return 'linear-gradient(135deg, #8a6c20, #a5852e)';
+        if (score >= 0.4) return 'linear-gradient(135deg, #8a3a32, #a34c42)';
+        return 'linear-gradient(135deg, #5e2521, #7a302a)';
     }
 
-    /**
-     * Format value for display
-     */
     formatValue(value) {
         if (typeof value === 'number') {
             if (value >= 1000) return `${(value / 1000).toFixed(1)}k`;
@@ -239,9 +198,6 @@ export class CandidateCard {
         return value;
     }
 
-    /**
-     * Format price for display
-     */
     formatPrice(priceInfo) {
         const { value, unit } = priceInfo;
         if (value >= 1000) {
@@ -250,9 +206,6 @@ export class CandidateCard {
         return `${value.toFixed(2)} ${unit}`;
     }
 
-    /**
-     * Attach event listeners
-     */
     attachEventListeners() {
         const selectBtn = this.container.querySelector('.select-candidate');
         const detailsBtn = this.container.querySelector('.view-details');
@@ -270,22 +223,14 @@ export class CandidateCard {
         }
     }
 
-    /**
-     * Handle candidate selection
-     */
     handleSelect() {
-        // Dispatch custom event for parent component
         const event = new CustomEvent('candidateSelected', {
             detail: { candidateId: this.candidateId }
         });
         this.container.dispatchEvent(event);
     }
 
-    /**
-     * Handle view details
-     */
     handleViewDetails() {
-        // Toggle detailed view
         const details = this.container.querySelector('.material-details');
         if (details) {
             details.classList.toggle('expanded');

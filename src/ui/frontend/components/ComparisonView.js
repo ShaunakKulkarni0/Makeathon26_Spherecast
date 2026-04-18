@@ -11,21 +11,14 @@ export class ComparisonView {
         this.scoreBreakdown = new ScoreBreakdown(document.createElement('div'));
     }
 
-    /**
-     * Show comparison between original and candidate
-     * @param {Object} original - Original CrawledMaterial
-     * @param {Object} candidate - ScoredCandidate
-     */
     showComparison(original, candidate, weights = null) {
         const candidateMaterial = candidate.kandidat;
 
         this.container.innerHTML = `
-            <div class="comparison-section">
+            <section class="comparison-section">
                 <div class="comparison-header">
                     <h2>Material Comparison</h2>
-                    <button class="btn btn-secondary close-comparison" onclick="this.closest('.comparison-section').classList.add('hidden')">
-                        Close Comparison
-                    </button>
+                    <button class="btn btn-secondary close-comparison">Close Comparison</button>
                 </div>
 
                 <div class="comparison-container">
@@ -47,50 +40,43 @@ export class ComparisonView {
                     <h3>Detailed Comparison</h3>
                     ${this.renderDetailedComparison(original, candidate)}
                 </div>
-            </div>
+            </section>
         `;
 
-        // Scroll to comparison section
+        this.attachEventListeners();
         this.container.scrollIntoView({ behavior: 'smooth' });
     }
 
-    /**
-     * Render material card for comparison
-     */
+    attachEventListeners() {
+        const closeBtn = this.container.querySelector('.close-comparison');
+        if (!closeBtn) return;
+
+        closeBtn.addEventListener('click', () => {
+            const section = this.container.querySelector('.comparison-section');
+            if (section) section.classList.add('hidden');
+        });
+    }
+
     renderMaterialCard(material, type) {
+        const certifications = Array.isArray(material.certifications) ? material.certifications : [];
+
         return `
-            <div class="material-card comparison-${type}">
+            <article class="material-card comparison-${type}">
                 <h4>${material.name}</h4>
                 <div class="material-details">
-                    <div class="detail-row">
-                        <strong>ID:</strong> ${material.id}
-                    </div>
-                    <div class="detail-row">
-                        <strong>Price:</strong> ${this.formatPrice(material.price)}
-                    </div>
-                    <div class="detail-row">
-                        <strong>Lead Time:</strong> ${material.lead_time.days} days (${material.lead_time.type})
-                    </div>
-                    <div class="detail-row">
-                        <strong>MOQ:</strong> ${material.moq}
-                    </div>
-                    <div class="detail-row">
-                        <strong>Country:</strong> ${material.country_of_origin}
-                    </div>
-                    <div class="detail-row">
-                        <strong>Incoterm:</strong> ${material.incoterm}
-                    </div>
-                    <div class="detail-row">
-                        <strong>Seller Email:</strong> ${material.seller_email || 'No email for the seller'}
-                    </div>
-                    <div class="detail-row">
-                        <strong>Website:</strong> ${material.seller_website || material.source_url || 'No website for the seller'}
-                    </div>
-                    <div class="detail-row">
+                    <div class="detail-row"><strong>ID:</strong> <span class="raw-code">${material.id}</span></div>
+                    <div class="detail-row"><strong>Price:</strong> ${this.formatPrice(material.price)}</div>
+                    <div class="detail-row"><strong>Lead Time:</strong> ${material.lead_time.days} days (${material.lead_time.type})</div>
+                    <div class="detail-row"><strong>MOQ:</strong> ${material.moq}</div>
+                    <div class="detail-row"><strong>Country:</strong> ${material.country_of_origin || 'N/A'}</div>
+                    <div class="detail-row"><strong>Incoterm:</strong> ${material.incoterm || 'N/A'}</div>
+                    <div class="detail-row"><strong>Seller Email:</strong> ${material.seller_email || 'No email for the seller'}</div>
+                    <div class="detail-row"><strong>Website:</strong> ${material.seller_website || material.source_url || 'No website for the seller'}</div>
+                    <div class="detail-row detail-row-column">
                         <strong>Certifications:</strong>
                         <div class="certifications-list">
-                            ${material.certifications.length > 0
-                                ? material.certifications.map(cert => `<span class="cert-tag">${cert}</span>`).join('')
+                            ${certifications.length > 0
+                                ? certifications.map((cert) => `<span class="cert-tag">${cert}</span>`).join('')
                                 : '<span class="no-certs">None</span>'
                             }
                         </div>
@@ -98,16 +84,13 @@ export class ComparisonView {
                 </div>
 
                 ${type === 'candidate' ? this.renderQualityInfo(material.quality) : ''}
-            </div>
+            </article>
         `;
     }
 
-    /**
-     * Render quality information
-     */
-    renderQualityInfo(quality) {
+    renderQualityInfo(quality = {}) {
         return `
-            <div class="quality-info">
+            <div class="quality-info ai-accent-panel">
                 <h5>Quality Indicators</h5>
                 <div class="quality-metrics">
                     ${quality.supplier_rating ? `<div>Supplier Rating: ${JSON.stringify(quality.supplier_rating)}</div>` : ''}
@@ -120,9 +103,6 @@ export class ComparisonView {
         `;
     }
 
-    /**
-     * Render score breakdown for candidate
-     */
     renderScoreBreakdown(candidate, weights = null) {
         const tempContainer = document.createElement('div');
         this.scoreBreakdown.container = tempContainer;
@@ -130,9 +110,6 @@ export class ComparisonView {
         return tempContainer.innerHTML;
     }
 
-    /**
-     * Render detailed comparison metrics
-     */
     renderDetailedComparison(original, candidate) {
         const candidateMaterial = candidate.kandidat;
         const scores = candidate.scores;
@@ -173,8 +150,8 @@ export class ComparisonView {
             },
             {
                 label: 'Compliance Match',
-                original: original.certifications.length,
-                candidate: this.calculateComplianceMatch(original.certifications, candidateMaterial.certifications),
+                original: (original.certifications || []).length,
+                candidate: this.calculateComplianceMatch(original.certifications || [], candidateMaterial.certifications || []),
                 unit: 'certifications',
                 higherIsBetter: true,
                 score: scores.compliance,
@@ -184,14 +161,11 @@ export class ComparisonView {
 
         return `
             <div class="comparison-metrics-grid">
-                ${comparisons.map(comp => this.renderComparisonMetric(comp)).join('')}
+                ${comparisons.map((comp) => this.renderComparisonMetric(comp)).join('')}
             </div>
         `;
     }
 
-    /**
-     * Render a single comparison metric
-     */
     renderComparisonMetric(comparison) {
         const { label, original, candidate, unit, higherIsBetter, score, isPercentage } = comparison;
 
@@ -234,17 +208,11 @@ export class ComparisonView {
         `;
     }
 
-    /**
-     * Calculate compliance match (number of matching certifications)
-     */
     calculateComplianceMatch(originalCerts, candidateCerts) {
-        const matches = originalCerts.filter(cert => candidateCerts.includes(cert));
+        const matches = originalCerts.filter((cert) => candidateCerts.includes(cert));
         return matches.length;
     }
 
-    /**
-     * Format price for display
-     */
     formatPrice(priceInfo) {
         const { value, unit } = priceInfo;
         if (value >= 1000) {
