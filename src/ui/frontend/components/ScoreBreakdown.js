@@ -7,7 +7,7 @@ export class ScoreBreakdown {
     constructor(container) {
         this.container = container;
         this.dimensions = {
-            'spec_similarity': {
+            'spec': {
                 name: 'Spec Similarity',
                 weight: 0.40,
                 color: 'score-spec-similarity',
@@ -19,7 +19,7 @@ export class ScoreBreakdown {
                 color: 'score-compliance',
                 description: 'Certification and regulatory compliance match'
             },
-            'price_delta': {
+            'price': {
                 name: 'Price Delta',
                 weight: 0.15,
                 color: 'score-price-delta',
@@ -31,7 +31,7 @@ export class ScoreBreakdown {
                 color: 'score-lead-time',
                 description: 'Delivery time comparison'
             },
-            'quality_signals': {
+            'quality': {
                 name: 'Quality Signals',
                 weight: 0.10,
                 color: 'score-quality-signals',
@@ -45,8 +45,12 @@ export class ScoreBreakdown {
      * @param {Object} candidate - ScoredCandidate object
      * @param {boolean} showWeights - Whether to show dimension weights
      */
-    render(candidate, showWeights = false) {
+    render(candidate, showWeights = false, weights = null) {
         const { scores, composite_score, confidences } = candidate;
+
+        if (weights) {
+            this.updateWeights(weights);
+        }
 
         this.container.innerHTML = `
             <div class="score-breakdown">

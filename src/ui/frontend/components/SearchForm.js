@@ -1,141 +1,117 @@
 /**
  * SearchForm Component
- * Material search input form
+ * CSV material selector plus editable KO-filter inputs.
  */
 
 export class SearchForm {
     constructor(container, onSearch) {
         this.container = container;
         this.onSearch = onSearch;
+        this.materials = [];
+        this.requirementsDefaults = {
+            max_quantity: null,
+            destination_country: 'DE',
+            critical_certs: [],
+            max_lead_time_days: null,
+            max_price_multiplier: 2.0,
+        };
         this.render();
         this.attachEventListeners();
     }
 
-    /**
-     * Render the search form
-     */
     render() {
         this.container.innerHTML = `
             <form class="search-form" id="material-search-form">
                 <div class="form-group">
-                    <label for="material-name">Material Name</label>
-                    <input
-                        type="text"
-                        id="material-name"
-                        name="name"
-                        placeholder="e.g., Glucose, Vitamin C, Calcium Carbonate"
-                        required
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label for="material-category">Category</label>
-                    <select id="material-category" name="category">
-                        <option value="">Select Category</option>
-                        <option value="sweetener">Sweetener</option>
-                        <option value="vitamin">Vitamin</option>
-                        <option value="mineral">Mineral</option>
-                        <option value="amino_acid">Amino Acid</option>
-                        <option value="carrier">Carrier/Filler</option>
-                        <option value="preservative">Preservative</option>
-                        <option value="colorant">Colorant</option>
-                        <option value="flavor">Flavor</option>
-                        <option value="other">Other</option>
+                    <label for="selected-material-id">Original Material (from CSV)</label>
+                    <select id="selected-material-id" name="selected_material_id" required>
+                        <option value="">Loading materials...</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="application">Application</label>
-                    <input
-                        type="text"
-                        id="application"
-                        name="application"
-                        placeholder="e.g., dietary supplement, food additive"
-                    >
+                    <label for="top-n">Top N Results</label>
+                    <input type="number" id="top-n" name="top_n" min="1" max="15" value="3">
+                </div>
+
+                <div class="form-group">
+                    <h4>K.O.-Filter (harte Ausschlusskriterien)</h4>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="max-quantity">Max Monthly Quantity</label>
-                        <input
-                            type="number"
-                            id="max-quantity"
-                            name="max_quantity"
-                            placeholder="e.g., 10000"
-                            min="1"
-                        >
-                    </div>
-
-                    <div class="form-group">
                         <label for="destination-country">Destination Country</label>
-                        <select id="destination-country" name="destination_country">
-                            <option value="DE">Germany</option>
-                            <option value="US">United States</option>
-                            <option value="UK">United Kingdom</option>
-                            <option value="FR">France</option>
-                            <option value="IT">Italy</option>
-                            <option value="ES">Spain</option>
-                            <option value="NL">Netherlands</option>
-                            <option value="CH">Switzerland</option>
-                        </select>
+                        <input type="text" id="destination-country" name="destination_country" value="DE" maxlength="8">
+                    </div>
+                    <div class="form-group">
+                        <label for="max-quantity">Max Quantity (MOQ limit)</label>
+                        <input type="number" id="max-quantity" name="max_quantity" min="1" step="1" placeholder="e.g. 200">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="max-lead-time-days">Max Lead Time (days)</label>
+                        <input type="number" id="max-lead-time-days" name="max_lead_time_days" min="1" step="1" placeholder="e.g. 30">
+                    </div>
+                    <div class="form-group">
+                        <label for="max-price-multiplier">Max Price Multiplier</label>
+                        <input type="number" id="max-price-multiplier" name="max_price_multiplier" min="0.1" step="0.01" value="2.0">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="certifications">Required Certifications (optional)</label>
-                    <div class="certification-inputs">
-                        <input
-                            type="text"
-                            id="certifications"
-                            name="certifications"
-                            placeholder="e.g., GMP, ISO 22000, Halal (comma-separated)"
-                        >
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="max-lead-time">Max Lead Time (days)</label>
-                        <input
-                            type="number"
-                            id="max-lead-time"
-                            name="max_lead_time"
-                            placeholder="e.g., 30"
-                            min="1"
-                        >
-                    </div>
-
-                    <div class="form-group">
-                        <label for="max-price-multiplier">Max Price Multiplier</label>
-                        <input
-                            type="number"
-                            id="max-price-multiplier"
-                            name="max_price_multiplier"
-                            placeholder="e.g., 2.0"
-                            min="1"
-                            step="0.1"
-                            value="2.0"
-                        >
-                    </div>
+                    <label for="critical-certs">Critical Certifications (comma separated)</label>
+                    <input type="text" id="critical-certs" name="critical_certs" placeholder="ISO9001, HACCP">
                 </div>
 
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary search-btn">
-                        <span class="btn-text">Find Substitutes</span>
-                        <span class="btn-loading hidden">Searching...</span>
+                        <span class="btn-text">Run CSV Scoring</span>
+                        <span class="btn-loading hidden">Scoring...</span>
                     </button>
-                    <button type="button" class="btn btn-secondary clear-btn">Clear Form</button>
+                    <button type="button" class="btn btn-secondary clear-btn">Reset Form</button>
                 </div>
             </form>
         `;
     }
 
-    /**
-     * Attach event listeners
-     */
+    setMaterialOptions(materials) {
+        this.materials = Array.isArray(materials) ? materials : [];
+        const select = this.container.querySelector('#selected-material-id');
+        if (!select) return;
+
+        select.innerHTML = `
+            <option value="">Select material from CSV</option>
+            ${this.materials.map((m) => `<option value="${m.id}">${m.name} (${m.id})</option>`).join('')}
+        `;
+    }
+
+    setRequirementsDefaults(defaults) {
+        this.requirementsDefaults = {
+            ...this.requirementsDefaults,
+            ...(defaults || {}),
+        };
+
+        const setValue = (selector, value) => {
+            const el = this.container.querySelector(selector);
+            if (!el) return;
+            el.value = value === null || value === undefined ? '' : String(value);
+        };
+
+        setValue('#destination-country', this.requirementsDefaults.destination_country || 'DE');
+        setValue('#max-quantity', this.requirementsDefaults.max_quantity);
+        setValue('#max-lead-time-days', this.requirementsDefaults.max_lead_time_days);
+        setValue('#max-price-multiplier', this.requirementsDefaults.max_price_multiplier ?? 2.0);
+
+        const certs = Array.isArray(this.requirementsDefaults.critical_certs)
+            ? this.requirementsDefaults.critical_certs
+            : [];
+        setValue('#critical-certs', certs.join(', '));
+    }
+
     attachEventListeners() {
         const form = this.container.querySelector('#material-search-form');
-
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             this.handleSubmit();
@@ -145,106 +121,78 @@ export class SearchForm {
         clearBtn.addEventListener('click', () => {
             this.clearForm();
         });
-
-        // Auto-format certifications input
-        const certInput = this.container.querySelector('#certifications');
-        certInput.addEventListener('blur', () => {
-            this.formatCertifications(certInput);
-        });
     }
 
-    /**
-     * Handle form submission
-     */
     async handleSubmit() {
         const formData = this.getFormData();
-
-        if (!this.validateForm(formData)) {
-            return;
-        }
+        if (!this.validateForm(formData)) return;
 
         this.setLoading(true);
-
         try {
             await this.onSearch(formData);
         } catch (error) {
-            console.error('Search failed:', error);
-            this.showError('Search failed. Please try again.');
+            console.error('Scoring failed:', error);
+            this.showError('Scoring failed. Please try again.');
         } finally {
             this.setLoading(false);
         }
     }
 
-    /**
-     * Get form data as object
-     */
     getFormData() {
         const form = this.container.querySelector('#material-search-form');
         const formData = new FormData(form);
+        const topNRaw = formData.get('top_n');
+
+        const maxQuantityRaw = String(formData.get('max_quantity') || '').trim();
+        const maxLeadRaw = String(formData.get('max_lead_time_days') || '').trim();
+        const maxPriceRaw = String(formData.get('max_price_multiplier') || '').trim();
+        const certsRaw = String(formData.get('critical_certs') || '').trim();
+        const destinationCountry = String(formData.get('destination_country') || '').trim() || 'DE';
+
+        const criticalCerts = certsRaw
+            ? certsRaw.split(',').map((item) => item.trim()).filter(Boolean)
+            : [];
 
         return {
-            name: formData.get('name')?.trim(),
-            category: formData.get('category')?.trim(),
-            application: formData.get('application')?.trim(),
-            max_quantity: formData.get('max_quantity') ? parseInt(formData.get('max_quantity')) : null,
-            destination_country: formData.get('destination_country') || 'DE',
-            certifications: this.parseCertifications(formData.get('certifications')),
-            max_lead_time: formData.get('max_lead_time') ? parseInt(formData.get('max_lead_time')) : null,
-            max_price_multiplier: formData.get('max_price_multiplier') ? parseFloat(formData.get('max_price_multiplier')) : 2.0
+            selected_material_id: String(formData.get('selected_material_id') || '').trim(),
+            top_n: topNRaw ? parseInt(String(topNRaw), 10) : 3,
+            requirements_override: {
+                max_quantity: maxQuantityRaw ? parseInt(maxQuantityRaw, 10) : null,
+                destination_country: destinationCountry,
+                critical_certs: criticalCerts,
+                max_lead_time_days: maxLeadRaw ? parseInt(maxLeadRaw, 10) : null,
+                max_price_multiplier: maxPriceRaw ? parseFloat(maxPriceRaw) : 2.0,
+            },
         };
     }
 
-    /**
-     * Parse certifications string into array
-     */
-    parseCertifications(certString) {
-        if (!certString || !certString.trim()) return null;
-
-        return certString.split(',')
-            .map(cert => cert.trim())
-            .filter(cert => cert.length > 0);
-    }
-
-    /**
-     * Format certifications input
-     */
-    formatCertifications(input) {
-        const certs = this.parseCertifications(input.value);
-        if (certs) {
-            input.value = certs.join(', ');
-        }
-    }
-
-    /**
-     * Validate form data
-     */
     validateForm(data) {
-        if (!data.name) {
-            this.showError('Material name is required');
+        if (!data.selected_material_id) {
+            this.showError('Please select a material from CSV.');
+            return false;
+        }
+        if (!Number.isInteger(data.top_n) || data.top_n < 1 || data.top_n > 15) {
+            this.showError('Top N must be between 1 and 15.');
             return false;
         }
 
-        if (data.max_quantity && data.max_quantity <= 0) {
-            this.showError('Max quantity must be greater than 0');
+        const req = data.requirements_override;
+        if (req.max_quantity !== null && (!Number.isInteger(req.max_quantity) || req.max_quantity < 1)) {
+            this.showError('Max Quantity must be empty or an integer >= 1.');
             return false;
         }
-
-        if (data.max_lead_time && data.max_lead_time <= 0) {
-            this.showError('Max lead time must be greater than 0');
+        if (req.max_lead_time_days !== null && (!Number.isInteger(req.max_lead_time_days) || req.max_lead_time_days < 1)) {
+            this.showError('Max Lead Time must be empty or an integer >= 1.');
             return false;
         }
-
-        if (data.max_price_multiplier && data.max_price_multiplier < 1) {
-            this.showError('Max price multiplier must be at least 1.0');
+        if (!Number.isFinite(req.max_price_multiplier) || req.max_price_multiplier <= 0) {
+            this.showError('Max Price Multiplier must be a positive number.');
             return false;
         }
 
         return true;
     }
 
-    /**
-     * Set loading state
-     */
     setLoading(loading) {
         const submitBtn = this.container.querySelector('.search-btn');
         const btnText = submitBtn.querySelector('.btn-text');
@@ -261,36 +209,31 @@ export class SearchForm {
         }
     }
 
-    /**
-     * Clear form
-     */
     clearForm() {
         const form = this.container.querySelector('#material-search-form');
         form.reset();
+
+        const topN = this.container.querySelector('#top-n');
+        if (topN) topN.value = '3';
+
+        const select = this.container.querySelector('#selected-material-id');
+        if (select) select.value = '';
+
+        this.setRequirementsDefaults(this.requirementsDefaults);
         this.hideError();
     }
 
-    /**
-     * Show error message
-     */
     showError(message) {
         this.hideError();
-
         const errorDiv = document.createElement('div');
         errorDiv.className = 'form-error';
         errorDiv.textContent = message;
-
         const form = this.container.querySelector('.search-form');
         form.appendChild(errorDiv);
     }
 
-    /**
-     * Hide error message
-     */
     hideError() {
         const existingError = this.container.querySelector('.form-error');
-        if (existingError) {
-            existingError.remove();
-        }
+        if (existingError) existingError.remove();
     }
 }

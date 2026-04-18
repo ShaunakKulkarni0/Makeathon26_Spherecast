@@ -14,15 +14,20 @@
         </header>
 
         <main class="main-content">
-            <div id="search-section" class="search-section">
-                <h2>Find Material Substitutes</h2>
-                <div id="search-form-container"></div>
+            <div id="search-section" class="search-section search-with-panel">
+                <div class="search-panel">
+                    <h2>Find Material Substitutes</h2>
+                    <div id="search-form-container"></div>
+                </div>
+                <aside class="weight-panel-wrapper">
+                    <div id="weight-controls-container"></div>
+                </aside>
             </div>
 
             <div id="results-section" class="results-section hidden">
                 <div class="results-header">
                     <h2>Substitution Results</h2>
-                    <div id="weight-controls-container"></div>
+                    <button id="back-to-menu-btn" class="btn btn-secondary">Zurück zum Hauptmenü</button>
                 </div>
 
                 <div class="results-content">
@@ -65,10 +70,20 @@
             constructor() {
                 this.api = new API();
                 this.currentResult = null;
+                this.currentSelectionId = null;
+                this.currentTopN = 3;
+                this.currentRequirementsOverride = null;
+                this.currentWeights = {
+                    spec: 0.40,
+                    compliance: 0.25,
+                    price: 0.15,
+                    lead_time: 0.10,
+                    quality: 0.10
+                };
                 this.initializeComponents();
             }
 
-            initializeComponents() {
+            async initializeComponents() {
                 // Initialize search form
                 const searchContainer = document.getElementById('search-form-container');
                 this.searchForm = new SearchForm(searchContainer, this.handleSearch.bind(this));
@@ -90,13 +105,39 @@
                 this.comparisonView = new ComparisonView(
                     document.getElementById('comparison-view-container')
                 );
+                this.bindViewActions();
+
+                try {
+                    const payload = await this.api.getCsvMaterials();
+                    this.searchForm.setMaterialOptions(payload.materials || []);
+                    this.searchForm.setRequirementsDefaults(payload.requirements_defaults || {});
+                } catch (error) {
+                    this.showError(`Failed to load CSV materials: ${error.message}`);
+                }
+            }
+
+            bindViewActions() {
+                const backBtn = document.getElementById('back-to-menu-btn');
+                if (backBtn) {
+                    backBtn.addEventListener('click', () => this.resetToMainMenuView());
+                }
             }
 
             async handleSearch(query) {
                 try {
                     this.showLoading();
-                    const result = await this.api.searchMaterials(query);
+                    this.currentSelectionId = query.selected_material_id;
+                    this.currentTopN = query.top_n || 3;
+                    this.currentRequirementsOverride = query.requirements_override || null;
+                    const result = await this.api.scoreCsvSelection(
+                        query.selected_material_id,
+                        this.currentWeights,
+                        query.top_n || 3,
+                        query.requirements_override || null,
+                    );
                     this.currentResult = result;
+                    this.currentWeights = result.metadata?.weights ?? this.currentWeights;
+                    this.currentRequirementsOverride = result.metadata?.requirements ?? this.currentRequirementsOverride;
                     this.displayResults(result);
                 } catch (error) {
                     this.showError(error.message);
@@ -106,13 +147,19 @@
             }
 
             async handleWeightsChange(weights) {
-                if (!this.currentResult) return;
+                if (!this.currentResult || !this.currentSelectionId) return;
 
+                this.currentWeights = { ...weights };
                 try {
                     this.showLoading();
-                    const result = await this.api.rescoreWithWeights(this.currentResult.original.id, weights);
-                    this.currentResult = result;
-                    this.displayResults(result);
+                    const rescoredResult = await this.api.scoreCsvSelection(
+                        this.currentSelectionId,
+                        weights,
+                        this.currentTopN || this.currentResult?.top_candidates?.length || 3,
+                        this.currentRequirementsOverride,
+                    );
+                    this.currentResult = rescoredResult;
+                    this.displayResults(rescoredResult);
                 } catch (error) {
                     this.showError(error.message);
                 } finally {
@@ -121,7 +168,7 @@
             }
 
             handleCandidateSelect(candidate) {
-                this.comparisonView.showComparison(this.currentResult.original, candidate);
+                this.comparisonView.showComparison(this.currentResult.original, candidate, this.currentWeights);
                 this.showComparisonSection();
             }
 
@@ -130,13 +177,15 @@
                 this.displayOriginalMaterial(result.original);
 
                 // Display top candidates
+                this.resultsList.setCandidates(result.top_candidates);
                 this.resultsList.displayCandidates(result.top_candidates);
 
                 // Display rejected candidates
                 this.rejectedList.displayRejected(result.rejected);
 
                 // Update weight sliders with current weights
-                this.weightSliders.setWeights(result.metadata.weights);
+                const activeWeights = result.metadata?.weights ?? this.currentWeights;
+                this.weightSliders.setWeights(activeWeights);
 
                 this.showResultsSection();
             }
@@ -168,6 +217,12 @@
 
             showComparisonSection() {
                 document.getElementById('comparison-section').classList.remove('hidden');
+            }
+
+            resetToMainMenuView() {
+                document.getElementById('results-section').classList.add('hidden');
+                document.getElementById('comparison-section').classList.add('hidden');
+                document.getElementById('search-section').classList.remove('hidden');
             }
 
             showLoading() {
