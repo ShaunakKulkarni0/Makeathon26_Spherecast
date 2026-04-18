@@ -71,7 +71,7 @@ Compliance flags (include all that apply, or return an empty array):
 You MUST respond with ONLY valid JSON — no markdown fences, no preamble:
 {
   "confidence_level": "Exact | Functional | Category | No Match",
-  "reasoning": "1-2 sentences explaining your determination.",
+  "reasoning": "2-3 sentences explaining your determination, explicitly referencing CAS numbers, dosage, or chiral form where relevant.",
   "compliance_flags": ["FLAG_1", "FLAG_2"]
 }
 """
@@ -188,6 +188,7 @@ def judge_pair(
         raise ValueError(f"No canonical_string for sku_id_b={sku_id_b}")
 
     user_content = (
+        f"Cosine similarity score: {cosine_similarity:.4f}\n\n"
         f"MATERIAL A (sku_id={sku_id_a}):\n{canon_a}\n\n"
         f"MATERIAL B (sku_id={sku_id_b}):\n{canon_b}"
     )
@@ -210,6 +211,25 @@ def judge_pair(
     result.sku_id_b          = sku_id_b
     result.cosine_similarity = cosine_similarity
     return result
+
+def vector_search_from_cache(
+    target_id: int,
+    embedding_map: dict[int, list[float]],
+    top_k: int = VECTOR_SEARCH_TOP_K,
+    threshold: float = COSINE_SIMILARITY_THRESHOLD,
+) -> list[tuple[int, float]]:
+    target_vec = embedding_map.get(target_id)
+    if target_vec is None:
+        raise ValueError(f"No embedding for sku_id={target_id}")
+
+    scored = [
+        (sid, _cosine_similarity(target_vec, vec))
+        for sid, vec in embedding_map.items()
+        if sid != target_id
+    ]
+    scored = [(sid, s) for sid, s in scored if s >= threshold]
+    scored.sort(key=lambda x: x[1], reverse=True)
+    return scored[:top_k]
 
 
 def _parse_judge_response(raw_text: str, sku_id_a: int, sku_id_b: int) -> JudgeResult:
