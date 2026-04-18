@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 
-from shared.schemas import UserRequirements
+from shared.schemas import AllergenProfile, UserRequirements
 from src.scoring.knockout import apply_knockout_filters
 from tests.scoring.factories import make_material
 
@@ -46,6 +46,33 @@ class TestKnockout(unittest.TestCase):
         self.assertEqual(rejected.candidate.id, "bad")
         self.assertGreaterEqual(len(rejected.reasons), 4)
         self.assertGreaterEqual(len(rejected.evidence), 4)
+
+    def test_allergen_contains_rejects_and_may_contain_is_risk_flag(self) -> None:
+        original = make_material("orig", price_value=2.0, certifications=["RoHS"])
+
+        contains_hit = make_material(
+            "contains-hit",
+            allergen_profile=AllergenProfile(contains=["peanuts"]),
+        )
+        may_contain_hit = make_material(
+            "may-contain-hit",
+            allergen_profile=AllergenProfile(may_contain=["tree_nuts"]),
+        )
+
+        req = UserRequirements(
+            destination_country="DE",
+            prohibited_allergens=["peanuts", "tree_nuts"],
+        )
+
+        result = apply_knockout_filters([contains_hit, may_contain_hit], req, original)
+
+        self.assertEqual(len(result.rejected), 1)
+        self.assertEqual(result.rejected[0].candidate.id, "contains-hit")
+        self.assertTrue(any("Allergene" in reason for reason in result.rejected[0].reasons))
+
+        self.assertEqual(len(result.passed), 1)
+        self.assertEqual(result.passed[0].id, "may-contain-hit")
+        self.assertEqual(result.allergen_may_contain_hits["may-contain-hit"], ["tree_nuts"])
 
 
 if __name__ == "__main__":

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from shared.schemas import (
+    AllergenProfile,
     CrawledMaterial,
     LeadTimeInfo,
     MaterialProperty,
@@ -49,6 +50,7 @@ def make_material(
     country_of_origin: str = "DE",
     incoterm: str = "DDP",
     source_url: str | None = None,
+    allergen_profile: AllergenProfile | None = None,
 ) -> CrawledMaterial:
     return CrawledMaterial(
         id=material_id,
@@ -67,4 +69,5 @@ def make_material(
         country_of_origin=country_of_origin,
         incoterm=incoterm,
         source_url=source_url or f"https://example.com/{material_id}",
+        allergen_profile=allergen_profile if allergen_profile is not None else AllergenProfile(),
     )

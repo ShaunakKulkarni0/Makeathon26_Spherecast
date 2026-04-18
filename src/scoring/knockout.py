@@ -11,6 +11,50 @@ from .evidence import Evidence, EvidenceType, collect_evidence
 class KnockoutResult:
     passed: list[CrawledMaterial]
     rejected: list[RejectedCandidate]
+    allergen_may_contain_hits: dict[str, list[str]] = field(default_factory=dict)
+
+
+_ALLERGEN_ALIASES: dict[str, str] = {
+    "nut": "tree_nuts",
+    "nuts": "tree_nuts",
+    "almond": "tree_nuts",
+    "walnut": "tree_nuts",
+    "hazelnut": "tree_nuts",
+    "cashew": "tree_nuts",
+    "pistachio": "tree_nuts",
+    "peanut": "peanuts",
+    "peanuts": "peanuts",
+    "milk": "milk",
+    "dairy": "milk",
+    "egg": "egg",
+    "eggs": "egg",
+    "soy": "soy",
+    "soya": "soy",
+    "gluten": "wheat_gluten",
+    "wheat": "wheat_gluten",
+    "sesame": "sesame",
+    "mustard": "mustard",
+    "celery": "celery",
+    "fish": "fish",
+    "crustacean": "crustaceans",
+    "crustaceans": "crustaceans",
+    "mollusc": "molluscs",
+    "molluscs": "molluscs",
+    "lupin": "lupin",
+    "sulphite": "sulphites",
+    "sulfite": "sulphites",
+}
+
+
+def _canonicalize_allergen(value: str) -> str:
+    normalized = value.strip().lower().replace("-", "_").replace(" ", "_")
+    return _ALLERGEN_ALIASES.get(normalized, normalized)
+
+
+def _canonicalize_allergens(values: list[str] | None) -> set[str]:
+    if not values:
+        return set()
+    return {_canonicalize_allergen(v) for v in values if isinstance(v, str) and v.strip()}
 
 
 def apply_knockout_filters(
@@ -36,6 +80,7 @@ def apply_knockout_filters(
     destination = user_requirements.destination_country
     blacklist = COUNTRY_BLACKLIST.get(destination, [])
     critical_certs = set(user_requirements.critical_certs or [])
+    prohibited_allergens = _canonicalize_allergens(user_requirements.prohibited_allergens)
 
     original_price = original.price.value if original else None
     max_price = (
@@ -44,9 +89,14 @@ def apply_knockout_filters(
         else None
     )
 
+    allergen_may_contain_hits: dict[str, list[str]] = {}
+
     for candidate in candidates:
         reasons: list[str] = []
         evidences: list[Evidence] = []
+        candidate_allergens = candidate.allergen_profile
+        candidate_contains = _canonicalize_allergens(candidate_allergens.contains)
+        candidate_may_contain = _canonicalize_allergens(candidate_allergens.may_contain)
 
         # --- MOQ Check ---
         if (
@@ -125,6 +175,32 @@ def apply_knockout_filters(
                 )
             )
 
+        # --- Allergen Contains Check (hard KO) ---
+        contains_hits = sorted(candidate_contains & prohibited_allergens)
+        if contains_hits:
+            reasons.append(f"Verbotene Allergene enthalten: {', '.join(contains_hits)}")
+            evidences.append(
+                collect_evidence(
+                    field="allergens.contains",
+                    value=contains_hits,
+                    source_type=EvidenceType.SUPPLIER_DATABASE,
+                    metadata={"notes": "Direkter Treffer in 'contains' gegen prohibited_allergens"},
+                )
+            )
+
+        # --- Allergen May-Contain Check (risk flag for downstream penalty) ---
+        may_contain_hits = sorted(candidate_may_contain & prohibited_allergens)
+        if may_contain_hits:
+            allergen_may_contain_hits[candidate.id] = may_contain_hits
+            evidences.append(
+                collect_evidence(
+                    field="allergens.may_contain",
+                    value=may_contain_hits,
+                    source_type=EvidenceType.SUPPLIER_WEBSITE,
+                    metadata={"notes": "Spuren-Hinweis fuer Risiko-Penalty im Ranking"},
+                )
+            )
+
         if reasons:
             rejected.append(RejectedCandidate(
                 candidate=candidate,
@@ -137,4 +213,8 @@ def apply_knockout_filters(
     # Limit auf MAX_KNOCKOUT_CANDIDATES
     passed = passed[:MAX_KNOCKOUT_CANDIDATES]
 
-    return KnockoutResult(passed=passed, rejected=rejected)
+    return KnockoutResult(
+        passed=passed,
+        rejected=rejected,
+        allergen_may_contain_hits=allergen_may_contain_hits,
+    )

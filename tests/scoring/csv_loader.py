@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 from shared.schemas import (
+    AllergenProfile,
     CrawledMaterial,
     LeadTimeInfo,
     MaterialProperty,
@@ -187,6 +188,13 @@ def material_from_row(row: dict[str, str]) -> CrawledMaterial:
         country_of_origin=row["country_of_origin"],
         incoterm=row["incoterm"],
         source_url=row.get("source_url") or None,
+        allergen_profile=AllergenProfile(
+            contains=list(_parse_json(row.get("allergens_contains_json"), [])),
+            may_contain=list(_parse_json(row.get("allergens_may_contain_json"), [])),
+            free_from=list(_parse_json(row.get("allergens_free_from_json"), [])),
+            source=(row.get("allergens_source") or "unknown"),
+            confidence=float(row.get("allergens_confidence") or "0.5"),
+        ),
     )
 
 
@@ -223,12 +231,15 @@ def load_requirements_csv(path: Path) -> UserRequirements:
     row = rows[0]
     _validate_requirements_row(row, path)
     critical_certs = _parse_json(row.get("critical_certs_json"), None)
+    prohibited_allergens = _parse_json(row.get("prohibited_allergens_json"), None)
     max_quantity = _parse_max_quantity(row, path)
 
     return UserRequirements(
         max_quantity=max_quantity,
         destination_country=row.get("destination_country") or "DE",
         critical_certs=critical_certs,  # type: ignore[arg-type]
+        prohibited_allergens=prohibited_allergens,  # type: ignore[arg-type]
+        allergen_policy=row.get("allergen_policy") or "hybrid",
         max_lead_time_days=_parse_int(row.get("max_lead_time_days")),
         max_price_multiplier=float(row.get("max_price_multiplier") or "2.0"),
     )

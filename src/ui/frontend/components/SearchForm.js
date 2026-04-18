@@ -12,6 +12,8 @@ export class SearchForm {
             max_quantity: null,
             destination_country: 'DE',
             critical_certs: [],
+            prohibited_allergens: [],
+            allergen_policy: 'hybrid',
             max_lead_time_days: null,
             max_price_multiplier: 2.0,
         };
@@ -65,6 +67,11 @@ export class SearchForm {
                     <input type="text" id="critical-certs" name="critical_certs" placeholder="ISO9001, HACCP">
                 </div>
 
+                <div class="form-group">
+                    <label for="prohibited-allergens">Prohibited Allergens (comma separated)</label>
+                    <input type="text" id="prohibited-allergens" name="prohibited_allergens" placeholder="peanuts, tree_nuts">
+                </div>
+
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary search-btn">
                         <span class="btn-text">Run CSV Scoring</span>
@@ -108,6 +115,10 @@ export class SearchForm {
             ? this.requirementsDefaults.critical_certs
             : [];
         setValue('#critical-certs', certs.join(', '));
+        const allergens = Array.isArray(this.requirementsDefaults.prohibited_allergens)
+            ? this.requirementsDefaults.prohibited_allergens
+            : [];
+        setValue('#prohibited-allergens', allergens.join(', '));
     }
 
     attachEventListeners() {
@@ -147,10 +158,14 @@ export class SearchForm {
         const maxLeadRaw = String(formData.get('max_lead_time_days') || '').trim();
         const maxPriceRaw = String(formData.get('max_price_multiplier') || '').trim();
         const certsRaw = String(formData.get('critical_certs') || '').trim();
+        const allergensRaw = String(formData.get('prohibited_allergens') || '').trim();
         const destinationCountry = String(formData.get('destination_country') || '').trim() || 'DE';
 
         const criticalCerts = certsRaw
             ? certsRaw.split(',').map((item) => item.trim()).filter(Boolean)
+            : [];
+        const prohibitedAllergens = allergensRaw
+            ? allergensRaw.split(',').map((item) => item.trim()).filter(Boolean)
             : [];
 
         return {
@@ -160,6 +175,8 @@ export class SearchForm {
                 max_quantity: maxQuantityRaw ? parseInt(maxQuantityRaw, 10) : null,
                 destination_country: destinationCountry,
                 critical_certs: criticalCerts,
+                prohibited_allergens: prohibitedAllergens,
+                allergen_policy: this.requirementsDefaults.allergen_policy || 'hybrid',
                 max_lead_time_days: maxLeadRaw ? parseInt(maxLeadRaw, 10) : null,
                 max_price_multiplier: maxPriceRaw ? parseFloat(maxPriceRaw) : 2.0,
             },

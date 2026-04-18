@@ -34,6 +34,19 @@ class TestRequirementsCsvLoader(unittest.TestCase):
         self.assertEqual(req.max_lead_time_days, 30)
         self.assertEqual(req.max_price_multiplier, 1.5)
 
+    def test_loads_allergen_controls(self) -> None:
+        path = _write_temp_csv(
+            "max_quantity,destination_country,critical_certs_json,prohibited_allergens_json,allergen_policy,max_lead_time_days,max_price_multiplier\n"
+            "200,DE,\"[\"\"ISO9001\"\"]\",\"[\"\"peanuts\"\",\"\"tree_nuts\"\"]\",hybrid,30,1.5\n"
+        )
+        try:
+            req = load_requirements_csv(path)
+        finally:
+            path.unlink(missing_ok=True)
+
+        self.assertEqual(req.prohibited_allergens, ["peanuts", "tree_nuts"])
+        self.assertEqual(req.allergen_policy, "hybrid")
+
     def test_loads_with_mqo_alias(self) -> None:
         path = _write_temp_csv(
             "destination_country,mqo,critical_certs_json,max_lead_time_days,max_price_multiplier\n"
