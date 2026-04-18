@@ -37,6 +37,15 @@ class QualityInfo:
 
 
 @dataclass
+class AllergenProfile:
+    contains: list[str] = field(default_factory=list)
+    may_contain: list[str] = field(default_factory=list)
+    free_from: list[str] = field(default_factory=list)
+    source: str = "unknown"
+    confidence: float = 0.5
+
+
+@dataclass
 class CrawledMaterial:
     id: str
     name: str
@@ -49,6 +58,7 @@ class CrawledMaterial:
     country_of_origin: str
     incoterm: str
     source_url: str | None = None
+    allergen_profile: AllergenProfile = field(default_factory=AllergenProfile)
 
 
 # ---------------------------------------------------------------------------
@@ -75,6 +85,8 @@ class UserRequirements:
     max_quantity: int | None = None
     destination_country: str = "DE"
     critical_certs: list[str] | None = None
+    prohibited_allergens: list[str] | None = None
+    allergen_policy: str = "hybrid"
     max_lead_time_days: int | None = None
     max_price_multiplier: float = 2.0
 

@@ -56,6 +56,7 @@ def find_substitutes(
 
     # --- Stufe 1+2: Scoring mit Evidence Collection ---
     scored_candidates: list[ScoredCandidate] = []
+    may_contain_hits = knockout_result.allergen_may_contain_hits
 
     for kandidat in knockout_result.passed:
         spec_result = spec_similarity(original, kandidat)
@@ -97,18 +98,39 @@ def find_substitutes(
         }
 
         composite = calculate_composite_score(scores, confidences, effective_weights)
+        risk_hits = may_contain_hits.get(kandidat.id, [])
+        risk_penalty = min(0.25, 0.10 * len(risk_hits))
+        adjusted_composite_score = round(max(0.0, composite.score - risk_penalty), 4)
 
         uncertainty = generate_uncertainty_report(scores, evidence_trails, effective_weights)
+        if risk_hits:
+            uncertainty.uncertainty_reasons.append(
+                f"allergen: moegliche Spuren von {', '.join(risk_hits)}"
+            )
+            uncertainty.verification_suggestions.append(
+                "Allergen-/Spurenstatement und COA vor Freigabe verifizieren"
+            )
+            if not uncertainty.warning_message:
+                uncertainty.warning_message = (
+                    "Allergen-Hinweis erkannt: moegliche Spuren vorhanden. "
+                    "Vor Entscheidung pruefen."
+                )
 
         scored_candidates.append(ScoredCandidate(
             kandidat=kandidat,
             scores=scores,
-            composite_score=composite.score,
+            composite_score=adjusted_composite_score,
             confidences=confidences,
             overall_confidence=composite.confidence,
             evidence_trails=evidence_trails,
             uncertainty_report=uncertainty,
-            details=details,
+            details={
+                **details,
+                "allergen_risk": {
+                    "may_contain_hits": risk_hits,
+                    "penalty_applied": risk_penalty,
+                },
+            },
         ))
 
     # Sortieren nach Composite Score
