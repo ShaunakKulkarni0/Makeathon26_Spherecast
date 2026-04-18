@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 from tempfile import NamedTemporaryFile
 
-from tests.scoring.csv_loader import load_requirements_csv
+from tests.scoring.csv_loader import load_requirements_csv, material_from_row
 
 
 def _write_temp_csv(content: str) -> Path:
@@ -94,6 +94,74 @@ class TestRequirementsCsvLoader(unittest.TestCase):
                 load_requirements_csv(path)
         finally:
             path.unlink(missing_ok=True)
+
+    def test_material_row_reads_email_and_website_variants(self) -> None:
+        material = material_from_row(
+            {
+                "id": "cand-1",
+                "name": "Candidate 1",
+                "properties_json": "{\"density\": {\"value\": 1.2, \"unit\": \"g/cm3\"}}",
+                "certifications_json": "[\"ISO9001\"]",
+                "price_value": "2.4",
+                "price_unit": "EUR/kg",
+                "price_tiers_json": "[]",
+                "lead_days": "14",
+                "lead_reliability": "0.9",
+                "lead_type": "standard",
+                "supplier_rating_value": "4.2",
+                "supplier_rating_reviews": "150",
+                "defect_rate_value": "1.1",
+                "defect_rate_sample": "1200",
+                "on_time_delivery_value": "95",
+                "on_time_delivery_sample": "80",
+                "years_in_business": "12",
+                "audit_score_value": "89",
+                "audit_age_months": "8",
+                "audit_passed": "true",
+                "moq": "120",
+                "country_of_origin": "DE",
+                "incoterm": "DDP",
+                "source_url": "https://supplier.example/product",
+                "sales_email": "sales@supplier.example",
+                "website": "https://supplier.example",
+            }
+        )
+
+        self.assertEqual(material.seller_email, "sales@supplier.example")
+        self.assertEqual(material.seller_website, "https://supplier.example")
+
+    def test_material_row_falls_back_to_source_url_as_website(self) -> None:
+        material = material_from_row(
+            {
+                "id": "cand-2",
+                "name": "Candidate 2",
+                "properties_json": "{\"density\": {\"value\": 1.2, \"unit\": \"g/cm3\"}}",
+                "certifications_json": "[\"ISO9001\"]",
+                "price_value": "2.4",
+                "price_unit": "EUR/kg",
+                "price_tiers_json": "[]",
+                "lead_days": "14",
+                "lead_reliability": "0.9",
+                "lead_type": "standard",
+                "supplier_rating_value": "4.2",
+                "supplier_rating_reviews": "150",
+                "defect_rate_value": "1.1",
+                "defect_rate_sample": "1200",
+                "on_time_delivery_value": "95",
+                "on_time_delivery_sample": "80",
+                "years_in_business": "12",
+                "audit_score_value": "89",
+                "audit_age_months": "8",
+                "audit_passed": "true",
+                "moq": "120",
+                "country_of_origin": "DE",
+                "incoterm": "DDP",
+                "source_url": "https://supplier.example/product-2",
+            }
+        )
+
+        self.assertIsNone(material.seller_email)
+        self.assertEqual(material.seller_website, "https://supplier.example/product-2")
 
 
 if __name__ == "__main__":

@@ -50,6 +50,8 @@ def make_material(
     country_of_origin: str = "DE",
     incoterm: str = "DDP",
     source_url: str | None = None,
+    seller_email: str | None = None,
+    seller_website: str | None = None,
     allergen_profile: AllergenProfile | None = None,
 ) -> CrawledMaterial:
     return CrawledMaterial(
@@ -69,5 +71,7 @@ def make_material(
         country_of_origin=country_of_origin,
         incoterm=incoterm,
         source_url=source_url or f"https://example.com/{material_id}",
+        seller_email=seller_email,
+        seller_website=seller_website or source_url or f"https://example.com/{material_id}",
         allergen_profile=allergen_profile if allergen_profile is not None else AllergenProfile(),
     )

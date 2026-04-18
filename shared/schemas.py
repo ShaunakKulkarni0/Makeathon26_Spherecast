@@ -58,6 +58,8 @@ class CrawledMaterial:
     country_of_origin: str
     incoterm: str
     source_url: str | None = None
+    seller_email: str | None = None
+    seller_website: str | None = None
     allergen_profile: AllergenProfile = field(default_factory=AllergenProfile)
 
 

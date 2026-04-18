@@ -22,6 +22,16 @@ from .explanation import generate_explanation
 from .consolidation import calculate_consolidation
 
 
+def _normalize_allergen(value: str) -> str:
+    return value.strip().lower().replace("-", "_").replace(" ", "_")
+
+
+def _normalize_allergens(values: list[str] | None) -> set[str]:
+    if not values:
+        return set()
+    return {_normalize_allergen(v) for v in values if isinstance(v, str) and v.strip()}
+
+
 def find_substitutes(
     original: CrawledMaterial,
     candidates: list[CrawledMaterial],
@@ -50,6 +60,7 @@ def find_substitutes(
         ScoringResult mit Top-Kandidaten, Rejected, Metadata und optionalem Consolidation
     """
     effective_weights = weights or WEIGHT_PRESETS["default"]
+    prohibited_allergens = _normalize_allergens(user_requirements.prohibited_allergens)
 
     # --- Stufe 0: K.O.-Filter ---
     knockout_result = apply_knockout_filters(candidates, user_requirements, original)
@@ -101,6 +112,14 @@ def find_substitutes(
         risk_hits = may_contain_hits.get(kandidat.id, [])
         risk_penalty = min(0.25, 0.10 * len(risk_hits))
         adjusted_composite_score = round(max(0.0, composite.score - risk_penalty), 4)
+        contains_hits = sorted(
+            _normalize_allergens(kandidat.allergen_profile.contains) & prohibited_allergens
+        )
+        has_allergen_data = bool(
+            kandidat.allergen_profile.contains
+            or kandidat.allergen_profile.may_contain
+            or kandidat.allergen_profile.free_from
+        )
 
         uncertainty = generate_uncertainty_report(scores, evidence_trails, effective_weights)
         if risk_hits:
@@ -127,7 +146,10 @@ def find_substitutes(
             details={
                 **details,
                 "allergen_risk": {
+                    "prohibited_allergens": sorted(prohibited_allergens),
+                    "contains_hits": contains_hits,
                     "may_contain_hits": risk_hits,
+                    "has_allergen_data": has_allergen_data,
                     "penalty_applied": risk_penalty,
                 },
             },

@@ -81,6 +81,12 @@ export class ComparisonView {
                         <strong>Incoterm:</strong> ${material.incoterm}
                     </div>
                     <div class="detail-row">
+                        <strong>Seller Email:</strong> ${material.seller_email || 'No email for the seller'}
+                    </div>
+                    <div class="detail-row">
+                        <strong>Website:</strong> ${material.seller_website || material.source_url || 'No website for the seller'}
+                    </div>
+                    <div class="detail-row">
                         <strong>Certifications:</strong>
                         <div class="certifications-list">
                             ${material.certifications.length > 0
