@@ -89,7 +89,7 @@ export class ResultsList {
                 </div>
 
                 <details class="candidate-detail-panel">
-                    <summary>Show Explanation & Uncertainty</summary>
+                    <summary>View Structured Explanation</summary>
                     <div class="candidate-detail-body">
                         ${this.renderExplanation(candidate)}
                         ${this.renderUncertainty(uncertainty)}
@@ -141,53 +141,113 @@ export class ResultsList {
 
         const strengths = explanation ? (explanation.strengths || []).map((s) => s.text).slice(0, 3) : [];
         const weaknesses = explanation ? (explanation.weaknesses || []).map((w) => w.text).slice(0, 3) : [];
-        const risks = explanation ? (explanation.risks || []) : [];
+        const risks = explanation
+            ? (explanation.risks || []).map((r) => (typeof r === 'string' ? r : r?.text)).filter(Boolean)
+            : [];
+        const allergenState = this.getAllergenState(containsHits, mayContainHits, hasAllergenData);
 
         return `
-            <div class="candidate-explanation">
-                <h5>Explanation</h5>
-                <p><strong>Summary:</strong> ${explanation?.summary || 'not available'}</p>
-                <p><strong>Recommendation:</strong> ${explanation?.recommendation || 'not available'}</p>
-                <p><strong>Confidence Statement:</strong> ${explanation?.confidence_statement || 'not available'}</p>
-                <p><strong>Strengths:</strong> ${strengths.length ? strengths.join(' | ') : 'none'}</p>
-                <p><strong>Weaknesses:</strong> ${weaknesses.length ? weaknesses.join(' | ') : 'none'}</p>
-                <p><strong>Risks:</strong> ${risks.length ? risks.join(' | ') : 'none'}</p>
-                <h5>Contact & Allergen Information</h5>
-                <p><strong>For more information, contact sales:</strong> ${sellerEmail || 'No email for the seller'}</p>
-                <p><strong>Website:</strong> ${sellerWebsite || 'No website for the seller'}</p>
-                <p><strong>Selected prohibited allergens:</strong> ${prohibited.length ? prohibited.join(', ') : 'none selected'}</p>
-                <p><strong>Allergen check:</strong> ${this.renderAllergenCheck(containsHits, mayContainHits, hasAllergenData)}</p>
+            <div class="candidate-detail-grid">
+                <section class="detail-card detail-card-highlight">
+                    <h5>Summary</h5>
+                    <p>${explanation?.summary || 'Not available'}</p>
+                    <div class="detail-meta-row">
+                        <span class="detail-chip">Recommendation: ${explanation?.recommendation || 'Not available'}</span>
+                        <span class="detail-chip">Confidence: ${explanation?.confidence_statement || 'Not available'}</span>
+                    </div>
+                </section>
+
+                ${this.renderListCard('Strengths', strengths, 'No major strengths highlighted')}
+                ${this.renderListCard('Weaknesses', weaknesses, 'No major weaknesses highlighted')}
+                ${this.renderListCard('Risks', risks, 'No major risks identified')}
+
+                <section class="detail-card">
+                    <h5>Contact</h5>
+                    <div class="detail-kv"><span>Sales Email</span><span>${sellerEmail || 'Not available'}</span></div>
+                    <div class="detail-kv"><span>Website</span><span>${sellerWebsite || 'Not available'}</span></div>
+                </section>
+
+                <section class="detail-card">
+                    <h5>Allergen Check</h5>
+                    <p><span class="status-pill ${allergenState.className}">${allergenState.label}</span></p>
+                    <p>${allergenState.text}</p>
+                    <div class="detail-kv">
+                        <span>Selected Prohibited Allergens</span>
+                        <span>${prohibited.length ? prohibited.join(', ') : 'None selected'}</span>
+                    </div>
+                </section>
             </div>
         `;
     }
 
-    renderAllergenCheck(containsHits, mayContainHits, hasAllergenData) {
+    getAllergenState(containsHits, mayContainHits, hasAllergenData) {
         if (!hasAllergenData) {
-            return 'Contact seller for better information';
+            return {
+                className: 'status-warning',
+                label: 'Limited Data',
+                text: 'Contact seller for additional allergen information.'
+            };
         }
         if (containsHits.length) {
-            return `Contains prohibited allergens: ${containsHits.join(', ')}`;
+            return {
+                className: 'status-danger',
+                label: 'Contains Prohibited',
+                text: `Contains prohibited allergens: ${containsHits.join(', ')}`
+            };
         }
         if (mayContainHits.length) {
-            return `May contain prohibited allergens: ${mayContainHits.join(', ')}`;
+            return {
+                className: 'status-warning',
+                label: 'Potential Match',
+                text: `May contain prohibited allergens: ${mayContainHits.join(', ')}`
+            };
         }
-        return 'No prohibited allergen matches found in available data';
+        return {
+            className: 'status-ok',
+            label: 'No Match Found',
+            text: 'No prohibited allergen matches found in available data.'
+        };
     }
 
     renderUncertainty(uncertainty) {
         if (!uncertainty) {
-            return `<p><strong>Uncertainty:</strong> not available</p>`;
+            return `
+                <section class="detail-card">
+                    <h5>Uncertainty</h5>
+                    <p>Not available</p>
+                </section>
+            `;
         }
 
         const suggestions = uncertainty.verification_suggestions || [];
         return `
-            <div class="candidate-uncertainty">
+            <section class="detail-card">
                 <h5>Uncertainty</h5>
-                <p><strong>Overall level:</strong> ${uncertainty.overall_level || '-'}</p>
-                <p><strong>Overall confidence:</strong> ${uncertainty.overall_confidence ?? '-'}</p>
-                <p><strong>Warning:</strong> ${uncertainty.warning_message || 'none'}</p>
-                <p><strong>Verification suggestions:</strong> ${suggestions.length ? suggestions.join(' | ') : 'none'}</p>
-            </div>
+                <div class="detail-kv"><span>Overall Level</span><span>${uncertainty.overall_level || 'Not available'}</span></div>
+                <div class="detail-kv"><span>Overall Confidence</span><span>${uncertainty.overall_confidence ?? 'Not available'}</span></div>
+                <div class="detail-kv"><span>Warning</span><span>${uncertainty.warning_message || 'None'}</span></div>
+                ${this.renderSimpleList(suggestions, 'No verification suggestions')}
+            </section>
+        `;
+    }
+
+    renderListCard(title, items, emptyText) {
+        return `
+            <section class="detail-card">
+                <h5>${title}</h5>
+                ${this.renderSimpleList(items, emptyText)}
+            </section>
+        `;
+    }
+
+    renderSimpleList(items, emptyText) {
+        if (!items || !items.length) {
+            return `<p class="detail-empty">${emptyText}</p>`;
+        }
+        return `
+            <ul class="detail-list">
+                ${items.map((item) => `<li>${item}</li>`).join('')}
+            </ul>
         `;
     }
 
@@ -211,6 +271,9 @@ export class ResultsList {
 
         candidateItems.forEach(item => {
             item.addEventListener('click', (e) => {
+                if (e.target.closest('.candidate-detail-panel')) {
+                    return;
+                }
                 if (!e.target.classList.contains('compare-btn')) {
                     const candidateId = item.dataset.candidateId;
                     const candidate = this.findCandidateById(candidateId);
