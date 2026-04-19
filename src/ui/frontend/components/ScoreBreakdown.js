@@ -52,8 +52,8 @@ export class ScoreBreakdown {
                 <h5>5D Score Breakdown</h5>
                 <div class="score-chart">
                     ${Object.entries(this.dimensions).map(([key, dim]) =>
-                        this.renderScoreItem(key, scores[key] || 0, dim, confidences[key] || 0.5)
-                    ).join('')}
+            this.renderScoreItem(key, scores[key] || 0, dim, confidences[key] || 0.5)
+        ).join('')}
                 </div>
                 <div class="composite-score">
                     <div class="score-number">${(composite_score * 100).toFixed(1)}%</div>

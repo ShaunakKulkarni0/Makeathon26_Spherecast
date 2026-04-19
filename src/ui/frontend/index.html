@@ -1,37 +1,1066 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spherecast - Material Substitute Finder</title>
+    <title>Spherecast — Material Substitute Builder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="styles/main.css">
+
+    <style>
+        /* ─── SPHERECAST DESIGN SYSTEM ─── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #0a0a0f;
+            --bg-surface: #111118;
+            --bg-card: #16161f;
+            --bg-card-2: #1c1c28;
+            --border: rgba(255, 255, 255, 0.07);
+            --border-mid: rgba(255, 255, 255, 0.12);
+            --accent: #7c5cfc;
+            --accent-soft: rgba(124, 92, 252, 0.15);
+            --accent-glow: rgba(124, 92, 252, 0.35);
+            --green: #22d3a0;
+            --green-soft: rgba(34, 211, 160, 0.12);
+            --red: #ff4f6b;
+            --red-soft: rgba(255, 79, 107, 0.12);
+            --amber: #f5a623;
+            --text-1: #f0f0fa;
+            --text-2: #a8a8c0;
+            --text-3: #6a6a88;
+            --radius: 12px;
+            --radius-lg: 18px;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 8px 48px rgba(0, 0, 0, 0.6);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text-1);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ─── BACKGROUND ORBS ─── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 600px 400px at 10% 20%, rgba(124, 92, 252, 0.08) 0%, transparent 70%),
+                radial-gradient(ellipse 500px 400px at 90% 80%, rgba(34, 211, 160, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .app {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* ─── HEADER ─── */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 48px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            animation: slideDown 0.5s ease both;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-logo-sphere {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), #a78bfa);
+            box-shadow: 0 0 16px var(--accent-glow);
+            flex-shrink: 0;
+            animation: pulseSphere 4s ease-in-out infinite;
+        }
+
+        @keyframes pulseSphere {
+
+            0%,
+            100% {
+                box-shadow: 0 0 16px var(--accent-glow);
+            }
+
+            50% {
+                box-shadow: 0 0 32px var(--accent-glow), 0 0 8px var(--accent);
+            }
+        }
+
+        .header-wordmark {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-1);
+            letter-spacing: -0.01em;
+        }
+
+        .header-wordmark span {
+            color: var(--accent);
+        }
+
+        .header-center {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 99px;
+            font-size: 12px;
+            color: var(--text-3);
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .header-center-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 8px var(--green);
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        .header-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--text-3);
+            padding: 6px 12px;
+            border: 1px solid var(--border);
+            border-radius: 99px;
+            background: var(--bg-card);
+        }
+
+        .badge-version {
+            background: var(--accent-soft);
+            color: var(--accent);
+            border-radius: 4px;
+            padding: 1px 6px;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+        }
+
+        /* ─── HERO ─── */
+        .hero {
+            padding: 72px 48px 56px;
+            max-width: 860px;
+            animation: fadeUp 0.6s 0.1s ease both;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .hero-kicker::before {
+            content: '';
+            width: 20px;
+            height: 1px;
+            background: var(--accent);
+        }
+
+        .hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(32px, 5vw, 52px);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 18px;
+            color: var(--text-1);
+        }
+
+        .hero h1 em {
+            font-style: normal;
+            background: linear-gradient(120deg, var(--accent), #a78bfa, var(--green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 16px;
+            color: var(--text-2);
+            line-height: 1.7;
+            max-width: 520px;
+        }
+
+        /* ─── MAIN LAYOUT ─── */
+        .main-content {
+            flex: 1;
+            padding: 0 48px 80px;
+        }
+
+        /* ─── SEARCH SECTION ─── */
+        .search-section {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 24px;
+            align-items: start;
+            animation: fadeUp 0.7s 0.2s ease both;
+        }
+
+        /* ─── PANEL CARD ─── */
+        .panel-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .panel-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-soft), transparent);
+        }
+
+        .panel-card:hover {
+            border-color: var(--border-mid);
+        }
+
+        .panel-card h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-1);
+            margin-bottom: 6px;
+        }
+
+        .panel-card .section-intro {
+            font-size: 14px;
+            color: var(--text-3);
+            margin-bottom: 28px;
+            line-height: 1.6;
+        }
+
+        .weight-panel-wrapper .panel-card {
+            position: sticky;
+            top: 80px;
+        }
+
+        /* ─── FORM ELEMENTS ─── */
+        .search-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--text-3);
+        }
+
+        .form-group select,
+        .form-group input[type="text"],
+        .form-group input[type="number"] {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 11px 14px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-1);
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            width: 100%;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        .form-group select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236a6a88' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 36px;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-soft);
+        }
+
+        .form-group select option {
+            background: var(--bg-card);
+        }
+
+        .field-hint {
+            font-size: 11px;
+            color: var(--text-3);
+            line-height: 1.5;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-row-compact {
+            margin-bottom: 4px;
+        }
+
+        /* ─── FIELDSET ─── */
+        .ko-fieldset {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 24px;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .ko-fieldset legend {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--amber);
+            padding: 0 8px;
+        }
+
+        .ko-fieldset .form-group {
+            margin-bottom: 14px;
+        }
+
+        .ko-fieldset .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ─── BUTTONS ─── */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 11px 20px;
+            border-radius: var(--radius);
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 4px 16px var(--accent-glow);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #8f6ffd;
+            box-shadow: 0 4px 24px var(--accent-glow);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: var(--bg-card-2);
+            color: var(--text-2);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-card);
+            border-color: var(--border-mid);
+            color: var(--text-1);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 4px;
+        }
+
+        .form-actions .btn-primary {
+            flex: 1;
+        }
+
+        /* ─── WEIGHT PANEL ─── */
+        .weight-panel h4 {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-1);
+            margin-bottom: 4px;
+        }
+
+        .weight-panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .weight-total {
+            font-size: 12px;
+            color: var(--text-3);
+        }
+
+        .weight-total strong {
+            color: var(--text-2);
+        }
+
+        .weight-help {
+            font-size: 12px;
+            color: var(--text-3);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .weight-sliders {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .weight-slider {}
+
+        .weight-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .dimension-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-2);
+        }
+
+        .weight-value-badge {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent);
+            background: var(--accent-soft);
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        .weight-input {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 4px;
+            border-radius: 2px;
+            background: var(--bg-surface);
+            outline: none;
+            cursor: pointer;
+            border: none;
+        }
+
+        .weight-input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 8px var(--accent-glow);
+            cursor: pointer;
+            transition: box-shadow 0.2s;
+        }
+
+        .weight-input::-webkit-slider-thumb:hover {
+            box-shadow: 0 0 16px var(--accent-glow);
+        }
+
+        .weight-scale {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4px;
+        }
+
+        .weight-scale span {
+            font-size: 9px;
+            color: var(--text-3);
+            width: 10px;
+            text-align: center;
+        }
+
+        .weight-presets {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .preset-btn {
+            font-size: 12px;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .weight-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .weight-actions .btn {
+            flex: 1;
+            font-size: 13px;
+            padding: 10px 16px;
+        }
+
+        /* ─── RESULTS SECTION ─── */
+        .results-section {
+            animation: fadeUp 0.5s ease both;
+        }
+
+        .results-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .results-header h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .results-content {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        /* ─── ORIGINAL MATERIAL CARD ─── */
+        .original-material h3 {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-3);
+            margin-bottom: 12px;
+        }
+
+        .material-card.original {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: var(--radius-lg);
+            padding: 24px 28px;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .material-card.original h4 {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            grid-column: 1 / -1;
+            margin-bottom: 4px;
+        }
+
+        .material-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            grid-column: 1 / -1;
+        }
+
+        .material-details p {
+            font-size: 13px;
+            color: var(--text-2);
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 6px 12px;
+        }
+
+        .material-details p strong {
+            color: var(--text-3);
+            font-weight: 500;
+            margin-right: 4px;
+        }
+
+        .raw-code {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 12px;
+            color: var(--accent);
+        }
+
+        /* ─── LOADING OVERLAY ─── */
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .loading-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-mid);
+            border-radius: var(--radius-lg);
+            padding: 40px 48px;
+            text-align: center;
+            min-width: 320px;
+            box-shadow: var(--shadow-lg);
+            animation: scaleIn 0.3s ease;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.92);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .loading-card h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: var(--text-1);
+        }
+
+        .loading-sphere {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), #a78bfa);
+            margin: 0 auto 24px;
+            animation: spinPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes spinPulse {
+            0% {
+                transform: scale(1) rotate(0deg);
+                box-shadow: 0 0 16px var(--accent-glow);
+            }
+
+            50% {
+                transform: scale(1.1) rotate(180deg);
+                box-shadow: 0 0 32px var(--accent-glow);
+            }
+
+            100% {
+                transform: scale(1) rotate(360deg);
+                box-shadow: 0 0 16px var(--accent-glow);
+            }
+        }
+
+        .loading-progress-track {
+            background: var(--bg-surface);
+            border-radius: 99px;
+            height: 4px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .loading-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--green));
+            border-radius: 99px;
+            transition: width 0.12s ease;
+        }
+
+        .loading-progress-label {
+            font-size: 13px;
+            color: var(--text-3);
+        }
+
+        /* ─── ERROR ─── */
+        .error-message {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--red);
+            border-radius: var(--radius);
+            padding: 14px 20px;
+            color: var(--red);
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 999;
+            box-shadow: 0 4px 24px rgba(255, 79, 107, 0.2);
+            animation: slideInRight 0.3s ease;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(40px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .form-error {
+            color: var(--red);
+            font-size: 13px;
+            padding: 10px 14px;
+            background: var(--red-soft);
+            border: 1px solid rgba(255, 79, 107, 0.2);
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+
+        .weight-error {
+            color: var(--red);
+            font-size: 12px;
+            margin-top: 8px;
+            padding: 8px 12px;
+            background: var(--red-soft);
+            border-radius: 6px;
+        }
+
+        /* ─── FOOTER ─── */
+        .footer {
+            border-top: 1px solid var(--border);
+            padding: 20px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .footer p {
+            font-size: 12px;
+            color: var(--text-3);
+        }
+
+        /* ─── UTILITY ─── */
+        .hidden {
+            display: none !important;
+        }
+
+        /* ─── COMPARISON SECTION ─── */
+        .comparison-section {
+            animation: fadeUp 0.4s ease both;
+        }
+
+        /* ─── SCROLL ANIMATIONS ─── */
+        .anim-target {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .anim-target.visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* ─── GLOBAL OVERRIDE: kill any white backgrounds from component CSS ─── */
+        * {
+            color-scheme: dark;
+        }
+
+        /* Results & comparison sections */
+        .results-section,
+        .comparison-section,
+        .results-content,
+        .results-header {
+            background: transparent !important;
+            color: var(--text-1) !important;
+        }
+
+        /* Any injected component cards/containers */
+        .candidate-card,
+        .score-breakdown,
+        .comparison-view,
+        .rejected-list,
+        .results-list,
+        [class*="card"],
+        [class*="panel"],
+        [class*="container"] {
+            background: var(--bg-card) !important;
+            color: var(--text-1) !important;
+            border-color: var(--border) !important;
+        }
+
+        /* Force ALL text to be readable on dark */
+        p,
+        span,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        label,
+        td,
+        th,
+        li,
+        div {
+            color: inherit;
+        }
+
+        /* Tables inside components */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            background: var(--bg-surface) !important;
+            color: var(--text-2) !important;
+            border-color: var(--border) !important;
+            padding: 10px 14px;
+        }
+
+        th {
+            color: var(--text-3) !important;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        /* Score bars */
+        [class*="score-bar"],
+        [class*="progress"] {
+            background: var(--bg-surface) !important;
+        }
+
+        [class*="score-fill"],
+        [class*="bar-fill"],
+        [class*="progress-fill"] {
+            background: linear-gradient(90deg, var(--accent), var(--green)) !important;
+        }
+
+        /* Match percentage / badges */
+        [class*="match"],
+        [class*="badge"],
+        [class*="percent"] {
+            color: var(--green) !important;
+        }
+
+        /* Inputs inside results / comparison */
+        input,
+        select,
+        textarea {
+            background: var(--bg-surface) !important;
+            color: var(--text-1) !important;
+            border-color: var(--border) !important;
+        }
+
+        /* Any white/light surface overrides from external CSS */
+        .white,
+        [style*="background: white"],
+        [style*="background:#fff"],
+        [style*="background: #fff"],
+        [style*="background-color: white"],
+        [style*="background-color:#fff"],
+        [style*="background-color: #fff"] {
+            background: var(--bg-card) !important;
+            color: var(--text-1) !important;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 900px) {
+            .header {
+                padding: 16px 20px;
+            }
+
+            .hero {
+                padding: 40px 20px 32px;
+            }
+
+            .main-content {
+                padding: 0 20px 60px;
+            }
+
+            .search-section {
+                grid-template-columns: 1fr;
+            }
+
+            .weight-panel-wrapper .panel-card {
+                position: static;
+            }
+
+            .footer {
+                padding: 16px 20px;
+            }
+        }
+    </style>
 </head>
+
 <body>
     <div class="app">
+
+        <!-- ─── HEADER ─── -->
         <header class="header">
-            <p class="header-kicker">Spherecast</p>
-            <h1>Material Substitution Console</h1>
-            <p>From unstructured supplier data to precise, auditable recommendations.</p>
+            <div class="header-brand">
+                <div class="header-logo-sphere"></div>
+                <span class="header-wordmark">Sphere<span>cast</span></span>
+            </div>
+            <div class="header-center">
+                <div class="header-center-dot"></div>
+                Material Substitute Builder
+            </div>
+            <div class="header-badge">
+                <span class="badge-version">v2.0</span>
+                AI-powered
+            </div>
         </header>
 
+        <!-- ─── HERO ─── -->
+        <div class="hero">
+            <div class="hero-kicker">Supply Chain Intelligence</div>
+            <h1>Find the right <em>substitute.</em><br>Every time.</h1>
+            <p>From unstructured supplier data to precise, auditable recommendations — in seconds.</p>
+        </div>
+
         <main class="main-content">
+
+            <!-- ─── SEARCH + WEIGHTS ─── -->
             <div id="search-section" class="search-section search-with-panel">
-                <div class="search-panel">
-                    <h2>Find Material Substitutes</h2>
-                    <p class="section-intro">Select a source material and set hard constraints before running scoring.</p>
+                <div class="search-panel panel-card">
+                    <h2>Material Substitution</h2>
+                    <p class="section-intro">Select a source material and set hard constraints before running scoring.
+                    </p>
                     <div id="search-form-container"></div>
                 </div>
                 <aside class="weight-panel-wrapper">
-                    <div id="weight-controls-container"></div>
+                    <div id="weight-controls-container" class="panel-card"></div>
                 </aside>
             </div>
 
+            <!-- ─── RESULTS ─── -->
             <div id="results-section" class="results-section hidden">
                 <div class="results-header">
                     <h2>Substitution Results</h2>
-                    <button id="back-to-menu-btn" class="btn btn-secondary">Back to Main Menu</button>
+                    <button id="back-to-menu-btn" class="btn btn-secondary">← New Search</button>
                 </div>
-
                 <div class="results-content">
                     <div id="original-material-container"></div>
                     <div id="top-candidates-container"></div>
@@ -39,13 +1068,16 @@
                 </div>
             </div>
 
+            <!-- ─── COMPARISON ─── -->
             <div id="comparison-section" class="comparison-section hidden">
                 <div id="comparison-view-container"></div>
             </div>
+
         </main>
 
         <footer class="footer">
-            <p>&copy; 2026 Spherecast Team</p>
+            <p>© 2026 Spherecast — AI Supply Chain Manager</p>
+            <p>Backed by Y Combinator</p>
         </footer>
     </div>
 
@@ -59,7 +1091,7 @@
     <script type="module" src="components/ComparisonView.js"></script>
     <script type="module" src="components/RejectedList.js"></script>
 
-    <!-- Main app script -->
+    <!-- Main App -->
     <script type="module">
         import { API } from './utils/api.js';
         import { SearchForm } from './components/SearchForm.js';
@@ -76,27 +1108,30 @@
                 this.currentTopN = 3;
                 this.currentRequirementsOverride = null;
                 this.currentWeights = {
-                    spec: 0.40,
-                    compliance: 0.25,
-                    price: 0.15,
-                    lead_time: 0.10,
-                    quality: 0.10
+                    spec: 0.40, compliance: 0.25, price: 0.15, lead_time: 0.10, quality: 0.10
                 };
                 this.loadingInterval = null;
                 this.loadingProgress = 0;
                 this.initializeComponents();
+                this.initScrollAnimations();
+            }
+
+            initScrollAnimations() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(e => {
+                        if (e.isIntersecting) e.target.classList.add('visible');
+                    });
+                }, { threshold: 0.1 });
+                document.querySelectorAll('.anim-target').forEach(el => observer.observe(el));
             }
 
             async initializeComponents() {
-                // Initialize search form
                 const searchContainer = document.getElementById('search-form-container');
                 this.searchForm = new SearchForm(searchContainer, this.handleSearch.bind(this));
 
-                // Initialize weight sliders
                 const weightContainer = document.getElementById('weight-controls-container');
                 this.weightSliders = new WeightSliders(weightContainer, this.handleWeightsChange.bind(this));
 
-                // Initialize results containers
                 this.resultsList = new ResultsList(
                     document.getElementById('top-candidates-container'),
                     this.handleCandidateSelect.bind(this),
@@ -104,13 +1139,8 @@
                     () => this.currentRequirementsOverride || {},
                 );
 
-                this.rejectedList = new RejectedList(
-                    document.getElementById('rejected-candidates-container')
-                );
-
-                this.comparisonView = new ComparisonView(
-                    document.getElementById('comparison-view-container')
-                );
+                this.rejectedList = new RejectedList(document.getElementById('rejected-candidates-container'));
+                this.comparisonView = new ComparisonView(document.getElementById('comparison-view-container'));
                 this.bindViewActions();
 
                 try {
@@ -118,15 +1148,13 @@
                     this.searchForm.setMaterialOptions(payload.materials || []);
                     this.searchForm.setRequirementsDefaults(payload.requirements_defaults || {});
                 } catch (error) {
-                    this.showError(`Failed to load CSV materials: ${error.message}`);
+                    this.showError(`Failed to load materials: ${error.message}`);
                 }
             }
 
             bindViewActions() {
                 const backBtn = document.getElementById('back-to-menu-btn');
-                if (backBtn) {
-                    backBtn.addEventListener('click', () => this.resetToMainMenuView());
-                }
+                if (backBtn) backBtn.addEventListener('click', () => this.resetToMainMenuView());
             }
 
             async handleSearch(query) {
@@ -136,10 +1164,8 @@
                     this.currentTopN = query.top_n || 3;
                     this.currentRequirementsOverride = query.requirements_override || null;
                     const result = await this.api.scoreCsvSelection(
-                        query.selected_material_id,
-                        this.currentWeights,
-                        query.top_n || 3,
-                        query.requirements_override || null,
+                        query.selected_material_id, this.currentWeights,
+                        query.top_n || 3, query.requirements_override || null,
                     );
                     this.currentResult = result;
                     this.currentWeights = result.metadata?.weights ?? this.currentWeights;
@@ -154,15 +1180,12 @@
 
             async handleWeightsChange(weights) {
                 if (!this.currentResult || !this.currentSelectionId) return;
-
                 this.currentWeights = { ...weights };
                 try {
                     this.showLoading();
                     const rescoredResult = await this.api.scoreCsvSelection(
-                        this.currentSelectionId,
-                        weights,
-                        this.currentTopN || this.currentResult?.top_candidates?.length || 3,
-                        this.currentRequirementsOverride,
+                        this.currentSelectionId, weights,
+                        this.currentTopN || 3, this.currentRequirementsOverride,
                     );
                     this.currentResult = rescoredResult;
                     this.displayResults(rescoredResult);
@@ -179,73 +1202,66 @@
             }
 
             displayResults(result) {
-                // Display original material
                 this.displayOriginalMaterial(result.original);
-
-                // Display top candidates
                 this.resultsList.setCandidates(result.top_candidates);
                 this.resultsList.displayCandidates(result.top_candidates);
-
-                // Display rejected candidates (supports legacy/new payload keys)
-                const rejectedItems = result.rejected
-                    ?? result.rejected_candidates
-                    ?? result.knockout_rejected
-                    ?? [];
+                const rejectedItems = result.rejected ?? result.rejected_candidates ?? result.knockout_rejected ?? [];
                 this.rejectedList.displayRejected(rejectedItems);
-
-                // Update weight sliders with current weights
                 const activeWeights = result.metadata?.weights ?? this.currentWeights;
                 this.weightSliders.setWeights(activeWeights);
-
                 this.showResultsSection();
             }
 
             displayOriginalMaterial(material) {
                 const container = document.getElementById('original-material-container');
                 container.innerHTML = `
-                    <div class="original-material">
-                        <h3>Original Material</h3>
+                    <div class="original-material anim-target">
+                        <h3>Reference Material</h3>
                         <div class="material-card original">
                             <h4>${material.name}</h4>
                             <div class="material-details">
-                                <p><strong>ID:</strong> <span class="raw-code">${material.id}</span></p>
-                                <p><strong>Price:</strong> ${material.price.value} ${material.price.unit}</p>
-                                <p><strong>Lead Time:</strong> ${material.lead_time.days} days</p>
-                                <p><strong>MOQ:</strong> ${material.moq}</p>
-                                <p><strong>Certifications:</strong> ${material.certifications.join(', ') || 'None'}</p>
+                                <p><strong>ID</strong> <span class="raw-code">${material.id}</span></p>
+                                <p><strong>Price</strong> ${material.price.value} ${material.price.unit}</p>
+                                <p><strong>Lead Time</strong> ${material.lead_time.days} days</p>
+                                <p><strong>MOQ</strong> ${material.moq}</p>
+                                <p><strong>Certifications</strong> ${material.certifications.join(', ') || 'None'}</p>
                             </div>
                         </div>
                     </div>
                 `;
+                requestAnimationFrame(() => {
+                    container.querySelector('.anim-target')?.classList.add('visible');
+                });
             }
 
             showResultsSection() {
                 document.getElementById('search-section').classList.add('hidden');
                 document.getElementById('results-section').classList.remove('hidden');
                 document.getElementById('comparison-section').classList.add('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
 
             showComparisonSection() {
                 document.getElementById('comparison-section').classList.remove('hidden');
+                document.getElementById('comparison-section').scrollIntoView({ behavior: 'smooth' });
             }
 
             resetToMainMenuView() {
                 document.getElementById('results-section').classList.add('hidden');
                 document.getElementById('comparison-section').classList.add('hidden');
                 document.getElementById('search-section').classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
 
             showLoading() {
-                // Avoid duplicate overlays
                 if (document.querySelector('.loading-overlay')) return;
-
                 this.loadingProgress = 5;
-
                 const overlay = document.createElement('div');
                 overlay.className = 'loading-overlay';
                 overlay.innerHTML = `
                     <div class="loading-card">
-                        <h3>Analyzing materials...</h3>
+                        <div class="loading-sphere"></div>
+                        <h3>Analyzing materials…</h3>
                         <div class="loading-progress-track">
                             <div class="loading-progress-fill" style="width: 5%"></div>
                         </div>
@@ -253,7 +1269,6 @@
                     </div>
                 `;
                 document.body.appendChild(overlay);
-
                 const startedAt = Date.now();
                 this.loadingInterval = window.setInterval(() => {
                     const elapsed = Date.now() - startedAt;
@@ -268,27 +1283,17 @@
             hideLoading() {
                 const overlay = document.querySelector('.loading-overlay');
                 if (!overlay) return;
-
-                if (this.loadingInterval) {
-                    window.clearInterval(this.loadingInterval);
-                    this.loadingInterval = null;
-                }
-
+                if (this.loadingInterval) { window.clearInterval(this.loadingInterval); this.loadingInterval = null; }
                 this.loadingProgress = 100;
                 this.updateLoadingProgress(100);
-
-                window.setTimeout(() => {
-                    overlay.remove();
-                }, 220);
+                window.setTimeout(() => overlay.remove(), 220);
             }
 
             updateLoadingProgress(value) {
                 const overlay = document.querySelector('.loading-overlay');
                 if (!overlay) return;
-
                 const fill = overlay.querySelector('.loading-progress-fill');
                 const label = overlay.querySelector('.loading-progress-label');
-
                 if (fill) fill.style.width = `${value}%`;
                 if (label) label.textContent = `${value}%`;
             }
@@ -296,16 +1301,14 @@
             showError(message) {
                 const errorDiv = document.createElement('div');
                 errorDiv.className = 'error-message';
-                errorDiv.innerHTML = `<p>Error: ${message}</p>`;
+                errorDiv.textContent = `Error: ${message}`;
                 document.body.appendChild(errorDiv);
                 setTimeout(() => errorDiv.remove(), 5000);
             }
         }
 
-        // Initialize app when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            new App();
-        });
+        document.addEventListener('DOMContentLoaded', () => { new App(); });
     </script>
 </body>
+
 </html>

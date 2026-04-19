@@ -145,23 +145,30 @@ export class ResultsList {
 
     renderMiniScoreBreakdown(candidate) {
         const scores = candidate.scores;
-        const dimensions = ['spec', 'compliance', 'price', 'lead_time', 'quality'];
+        const dimensions = [
+            { key: 'spec', label: 'Spec' },
+            { key: 'compliance', label: 'Compliance' },
+            { key: 'price', label: 'Price' },
+            { key: 'lead_time', label: 'Lead Time' },
+            { key: 'quality', label: 'Quality' },
+        ];
 
         return `
             <div class="mini-scores">
-                ${dimensions.map((dim) => {
-                    const score = scores[dim] || 0;
-                    const percentage = (score * 100).toFixed(0);
-                    return `
-                        <div class="mini-score-item" title="${dim.replace('_', ' ')}: ${percentage}%">
-                            <span class="mini-score-label">${dim}</span>
+                ${dimensions.map(({ key, label }) => {
+            const raw = scores[key] ?? 0;
+            const pct = Math.round(raw * 100);
+            const tier = raw >= 0.999 ? 'perfect' : raw >= 0.80 ? 'good' : raw < 0.60 ? 'weak' : '';
+            return `
+                        <div class="mini-score-item${tier ? ' ' + tier : ''}">
+                            <span class="mini-score-label">${label}</span>
                             <div class="mini-score-bar">
-                                <div class="mini-score-fill" style="width: ${percentage}%"></div>
+                                <div class="mini-score-fill" style="width:${pct}%"></div>
                             </div>
-                            <span class="mini-score-value">${percentage}%</span>
+                            <div class="mini-score-value">${pct}%</div>
                         </div>
                     `;
-                }).join('')}
+        }).join('')}
             </div>
         `;
     }

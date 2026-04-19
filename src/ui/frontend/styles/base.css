@@ -1,0 +1,87 @@
+/* ═══════════════════════════════════════════════════════════════════
+   SPHERECAST — MATERIAL SUBSTITUTE BUILDER
+   Design System · Dark Theme
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ─── TOKENS ─── */
+:root {
+    --bg: #0a0a0f;
+    --bg-surface: #0f0f17;
+    --bg-card: #14141e;
+    --bg-card-2: #1a1a27;
+    --bg-card-3: #1f1f30;
+    --border: rgba(255, 255, 255, 0.07);
+    --border-mid: rgba(255, 255, 255, 0.12);
+    --border-strong: rgba(255, 255, 255, 0.18);
+
+    --accent: #7c5cfc;
+    --accent-soft: rgba(124, 92, 252, 0.14);
+    --accent-glow: rgba(124, 92, 252, 0.30);
+    --accent-hover: #8f6ffd;
+
+    --green: #22d3a0;
+    --green-soft: rgba(34, 211, 160, 0.12);
+    --green-border: rgba(34, 211, 160, 0.25);
+
+    --amber: #f5a623;
+    --amber-soft: rgba(245, 166, 35, 0.12);
+    --amber-border: rgba(245, 166, 35, 0.25);
+
+    --red: #ff4f6b;
+    --red-soft: rgba(255, 79, 107, 0.12);
+    --red-border: rgba(255, 79, 107, 0.25);
+
+    --text-1: #f0f0fa;
+    --text-2: #a8a8c0;
+    --text-3: #6a6a88;
+    --text-4: #45455e;
+
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+
+    --shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.7);
+    --shadow-glow: 0 0 24px var(--accent-glow);
+
+    --motion-fast: 140ms;
+    --motion-mid: 200ms;
+}
+
+/* ─── RESET ─── */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+}
+
+body {
+    font-family: 'Inter', 'SF Pro Text', sans-serif;
+    background: var(--bg);
+    color: var(--text-1);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    font-variant-numeric: tabular-nums;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Background ambient orbs */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 700px 500px at 5% 15%, rgba(124, 92, 252, 0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 600px 500px at 95% 85%, rgba(34, 211, 160, 0.04) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}

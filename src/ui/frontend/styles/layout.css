@@ -1,0 +1,241 @@
+/* ─── APP SHELL ─── */
+.app {
+    position: relative;
+    z-index: 1;
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 32px 80px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ─── HEADER ─── */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 0;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: rgba(10, 10, 15, 0.85);
+    backdrop-filter: blur(16px);
+    z-index: 100;
+    animation: slideDown 0.5s ease both;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.header-kicker {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-1);
+    letter-spacing: -0.01em;
+}
+
+/* Sphere orb in header */
+.header-kicker::before {
+    content: '';
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #a78bfa);
+    box-shadow: 0 0 14px var(--accent-glow);
+    flex-shrink: 0;
+    animation: pulseSphere 4s ease-in-out infinite;
+}
+
+@keyframes pulseSphere {
+
+    0%,
+    100% {
+        box-shadow: 0 0 14px var(--accent-glow);
+    }
+
+    50% {
+        box-shadow: 0 0 28px var(--accent-glow), 0 0 6px var(--accent);
+    }
+}
+
+.header-kicker span {
+    color: var(--accent);
+}
+
+.header h1 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-3);
+}
+
+/* Live dot */
+.header h1::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+    animation: blink 2s ease-in-out infinite;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.25;
+    }
+}
+
+.header p {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-3);
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    background: var(--bg-card);
+}
+
+.header p strong {
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    font-style: normal;
+}
+
+/* ─── MAIN CONTENT ─── */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    flex: 1;
+}
+
+/* ─── SECTION PANELS ─── */
+.search-section,
+.results-section,
+.comparison-section {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+}
+
+.search-with-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(300px, 0.7fr);
+    gap: 20px;
+    align-items: start;
+}
+
+.search-panel,
+.weight-panel,
+.candidate-card,
+.candidate-item,
+.rejected-item,
+.original-material .material-card,
+.comparison-section>section,
+.no-results,
+.loading-card,
+.email-draft-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    position: relative;
+    overflow: hidden;
+}
+
+.search-panel,
+.weight-panel {
+    padding: 28px;
+}
+
+.weight-panel-wrapper .weight-panel {
+    position: sticky;
+    top: 80px;
+}
+
+/* Section headings */
+.search-panel h2,
+.results-header h2,
+.comparison-header h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-1);
+    letter-spacing: -0.02em;
+}
+
+.section-intro {
+    font-size: 13px;
+    color: var(--text-3);
+    margin: 6px 0 24px;
+    line-height: 1.6;
+}
+
+/* ─── RESULTS HEADER ─── */
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+    animation: fadeUp 0.4s ease both;
+}
+
+.results-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* ─── FOOTER ─── */
+.footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text-4);
+    font-size: 12px;
+}

@@ -1,6 +1,6 @@
 /**
- * API Client for Spherecast Material Substitute Finder
- * Handles communication with the FastAPI backend
+ * API Client — Spherecast Material Substitute Builder
+ * Handles all communication with the FastAPI backend.
  */
 
 export class API {
@@ -8,27 +8,21 @@ export class API {
         this.baseURL = baseURL;
     }
 
-    /**
-     * Search for material substitutes
-     * @param {Object} query - Search query object
-     * @returns {Promise<Object>} Search results
-     */
+    /** Search / score materials */
     async searchMaterials(query) {
-        const response = await this.request('/csv/score', {
+        return this.request('/csv/score', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(query)
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(query),
         });
-
-        return response;
     }
 
+    /** Fetch all available CSV materials + requirement defaults */
     async getCsvMaterials() {
         return this.request('/csv/materials');
     }
 
+    /** Score a single material selection with optional overrides */
     async scoreCsvSelection(selectedMaterialId, weights = null, topN = 3, requirementsOverride = null) {
         return this.searchMaterials({
             selected_material_id: selectedMaterialId,
@@ -38,130 +32,88 @@ export class API {
         });
     }
 
+    /** Create a sales email draft */
     async createEmailDraft(payload) {
         return this.request('/sales/email-draft', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload || {}),
         });
     }
 
-    /**
-     * Get search results by ID
-     * @param {string} resultId - Result ID
-     * @returns {Promise<Object>} Search results
-     */
+    /** Get search results by ID */
     async getResults(resultId) {
         return this.request(`/results/${resultId}`);
     }
 
-    /**
-     * Get current scoring weights
-     * @returns {Promise<Object>} Current weights
-     */
+    /** Get current scoring weight config */
     async getWeights() {
         return this.request('/config');
     }
 
-    /**
-     * Update scoring weights
-     * @param {Object} weights - New weights
-     * @returns {Promise<Object>} Updated weights
-     */
+    /** Update scoring weights */
     async updateWeights(weights) {
-        const response = await this.request('/config', {
+        return this.request('/config', {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(weights)
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(weights),
         });
-
-        return response;
     }
 
-    /**
-     * Rescore results with new weights
-     * @param {string} originalId - Original material ID
-     * @param {Object} weights - New weights
-     * @returns {Promise<Object>} Rescored results
-     */
+    /** Rescore results with new weights */
     async rescoreWithWeights(originalId, weights) {
-        const response = await this.request(`/rescore/${originalId}`, {
+        return this.request(`/rescore/${originalId}`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ weights })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ weights }),
         });
-
-        return response;
     }
 
-    /**
-     * Get material details
-     * @param {string} materialId - Material ID
-     * @returns {Promise<Object>} Material details
-     */
+    /** Get single material details */
     async getMaterial(materialId) {
         return this.request(`/materials/${materialId}`);
     }
 
-    /**
-     * Get available categories
-     * @returns {Promise<Array>} Material categories
-     */
+    /** Get available material categories */
     async getCategories() {
         return this.request('/categories');
     }
 
-    /**
-     * Get available certifications
-     * @returns {Promise<Array>} Certifications
-     */
+    /** Get available certifications */
     async getCertifications() {
         return this.request('/certifications');
     }
 
-    /**
-     * Upload material data (for admin)
-     * @param {FormData} formData - Material data
-     * @returns {Promise<Object>} Upload result
-     */
+    /** Upload material data (admin) */
     async uploadMaterials(formData) {
-        const response = await this.request('/upload', {
-            method: 'POST',
-            body: formData
-        });
-
-        return response;
+        return this.request('/upload', { method: 'POST', body: formData });
     }
 
+    /** Health check */
+    async checkHealth() {
+        try { await this.request('/health'); return true; }
+        catch { return false; }
+    }
+
+    /** Set API base URL */
+    setBaseURL(baseURL) { this.baseURL = baseURL; }
+
     /**
-     * Generic request method
-     * @param {string} endpoint - API endpoint
-     * @param {Object} options - Fetch options
-     * @returns {Promise<Object>} Response data
+     * Generic request wrapper with error normalization.
+     * @param {string} endpoint
+     * @param {RequestInit} options
      */
     async request(endpoint, options = {}) {
         const url = `${this.baseURL}${endpoint}`;
-
         try {
             const response = await fetch(url, {
                 ...options,
-                headers: {
-                    'Accept': 'application/json',
-                    ...options.headers
-                }
+                headers: { 'Accept': 'application/json', ...options.headers },
             });
-
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({}));
                 throw new Error(errorData.detail || errorData.message || `HTTP ${response.status}`);
             }
-
             return await response.json();
         } catch (error) {
             if (error.name === 'TypeError' && error.message.includes('fetch')) {
@@ -170,28 +122,6 @@ export class API {
             throw error;
         }
     }
-
-    /**
-     * Set base URL
-     * @param {string} baseURL - New base URL
-     */
-    setBaseURL(baseURL) {
-        this.baseURL = baseURL;
-    }
-
-    /**
-     * Check if server is available
-     * @returns {Promise<boolean>} Server availability
-     */
-    async checkHealth() {
-        try {
-            await this.request('/health');
-            return true;
-        } catch (error) {
-            return false;
-        }
-    }
 }
 
-// Default export
 export default API;
