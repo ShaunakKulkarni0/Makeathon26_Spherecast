@@ -76,9 +76,9 @@ export class ComparisonView {
                         <strong>Certifications:</strong>
                         <div class="certifications-list">
                             ${certifications.length > 0
-                                ? certifications.map((cert) => `<span class="cert-tag">${cert}</span>`).join('')
-                                : '<span class="no-certs">None</span>'
-                            }
+                ? certifications.map((cert) => `<span class="cert-tag">${cert}</span>`).join('')
+                : '<span class="no-certs">None</span>'
+            }
                         </div>
                     </div>
                 </div>

@@ -33,7 +33,7 @@ export class WeightSliders {
             <div class="weight-panel">
                 <div class="weight-panel-header">
                     <h4>Scoring Priorities</h4>
-                    <span class="weight-total">Total: <strong>${this.getTotalPriority()}</strong></span>
+                    <span class="weight-total" id="weight-total-display">Total: <strong>${this.getTotalPriority()}</strong></span>
                 </div>
                 <p class="weight-help">0 = ignore, 10 = critical. Weights are normalized before scoring.</p>
 
@@ -131,8 +131,15 @@ export class WeightSliders {
         });
 
         const totalEl = this.container.querySelector('.weight-total strong');
+        const totalWrap = this.container.querySelector('.weight-total');
         if (totalEl) {
-            totalEl.textContent = String(this.getTotalPriority());
+            const total = this.getTotalPriority();
+            totalEl.textContent = String(total);
+            // Visuelles Feedback: rot wenn 0, grün wenn sinnvoll
+            if (totalWrap) {
+                totalWrap.style.color = total === 0 ? 'var(--red)' : 'var(--text-3)';
+                totalWrap.title = total === 0 ? 'At least one dimension must be > 0' : '';
+            }
         }
     }
 

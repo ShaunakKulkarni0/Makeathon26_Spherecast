@@ -49,6 +49,21 @@ OUTPUT_FIELDS = (
 )
 
 NUMERIC_PATTERN = re.compile(r"[-+]?\d+(?:[.,]\d+)?")
+_ROOT = Path(__file__).resolve().parents[3]
+_SUPPLIERS_MARKETDATA_CSV = _ROOT / "src" / "database" / "suppliers.csv"
+
+_COUNTRY_NORMALIZATION = {
+    "US": "US",
+    "USA": "US",
+    "UNITED STATES": "US",
+    "UNITED STATES OF AMERICA": "US",
+    "NL": "NL",
+    "NLD": "NL",
+    "NETHERLANDS": "NL",
+    "DE": "DE",
+    "DEU": "DE",
+    "GERMANY": "DE",
+}
 
 
 def _normalize_unknown(value: str | None) -> str:
@@ -126,6 +141,77 @@ def _slug_from_url(url: str | None, row_index: int) -> str:
     return f"capsuline-{row_index:03d}"
 
 
+def _normalize_country_code(raw_country: str | None) -> str:
+    value = _normalize_unknown(raw_country).upper().replace("-", " ").strip()
+    if not value:
+        return "UNKNOWN"
+
+    if "/" in value:
+        value = value.split("/", 1)[0].strip()
+
+    value = " ".join(value.split())
+    if len(value) == 2 and value.isalpha():
+        return value
+    return _COUNTRY_NORMALIZATION.get(value, "UNKNOWN")
+
+
+def _domain_from_url(url: str | None) -> str:
+    cleaned = _normalize_unknown(url)
+    if not cleaned:
+        return ""
+    try:
+        parsed = urlparse(cleaned)
+        host = parsed.netloc.lower()
+        if host.startswith("www."):
+            host = host[4:]
+        return host
+    except Exception:
+        return ""
+
+
+def _load_supplier_country_marketdata() -> tuple[dict[str, str], dict[str, str]]:
+    by_name: dict[str, str] = {}
+    by_domain: dict[str, str] = {}
+    if not _SUPPLIERS_MARKETDATA_CSV.exists():
+        return by_name, by_domain
+
+    with _SUPPLIERS_MARKETDATA_CSV.open(newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            country = _normalize_country_code(row.get("hq_country"))
+            if country == "UNKNOWN":
+                continue
+
+            name = _normalize_unknown(row.get("name")).lower()
+            if name:
+                by_name[name] = country
+
+            website_domain = _domain_from_url(row.get("website"))
+            if website_domain:
+                by_domain[website_domain] = country
+    return by_name, by_domain
+
+
+def _infer_country_of_origin(
+    supplier: str | None,
+    source_url: str | None,
+    supplier_country_by_name: dict[str, str],
+    supplier_country_by_domain: dict[str, str],
+) -> str:
+    supplier_name = _normalize_unknown(supplier).lower()
+    if supplier_name and supplier_name in supplier_country_by_name:
+        return supplier_country_by_name[supplier_name]
+
+    source_domain = _domain_from_url(source_url)
+    if source_domain:
+        if source_domain in supplier_country_by_domain:
+            return supplier_country_by_domain[source_domain]
+        for known_domain, country in supplier_country_by_domain.items():
+            if source_domain.endswith(known_domain):
+                return country
+
+    return "UNKNOWN"
+
+
 def _extract_numeric_properties(raw: str | None) -> dict[str, dict[str, float | str]]:
     cleaned = _normalize_unknown(raw)
     if not cleaned:
@@ -184,6 +270,8 @@ def _build_output_row(
     row: dict[str, str],
     index: int,
     original_id: str | None,
+    supplier_country_by_name: dict[str, str],
+    supplier_country_by_domain: dict[str, str],
 ) -> dict[str, str]:
     source_url = _normalize_unknown(row.get("source_url"))
     row_id = _slug_from_url(source_url, index)
@@ -198,6 +286,12 @@ def _build_output_row(
     certifications_json = json.dumps(_parse_certifications(row.get("certifications")))
     years_in_business = _parse_int(row.get("years_in_business"))
     lead_days = _parse_int(row.get("lead_days")) or 30
+    country_of_origin = _infer_country_of_origin(
+        supplier=row.get("supplier"),
+        source_url=source_url,
+        supplier_country_by_name=supplier_country_by_name,
+        supplier_country_by_domain=supplier_country_by_domain,
+    )
 
     return {
         "role": role,
@@ -222,7 +316,7 @@ def _build_output_row(
         "audit_age_months": "",
         "audit_passed": "",
         "moq": "1",
-        "country_of_origin": "UNKNOWN",
+        "country_of_origin": country_of_origin,
         "incoterm": "EXW",
         "source_url": source_url,
     }
@@ -241,13 +335,20 @@ def transform_extracted_to_scoring_csv(
     total_rows = 0
     numeric_properties_total = 0
     output_rows: list[dict[str, str]] = []
+    supplier_country_by_name, supplier_country_by_domain = _load_supplier_country_marketdata()
 
     with input_path.open(newline="", encoding="utf-8") as in_file:
         reader = csv.DictReader(in_file)
         _validate_input_header(reader.fieldnames)
 
         for idx, row in enumerate(reader, start=1):
-            out_row = _build_output_row(row, idx, original_id=original_id)
+            out_row = _build_output_row(
+                row,
+                idx,
+                original_id=original_id,
+                supplier_country_by_name=supplier_country_by_name,
+                supplier_country_by_domain=supplier_country_by_domain,
+            )
             total_rows += 1
             props = json.loads(out_row["properties_json"])
             numeric_properties_total += len(props)
