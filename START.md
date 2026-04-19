@@ -22,7 +22,7 @@ Beenden mit `Ctrl+C` (stoppt beide Prozesse).
 Im ersten Terminal:
 
 ```bash
-cd /Users/valentinreinold/VSProjects/Makeathon26_Spherecast
+cd /path/to/Makeathon26_Spherecast
 .venv/bin/python -m uvicorn src.ui.api.main:app --host 127.0.0.1 --port 8001
 ```
 
@@ -38,7 +38,7 @@ Erwartet: `{"status":"ok"}`
 Im zweiten Terminal:
 
 ```bash
-cd /Users/valentinreinold/VSProjects/Makeathon26_Spherecast/src/ui/frontend
+cd /path/to/Makeathon26_Spherecast/src/ui/frontend
 python -m http.server 8000
 ```
 
