@@ -17,9 +17,9 @@ export class API {
         });
     }
 
-    /** Fetch all available CSV materials + requirement defaults */
+    /** Fetch UI material config (full catalog + filters + defaults) */
     async getCsvMaterials() {
-        return this.request('/csv/materials');
+        return this.request('/config');
     }
 
     /** Score a single material selection with optional overrides */

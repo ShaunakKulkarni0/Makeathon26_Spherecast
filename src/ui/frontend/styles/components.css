@@ -74,6 +74,105 @@
     color: var(--text-1);
 }
 
+.search-filters {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.material-dropdown {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    max-height: 280px;
+    overflow-y: auto;
+    border: 1px solid var(--border-mid);
+    border-radius: var(--radius-md);
+    background: var(--bg-card);
+}
+
+.material-option {
+    width: 100%;
+    text-align: left;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-1);
+    cursor: pointer;
+    padding: 10px 12px;
+    transition: background var(--motion-fast);
+}
+
+.material-option:last-child {
+    border-bottom: none;
+}
+
+.material-option:hover {
+    background: var(--bg-card-2);
+}
+
+.material-option-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.material-option-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-1);
+}
+
+.material-option-id {
+    font-size: 11px;
+    color: var(--text-4);
+    white-space: nowrap;
+}
+
+.material-option-meta {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.material-tag {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border: 1px solid var(--border-mid);
+    border-radius: 999px;
+    padding: 2px 8px;
+    color: var(--text-3);
+}
+
+.material-tag.tag-ok {
+    color: var(--green);
+    border-color: rgba(34, 211, 160, 0.35);
+    background: var(--green-soft);
+}
+
+.material-tag.tag-muted {
+    color: var(--text-3);
+}
+
+.material-option-empty {
+    font-size: 13px;
+    color: var(--text-3);
+    padding: 11px 12px;
+}
+
+.selected-material-meta {
+    font-size: 12px;
+    color: var(--text-2);
+    padding: 8px 10px;
+    border: 1px dashed var(--border-mid);
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.02);
+}
+
 /* ─── FIELDSET ─── */
 .ko-fieldset {
     border: 1px solid var(--border);
@@ -196,6 +295,12 @@
     font-weight: 500;
     box-shadow: 0 4px 24px rgba(255, 79, 107, 0.2);
     animation: slideInRight 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .search-filters {
+        grid-template-columns: 1fr;
+    }
 }
 
 @keyframes slideInRight {

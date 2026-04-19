@@ -1,13 +1,19 @@
 /**
  * SearchForm Component
- * CSV material selector plus editable KO-filter inputs.
+ * Hybrid searchable material selector with group/data-availability filters.
  */
 
 export class SearchForm {
     constructor(container, onSearch) {
         this.container = container;
         this.onSearch = onSearch;
+
         this.materials = [];
+        this.filteredMaterials = [];
+        this.activeGroupFilter = 'all';
+        this.activeDataFilter = 'all';
+        this.selectedMaterial = null;
+
         this.requirementsDefaults = {
             max_quantity: null,
             destination_country: 'DE',
@@ -17,6 +23,7 @@ export class SearchForm {
             max_lead_time_days: null,
             max_price_multiplier: 2.0,
         };
+
         this.render();
         this.attachEventListeners();
     }
@@ -25,11 +32,34 @@ export class SearchForm {
         this.container.innerHTML = `
             <form class="search-form" id="material-search-form">
                 <div class="form-group">
-                    <label for="selected-material-id">Original Material (CSV)</label>
-                    <select id="selected-material-id" name="selected_material_id" required>
-                        <option value="">Loading materials...</option>
-                    </select>
-                    <p class="field-hint">The selected row becomes the reference for all score deltas.</p>
+                    <label for="material-search-input">Original Material</label>
+                    <input
+                        type="text"
+                        id="material-search-input"
+                        placeholder="Type to search materials..."
+                        autocomplete="off"
+                    >
+                    <input type="hidden" id="selected-material-id" name="selected_material_id">
+                    <div class="material-dropdown hidden" id="material-dropdown"></div>
+                    <div class="selected-material-meta hidden" id="selected-material-meta"></div>
+                    <p class="field-hint">Search across all products. Only entries marked "Data available" can be scored.</p>
+                </div>
+
+                <div class="search-filters">
+                    <div class="form-group">
+                        <label for="group-filter">Group</label>
+                        <select id="group-filter">
+                            <option value="all">All Groups</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="data-filter">Data Availability</label>
+                        <select id="data-filter">
+                            <option value="all">All</option>
+                            <option value="has_data">With Data</option>
+                            <option value="no_data">Without Data</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="form-row form-row-compact">
@@ -86,13 +116,22 @@ export class SearchForm {
 
     setMaterialOptions(materials) {
         this.materials = Array.isArray(materials) ? materials : [];
-        const select = this.container.querySelector('#selected-material-id');
-        if (!select) return;
 
-        select.innerHTML = `
-            <option value="">Select material from CSV</option>
-            ${this.materials.map((m) => `<option value="${m.id}">${m.name} (${m.id})</option>`).join('')}
-        `;
+        const groups = Array.from(new Set(
+            this.materials
+                .map((m) => (m.group || '').trim())
+                .filter(Boolean)
+        )).sort((a, b) => a.localeCompare(b));
+
+        const groupFilter = this.container.querySelector('#group-filter');
+        if (groupFilter) {
+            groupFilter.innerHTML = `
+                <option value="all">All Groups</option>
+                ${groups.map((group) => `<option value="${this.escapeHtml(group)}">${this.escapeHtml(group)}</option>`).join('')}
+            `;
+        }
+
+        this.applyFiltersAndRender();
     }
 
     setRequirementsDefaults(defaults) {
@@ -125,15 +164,160 @@ export class SearchForm {
 
     attachEventListeners() {
         const form = this.container.querySelector('#material-search-form');
+        const input = this.container.querySelector('#material-search-input');
+        const groupFilter = this.container.querySelector('#group-filter');
+        const dataFilter = this.container.querySelector('#data-filter');
+
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             this.handleSubmit();
+        });
+
+        input.addEventListener('input', () => {
+            if (this.selectedMaterial && input.value !== this.selectedMaterial.name) {
+                this.clearSelectedMaterial();
+            }
+            this.applyFiltersAndRender();
+        });
+
+        input.addEventListener('focus', () => {
+            this.applyFiltersAndRender();
+        });
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                this.hideDropdown();
+            }
+            if (e.key === 'Enter' && !this.selectedMaterial && this.filteredMaterials.length > 0) {
+                e.preventDefault();
+                this.selectMaterial(this.filteredMaterials[0]);
+            }
+        });
+
+        groupFilter.addEventListener('change', (e) => {
+            this.activeGroupFilter = e.target.value || 'all';
+            this.applyFiltersAndRender();
+        });
+
+        dataFilter.addEventListener('change', (e) => {
+            this.activeDataFilter = e.target.value || 'all';
+            this.applyFiltersAndRender();
         });
 
         const clearBtn = this.container.querySelector('.clear-btn');
         clearBtn.addEventListener('click', () => {
             this.clearForm();
         });
+
+        document.addEventListener('click', (event) => {
+            if (!this.container.contains(event.target)) {
+                this.hideDropdown();
+            }
+        });
+    }
+
+    applyFiltersAndRender() {
+        const input = this.container.querySelector('#material-search-input');
+        const query = (input?.value || '').trim().toLowerCase();
+
+        this.filteredMaterials = this.materials.filter((material) => {
+            const group = (material.group || '').trim();
+            const hasData = Boolean(material.has_data);
+
+            if (this.activeGroupFilter !== 'all' && group !== this.activeGroupFilter) {
+                return false;
+            }
+            if (this.activeDataFilter === 'has_data' && !hasData) {
+                return false;
+            }
+            if (this.activeDataFilter === 'no_data' && hasData) {
+                return false;
+            }
+
+            if (!query) return true;
+            const searchable = [material.name, material.id, material.group, material.source]
+                .filter(Boolean)
+                .join(' ')
+                .toLowerCase();
+            return searchable.includes(query);
+        });
+
+        this.renderDropdown(this.filteredMaterials.slice(0, 40));
+    }
+
+    renderDropdown(items) {
+        const dropdown = this.container.querySelector('#material-dropdown');
+        if (!dropdown) return;
+
+        if (!items.length) {
+            dropdown.innerHTML = '<div class="material-option-empty">No matching products</div>';
+            dropdown.classList.remove('hidden');
+            return;
+        }
+
+        dropdown.innerHTML = items.map((material) => {
+            const availabilityClass = material.has_data ? 'tag-ok' : 'tag-muted';
+            const availabilityLabel = material.has_data ? 'Data available' : 'No data';
+            return `
+                <button type="button" class="material-option" data-material-id="${this.escapeHtml(material.id)}">
+                    <div class="material-option-main">
+                        <span class="material-option-name">${this.escapeHtml(material.name)}</span>
+                        <span class="material-option-id">${this.escapeHtml(material.id)}</span>
+                    </div>
+                    <div class="material-option-meta">
+                        <span class="material-tag">${this.escapeHtml(material.group || 'Ungrouped')}</span>
+                        <span class="material-tag ${availabilityClass}">${availabilityLabel}</span>
+                    </div>
+                </button>
+            `;
+        }).join('');
+
+        dropdown.classList.remove('hidden');
+
+        const optionButtons = dropdown.querySelectorAll('.material-option');
+        optionButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const materialId = button.dataset.materialId;
+                const material = this.materials.find((m) => m.id === materialId);
+                if (material) this.selectMaterial(material);
+            });
+        });
+    }
+
+    hideDropdown() {
+        const dropdown = this.container.querySelector('#material-dropdown');
+        if (dropdown) dropdown.classList.add('hidden');
+    }
+
+    selectMaterial(material) {
+        this.selectedMaterial = material;
+
+        const input = this.container.querySelector('#material-search-input');
+        const hiddenInput = this.container.querySelector('#selected-material-id');
+        const meta = this.container.querySelector('#selected-material-meta');
+
+        if (input) input.value = material.name;
+        if (hiddenInput) hiddenInput.value = material.score_material_id || '';
+
+        if (meta) {
+            const availabilityLabel = material.has_data ? 'Data available' : 'No data';
+            meta.textContent = `Selected: ${material.name} • ${material.group || 'Ungrouped'} • ${availabilityLabel}`;
+            meta.classList.remove('hidden');
+        }
+
+        this.hideDropdown();
+        this.hideError();
+    }
+
+    clearSelectedMaterial() {
+        this.selectedMaterial = null;
+        const hiddenInput = this.container.querySelector('#selected-material-id');
+        const meta = this.container.querySelector('#selected-material-meta');
+        if (hiddenInput) hiddenInput.value = '';
+        if (meta) {
+            meta.textContent = '';
+            meta.classList.add('hidden');
+        }
     }
 
     async handleSubmit() {
@@ -186,10 +370,16 @@ export class SearchForm {
     }
 
     validateForm(data) {
-        if (!data.selected_material_id) {
-            this.showError('Please select a material from CSV.');
+        if (!this.selectedMaterial) {
+            this.showError('Please choose a material from the dropdown.');
             return false;
         }
+
+        if (!this.selectedMaterial.has_data || !data.selected_material_id) {
+            this.showError('Selected material has no scoring data yet. Please choose an entry marked "Data available".');
+            return false;
+        }
+
         if (!Number.isInteger(data.top_n) || data.top_n < 1 || data.top_n > 15) {
             this.showError('Top N must be between 1 and 15.');
             return false;
@@ -235,10 +425,21 @@ export class SearchForm {
         const topN = this.container.querySelector('#top-n');
         if (topN) topN.value = '3';
 
-        const select = this.container.querySelector('#selected-material-id');
-        if (select) select.value = '';
+        const input = this.container.querySelector('#material-search-input');
+        if (input) input.value = '';
+
+        const groupFilter = this.container.querySelector('#group-filter');
+        if (groupFilter) groupFilter.value = 'all';
+
+        const dataFilter = this.container.querySelector('#data-filter');
+        if (dataFilter) dataFilter.value = 'all';
+
+        this.activeGroupFilter = 'all';
+        this.activeDataFilter = 'all';
+        this.clearSelectedMaterial();
 
         this.setRequirementsDefaults(this.requirementsDefaults);
+        this.applyFiltersAndRender();
         this.hideError();
     }
 
@@ -254,5 +455,14 @@ export class SearchForm {
     hideError() {
         const existingError = this.container.querySelector('.form-error');
         if (existingError) existingError.remove();
+    }
+
+    escapeHtml(value) {
+        return String(value || '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
     }
 }
