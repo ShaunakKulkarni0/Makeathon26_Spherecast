@@ -51,7 +51,7 @@ class TestScoringCsvTransform(unittest.TestCase):
             self.assertEqual(rows[0]["lead_days"], "30")
             self.assertEqual(rows[1]["lead_type"], "unknown")
             self.assertEqual(rows[0]["moq"], "1")
-            self.assertEqual(rows[0]["country_of_origin"], "UNKNOWN")
+            self.assertEqual(rows[0]["country_of_origin"], "US")
             self.assertEqual(rows[0]["incoterm"], "EXW")
 
             props = json.loads(rows[0]["properties_json"])
