@@ -11,6 +11,10 @@
     gap: 7px;
 }
 
+.search-material-group {
+    position: relative;
+}
+
 .form-row {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -74,10 +78,56 @@
     color: var(--text-1);
 }
 
-.search-filters {
+.search-input-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+    align-items: center;
+}
+
+.filter-toggle-btn {
+    height: 40px;
+    padding: 0 14px;
+}
+
+.filter-toggle-btn[aria-expanded="true"] {
+    border-color: var(--accent);
+    color: var(--text-1);
+}
+
+.filter-menu {
+    position: absolute;
+    top: 72px;
+    right: 0;
+    width: min(460px, calc(100% - 8px));
+    border: 1px solid var(--border-mid);
+    border-radius: var(--radius-md);
+    background: var(--bg-card);
+    box-shadow: var(--shadow);
+    padding: 10px;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
+    gap: 10px;
+    z-index: 25;
+}
+
+.filter-menu-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.filter-menu-group label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-3);
+}
+
+.search-results-meta {
+    font-size: 12px;
+    color: var(--text-3);
 }
 
 .material-dropdown {
@@ -116,7 +166,7 @@
     justify-content: space-between;
     align-items: center;
     gap: 8px;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 
 .material-option-name {
@@ -125,10 +175,16 @@
     color: var(--text-1);
 }
 
-.material-option-id {
+.material-option-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 6px;
+}
+
+.material-option-detail {
     font-size: 11px;
     color: var(--text-4);
-    white-space: nowrap;
 }
 
 .material-option-meta {
@@ -298,7 +354,17 @@
 }
 
 @media (max-width: 768px) {
-    .search-filters {
+    .search-input-row {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-toggle-btn {
+        width: 100%;
+    }
+
+    .filter-menu {
+        position: static;
+        width: 100%;
         grid-template-columns: 1fr;
     }
 }

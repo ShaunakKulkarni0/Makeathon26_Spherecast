@@ -31,35 +31,40 @@ export class SearchForm {
     render() {
         this.container.innerHTML = `
             <form class="search-form" id="material-search-form">
-                <div class="form-group">
+                <div class="form-group search-material-group">
                     <label for="material-search-input">Original Material</label>
-                    <input
-                        type="text"
-                        id="material-search-input"
-                        placeholder="Type to search materials..."
-                        autocomplete="off"
-                    >
+                    <div class="search-input-row">
+                        <input
+                            type="text"
+                            id="material-search-input"
+                            placeholder="Type to search materials..."
+                            autocomplete="off"
+                        >
+                        <button type="button" class="btn btn-secondary filter-toggle-btn" id="filter-toggle-btn" aria-expanded="false">
+                            Filters
+                        </button>
+                    </div>
+                    <div class="filter-menu hidden" id="filter-menu">
+                        <div class="filter-menu-group">
+                            <label for="group-filter">Group</label>
+                            <select id="group-filter">
+                                <option value="all">All Groups</option>
+                            </select>
+                        </div>
+                        <div class="filter-menu-group">
+                            <label for="data-filter">Data Availability</label>
+                            <select id="data-filter">
+                                <option value="all">All</option>
+                                <option value="has_data">With Data</option>
+                                <option value="no_data">Without Data</option>
+                            </select>
+                        </div>
+                    </div>
                     <input type="hidden" id="selected-material-id" name="selected_material_id">
+                    <div class="search-results-meta" id="search-results-meta"></div>
                     <div class="material-dropdown hidden" id="material-dropdown"></div>
                     <div class="selected-material-meta hidden" id="selected-material-meta"></div>
                     <p class="field-hint">Search across all products. Only entries marked "Data available" can be scored.</p>
-                </div>
-
-                <div class="search-filters">
-                    <div class="form-group">
-                        <label for="group-filter">Group</label>
-                        <select id="group-filter">
-                            <option value="all">All Groups</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="data-filter">Data Availability</label>
-                        <select id="data-filter">
-                            <option value="all">All</option>
-                            <option value="has_data">With Data</option>
-                            <option value="no_data">Without Data</option>
-                        </select>
-                    </div>
                 </div>
 
                 <div class="form-row form-row-compact">
@@ -167,6 +172,8 @@ export class SearchForm {
         const input = this.container.querySelector('#material-search-input');
         const groupFilter = this.container.querySelector('#group-filter');
         const dataFilter = this.container.querySelector('#data-filter');
+        const filterToggle = this.container.querySelector('#filter-toggle-btn');
+        const filterMenu = this.container.querySelector('#filter-menu');
 
         form.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -187,6 +194,7 @@ export class SearchForm {
         input.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 this.hideDropdown();
+                this.closeFilterMenu();
             }
             if (e.key === 'Enter' && !this.selectedMaterial && this.filteredMaterials.length > 0) {
                 e.preventDefault();
@@ -194,13 +202,24 @@ export class SearchForm {
             }
         });
 
+        filterToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (filterMenu.classList.contains('hidden')) {
+                this.openFilterMenu();
+            } else {
+                this.closeFilterMenu();
+            }
+        });
+
         groupFilter.addEventListener('change', (e) => {
             this.activeGroupFilter = e.target.value || 'all';
+            this.updateFilterButtonState();
             this.applyFiltersAndRender();
         });
 
         dataFilter.addEventListener('change', (e) => {
             this.activeDataFilter = e.target.value || 'all';
+            this.updateFilterButtonState();
             this.applyFiltersAndRender();
         });
 
@@ -212,8 +231,11 @@ export class SearchForm {
         document.addEventListener('click', (event) => {
             if (!this.container.contains(event.target)) {
                 this.hideDropdown();
+                this.closeFilterMenu();
             }
         });
+
+        this.updateFilterButtonState();
     }
 
     applyFiltersAndRender() {
@@ -235,14 +257,69 @@ export class SearchForm {
             }
 
             if (!query) return true;
-            const searchable = [material.name, material.id, material.group, material.source]
+            const searchable = [material.name, material.id, material.sku, material.group, material.supplier_name]
                 .filter(Boolean)
                 .join(' ')
                 .toLowerCase();
             return searchable.includes(query);
         });
 
-        this.renderDropdown(this.filteredMaterials.slice(0, 40));
+        this.sortFilteredMaterials(query);
+        this.renderSearchMeta(query, this.filteredMaterials.length, this.materials.length);
+        this.renderDropdown(this.filteredMaterials);
+    }
+
+    sortFilteredMaterials(query) {
+        if (!query) {
+            this.filteredMaterials.sort((a, b) => {
+                if (a.has_data !== b.has_data) return a.has_data ? -1 : 1;
+                return String(a.name || '').localeCompare(String(b.name || ''));
+            });
+            return;
+        }
+
+        const rank = (material) => {
+            const name = String(material.name || '').toLowerCase();
+            const sku = String(material.sku || '').toLowerCase();
+            const supplierName = String(material.supplier_name || '').toLowerCase();
+            const materialId = String(material.id || '').toLowerCase();
+            const group = String(material.group || '').toLowerCase();
+
+            if (name.startsWith(query)) return 0;
+            if (name.includes(query)) return 1;
+            if (sku.startsWith(query)) return 2;
+            if (sku.includes(query)) return 3;
+            if (supplierName.includes(query)) return 4;
+            if (materialId.includes(query)) return 5;
+            if (group.includes(query)) return 6;
+            return 7;
+        };
+
+        this.filteredMaterials.sort((a, b) => {
+            const rankDiff = rank(a) - rank(b);
+            if (rankDiff !== 0) return rankDiff;
+            if (a.has_data !== b.has_data) return a.has_data ? -1 : 1;
+            return String(a.name || '').localeCompare(String(b.name || ''));
+        });
+    }
+
+    renderSearchMeta(query, filteredCount, totalCount) {
+        const meta = this.container.querySelector('#search-results-meta');
+        if (!meta) return;
+
+        const hasActiveFilters = this.activeGroupFilter !== 'all' || this.activeDataFilter !== 'all';
+
+        if (query) {
+            meta.textContent = `${filteredCount} matching products for "${query}"`;
+            return;
+        }
+
+        if (hasActiveFilters) {
+            meta.textContent = `${filteredCount} products available (filtered from ${totalCount})`;
+            return;
+        }
+
+        meta.textContent = `${totalCount} products available`;
     }
 
     renderDropdown(items) {
@@ -262,7 +339,10 @@ export class SearchForm {
                 <button type="button" class="material-option" data-material-id="${this.escapeHtml(material.id)}">
                     <div class="material-option-main">
                         <span class="material-option-name">${this.escapeHtml(material.name)}</span>
-                        <span class="material-option-id">${this.escapeHtml(material.id)}</span>
+                    </div>
+                    <div class="material-option-details">
+                        <span class="material-option-detail">ID: ${this.escapeHtml(material.id)}</span>
+                        <span class="material-option-detail">Supplier: ${this.escapeHtml(material.supplier_name || 'Unknown Supplier')}</span>
                     </div>
                     <div class="material-option-meta">
                         <span class="material-tag">${this.escapeHtml(material.group || 'Ungrouped')}</span>
@@ -289,6 +369,30 @@ export class SearchForm {
         if (dropdown) dropdown.classList.add('hidden');
     }
 
+    openFilterMenu() {
+        const filterMenu = this.container.querySelector('#filter-menu');
+        const filterToggle = this.container.querySelector('#filter-toggle-btn');
+        if (!filterMenu || !filterToggle) return;
+        filterMenu.classList.remove('hidden');
+        filterToggle.setAttribute('aria-expanded', 'true');
+    }
+
+    closeFilterMenu() {
+        const filterMenu = this.container.querySelector('#filter-menu');
+        const filterToggle = this.container.querySelector('#filter-toggle-btn');
+        if (!filterMenu || !filterToggle) return;
+        filterMenu.classList.add('hidden');
+        filterToggle.setAttribute('aria-expanded', 'false');
+    }
+
+    updateFilterButtonState() {
+        const filterToggle = this.container.querySelector('#filter-toggle-btn');
+        if (!filterToggle) return;
+
+        const activeCount = (this.activeGroupFilter !== 'all' ? 1 : 0) + (this.activeDataFilter !== 'all' ? 1 : 0);
+        filterToggle.textContent = activeCount > 0 ? `Filters (${activeCount})` : 'Filters';
+    }
+
     selectMaterial(material) {
         this.selectedMaterial = material;
 
@@ -301,7 +405,7 @@ export class SearchForm {
 
         if (meta) {
             const availabilityLabel = material.has_data ? 'Data available' : 'No data';
-            meta.textContent = `Selected: ${material.name} • ${material.group || 'Ungrouped'} • ${availabilityLabel}`;
+            meta.textContent = `Selected: ${material.name} | ${material.group || 'Ungrouped'} | ${availabilityLabel}`;
             meta.classList.remove('hidden');
         }
 
@@ -436,6 +540,7 @@ export class SearchForm {
 
         this.activeGroupFilter = 'all';
         this.activeDataFilter = 'all';
+        this.updateFilterButtonState();
         this.clearSelectedMaterial();
 
         this.setRequirementsDefaults(this.requirementsDefaults);

@@ -44,7 +44,7 @@ def _infer_capsule_group(name: str, material_id: str) -> str:
         return "Vegetarian Capsules"
     if "gelatin" in text or "gelatine" in text:
         return "Gelatin Capsules"
-    return "Capsule Materials"
+    return "Scoring Catalog"
 
 
 def _load_compound_groups() -> dict[int, str]:
@@ -80,6 +80,8 @@ def _load_scoring_materials() -> tuple[list[dict[str, Any]], dict[str, dict[str,
             entry = {
                 "id": f"score-{scoring_id}",
                 "name": scoring_name,
+                "sku": None,
+                "supplier_name": "Capsuline",
                 "group": _infer_capsule_group(scoring_name, scoring_id),
                 "has_data": True,
                 "score_material_id": scoring_id,
@@ -104,13 +106,13 @@ def _load_sqlite_materials(
     with sqlite3.connect(_DB_PATH) as conn:
         rows = conn.execute(
             """
-            SELECT Id, SKU, canonical_string, sku_category
-            FROM Product
-            WHERE Type = 'raw-material'
+            SELECT p.Id, p.SKU, p.canonical_string, p.sku_category, p.Type, c.Name
+            FROM Product p
+            LEFT JOIN Company c ON c.Id = p.CompanyId
             """
         ).fetchall()
 
-    for product_id, sku, canonical_string, sku_category in rows:
+    for product_id, sku, canonical_string, sku_category, product_type, company_name in rows:
         readable_name = _humanize_name(canonical_string or sku or "")
         normalized_name = _normalize_text(readable_name)
         matched_scoring = scoring_by_name.get(normalized_name)
@@ -120,6 +122,9 @@ def _load_sqlite_materials(
             {
                 "id": f"db-{product_id}",
                 "name": readable_name or f"Product {product_id}",
+                "sku": sku,
+                "supplier_name": (company_name or "").strip() or "Unknown Supplier",
+                "product_type": product_type,
                 "group": (
                     compound_groups.get(product_id)
                     or (sku_category or "").strip()
